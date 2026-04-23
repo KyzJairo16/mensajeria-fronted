@@ -1,0 +1,115 @@
+.admin-welcome-container {
+  position: relative;
+  text-align: center;
+  padding: 100px 20px;
+  background: radial-gradient(circle at top, #ffffff 0%, #f0f2f5 100%);
+  min-height: 85vh;
+  overflow: hidden;
+}
+
+/* Decoración institucional de fondo */
+.header-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, #003399 50%, #ffcc00 50%);
+}
+
+.badge-admin {
+  background-color: #ffcc00;
+  color: #000;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.welcome-header h1 {
+  color: #003399;
+  font-size: 48px; /* Título extra grande */
+  font-weight: 900;
+  margin-top: 15px;
+}
+
+.admin-options-grid {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 60px;
+}
+
+/* Tarjeta Mega con decoración */
+.admin-card.mega-card {
+  background: white;
+  width: 450px; /* Tamaño máximo para llenar la pantalla */
+  padding: 60px 40px;
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(0, 51, 153, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.admin-card.mega-card:hover {
+  transform: translateY(-15px) scale(1.02); /* Efecto de levitación  */
+  box-shadow: 0 30px 60px rgba(0, 51, 153, 0.15);
+}
+
+.card-icon-wrapper {
+  background: #f0f4ff;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 30px;
+  color: #003399;
+  font-size: 50px;
+  border: 5px solid #fff;
+  box-shadow: 0 10px 20px rgba(0, 51, 153, 0.1);
+}
+
+.admin-card h3 {
+  font-size: 30px;
+  color: #003399;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.admin-card p {
+  color: #666;
+  font-size: 17px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.btn-action-premium {
+  background-color: #003399;
+  color: white;
+  border: none;
+  padding: 18px 45px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.btn-action-premium:hover {
+  background-color: #002266;
+}
+
+.btn-action-premium i {
+  margin-left: 10px;
+  transition: transform 0.3s;
+}
+
+.btn-action-premium:hover i {
+  transform: translateX(5px);
+}
