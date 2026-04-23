@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Clienteconcurrente } from './clienteconcurrente';
+import { ClienteconcurrenteService } from './clienteconcurrente';
 
 describe('Clienteconcurrente', () => {
-  let service: Clienteconcurrente;
+  let service: ClienteconcurrenteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Clienteconcurrente);
+    service = TestBed.inject(ClienteconcurrenteService);
   });
 
   it('should be created', () => {
