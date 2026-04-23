@@ -21,10 +21,15 @@
       </div>
       <div class="input-group">
         <label>Teléfono</label>
-        <input type="text" [(ngModel)]="datos.telefono" placeholder="300...">
+        <input type="text" [(ngModel)]="datos.telefono" placeholder="300 123 4567">
       </div>
 
-      <button class="btn-siguiente" (click)="irAlPaso2()">Siguiente</button>
+      <button
+        class="btn-siguiente"
+        [disabled]="!datos.nombre || !datos.cedula || !datos.correo || !datos.telefono"
+        (click)="irAlPaso2()">
+        Siguiente
+      </button>
     </div>
 
     <div *ngIf="paso === 2" class="form-step">
@@ -45,7 +50,12 @@
 
       <div class="button-group">
         <button class="btn-regresar" (click)="paso = 1">Atrás</button>
-        <button class="btn-finalizar" (click)="finalizar()">Registrarme</button>
+        <button
+          class="btn-finalizar"
+          [disabled]="!datos.tipoCliente || !datos.contrasenia"
+          (click)="finalizar()">
+          Registrarme
+        </button>
       </div>
     </div>
 
