@@ -1,34 +1,53 @@
-<div class="registro-container animate__animated animate__fadeInUp">
+<div class="registro-wrapper animate__animated animate__fadeIn">
   <div class="registro-card">
-    <h2>Crear Cuenta</h2>
-    <p class="subtitle">Únete a la red de mensajería más grande de Colombia</p>
 
-    <form class="registro-form">
-      <div class="form-group">
+    <div class="form-header">
+      <h2>Registro de Cliente</h2>
+      <p>{{ paso === 1 ? 'Información Personal' : 'Configuración de Cuenta' }}</p>
+    </div>
+
+    <div *ngIf="paso === 1" class="form-step">
+      <div class="input-group">
+        <label>Nombre Completo</label>
+        <input type="text" [(ngModel)]="datos.nombre" placeholder="Nombre completo">
+      </div>
+      <div class="input-group">
+        <label>Cédula</label>
+        <input type="text" [(ngModel)]="datos.cedula" placeholder="Número de documento">
+      </div>
+      <div class="input-group">
+        <label>Correo Electrónico</label>
+        <input type="email" [(ngModel)]="datos.correo" placeholder="correo@ejemplo.com">
+      </div>
+      <div class="input-group">
+        <label>Teléfono</label>
+        <input type="text" [(ngModel)]="datos.telefono" placeholder="300...">
+      </div>
+
+      <button class="btn-siguiente" (click)="irAlPaso2()">Siguiente</button>
+    </div>
+
+    <div *ngIf="paso === 2" class="form-step">
+      <div class="input-group">
         <label>Tipo de Cliente</label>
-        <select class="form-input">
-          <option value="natural">Persona Natural</option>
-          <option value="empresa">Empresa / Corporativo</option>
-          <option value="aliado">Aliado Logístico</option>
+        <select class="combo-box" [(ngModel)]="datos.tipoCliente">
+          <option value="" disabled selected>Seleccione su categoría</option>
+          <option value="normal">Cliente Normal</option>
+          <option value="concurrente">Cliente Concurrente</option>
+          <option value="premium">Cliente Premium</option>
         </select>
       </div>
 
-      <div class="form-group">
-        <label>Nombre Completo / Razón Social</label>
-        <input type="text" class="form-input" placeholder="Ej: Juan Pérez o Transportes S.A.">
-      </div>
-
-      <div class="form-group">
-        <label>Correo Electrónico</label>
-        <input type="email" class="form-input" placeholder="correo@ejemplo.com">
-      </div>
-
-      <div class="form-group">
+      <div class="input-group">
         <label>Contraseña</label>
-        <input type="password" class="form-input" placeholder="********">
+        <input type="password" [(ngModel)]="datos.contrasenia" placeholder="Cree su contraseña">
       </div>
 
-      <button type="submit" class="btn-registrar-full">Finalizar Registro</button>
-    </form>
+      <div class="button-group">
+        <button class="btn-regresar" (click)="paso = 1">Atrás</button>
+        <button class="btn-finalizar" (click)="finalizar()">Registrarme</button>
+      </div>
+    </div>
+
   </div>
 </div>
