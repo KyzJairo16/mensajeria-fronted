@@ -1,54 +1,71 @@
 .navbar-container {
   width: 100%;
-  padding: 20px 0;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 15px 50px;
   background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  box-sizing: border-box;
 }
 
-.logo-box {
+/* Alineación del logo y texto */
+.header-branding {
   float: left;
-  margin-left: 50px;
+  display: block;
 }
 
-.logo-texto {
-  font-size: 22px;
-  font-weight: 800;
-  color: #1a1a1a;
-}
-
-.menu-derecho {
-  float: right;
-  margin-right: 50px;
-}
-
-.enlace {
+.brand-logo {
+  height: 45px; /* Ajustado para que se vea claro */
   display: inline-block;
-  margin-right: 25px;
-  text-decoration: none;
-  color: #555;
-  font-size: 14px;
   vertical-align: middle;
+}
+
+.brand-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 10px;
+  font-size: 24px;
+  color: #003399; /* Azul institucional */
+  font-weight: 800;
+}
+
+/* Alineación de los botones a la derecha */
+.header-nav {
+  float: right;
+  padding-top: 8px;
+}
+
+.nav-item {
+  display: inline-block;
+  text-decoration: none;
+  color: #666666;
+  margin-right: 25px;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .btn-login {
-  background: none;
+  background: transparent;
   border: none;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  margin-right: 15px;
-  vertical-align: middle;
+  margin-right: 20px;
+  color: #333;
 }
 
-.btn-registro {
-  background-color: #ffcc00; /* Amarillo 4-72 */
+.btn-register {
+  background-color: #ffcc00; /* Amarillo institucional */
+  color: #000;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-weight: bold;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 700;
   cursor: pointer;
-  vertical-align: middle;
+  transition: background 0.3s;
 }
 
-.limpiar-flotado {
+.btn-register:hover {
+  background-color: #e6b800;
+}
+
+.clear-fix {
   clear: both;
 }
