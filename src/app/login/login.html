@@ -1,0 +1,33 @@
+<div class="registro-container animate__animated animate__fadeInUp">
+  <div class="registro-card">
+    <div class="card-header">
+      <h2>Iniciar Sesión</h2>
+      <p class="subtitle">Accede a tus servicios 4-72</p>
+    </div>
+
+    <form class="registro-form">
+      <div class="form-group">
+        <label>Cedula</label>
+        <input type="text" class="form-input" placeholder="Cedula">
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" class="form-input" placeholder="*********">
+        <div class="forgot-link" style="text-align: right; margin-top: 5px;"></div>
+      </div>
+
+      <div class="actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+        <button type="submit" class="btn-registrar-full">Iniciar Sesión</button>
+
+        <button
+          type="button"
+          class="btn-register-link"
+          routerLink="/registro"
+          style="background: none; border: 1px solid #003893; color: #003893; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+          Crear Cuenta
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
