@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {Navbar} from './navbar/navbar';
+import { Navbar } from './navbar/navbar';
+import { Registro } from './registro/registro';
 
-const routes: Routes = [];
+const routes: Routes = [{ path: 'registro', component: Registro }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
