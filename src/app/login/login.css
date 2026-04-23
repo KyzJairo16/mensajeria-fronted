@@ -1,0 +1,107 @@
+/* Usamos las mismas clases de registro para que se vean iguales */
+.registro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centrado vertical para el login */
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+  min-height: 80vh;
+}
+
+.registro-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 450px;
+  text-align: center; /* Para centrar títulos */
+}
+
+h2 {
+  color: #003399; /* Azul corporativo */
+  margin-bottom: 10px;
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left; /* Alineamos labels a la izquierda */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #003399;
+}
+
+/* Link de olvidar contraseña */
+.forgot-link {
+  text-align: right;
+  margin-top: 5px;
+}
+
+.forgot-link a {
+  font-size: 12px;
+  color: #003399;
+  text-decoration: none;
+}
+
+/* Botones con el estilo de 4-72 */
+.btn-registrar-full {
+  width: 100%;
+  background-color: #ffcc00; /* Amarillo corporativo */
+  color: #003399; /* Texto azul para mejor contraste */
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.btn-registrar-full:hover {
+  background-color: #e6b800;
+}
+
+/* Estilo para el botón secundario (Crear Cuenta) */
+.btn-register-link {
+  width: 100%;
+  background-color: transparent;
+  color: #003399;
+  border: 1px solid #003399;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.3s;
+}
+
+.btn-register-link:hover {
+  background-color: rgba(0, 51, 153, 0.05);
+}

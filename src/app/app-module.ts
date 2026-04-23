@@ -7,11 +7,11 @@ import { App } from './app';
 import { Navbar } from './navbar/navbar';
 import { Footer } from './footer/footer';
 import { Registro } from './registro/registro';
+import { Login } from './login/login';
 import { Inicio } from './inicio/inicio';
 
 @NgModule({
-  declarations: [App, Navbar, Footer, Registro, Inicio],
-
+  declarations: [App, Navbar, Footer, Registro, Login, Inicio],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
