@@ -35,6 +35,12 @@
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+  position: relative;
+  transition: 0.5s ease;
+}
+
+.hero-cta:hover {
+  transform: translate(15px, -10px);
 }
 
 .trust-badges {
@@ -63,3 +69,96 @@
 .clear-fix {
   clear: both;
 }
+
+/*
+CARTAS DE INFORMACIÓN
+ */
+
+.services-block {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 90px auto;
+  flex-wrap: wrap;
+}
+
+
+.service-card {
+  width: 200px;
+  height: 130px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: rgba(255,255,255,0.08);
+  top: -100%;
+  left: -100%;
+  transform: rotate(25deg);
+  transition: 0.5s;
+}
+
+.service-card:hover::before {
+  top: 100%;
+  left: 100%;
+}
+
+
+.icon {
+  font-size: 30px;
+  z-index: 2;
+}
+
+
+.service-card p {
+  font-size: 14px;
+  text-align: center;
+  z-index: 2;
+  padding: 0 10px;
+}
+
+
+.red {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+  color: white;
+}
+
+.blue {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
+  color: white;
+}
+
+.yellow {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #222;
+}
+
+
+.service-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+}
+
+
+.service-card:hover .icon {
+  transform: scale(1.2) rotate(5deg);
+  transition: 0.3s;
+}
+
+
+
