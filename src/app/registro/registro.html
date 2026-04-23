@@ -1,0 +1,63 @@
+<div class="registro-wrapper animate__animated animate__fadeIn">
+  <div class="registro-card">
+
+    <div class="form-header">
+      <h2>Registro de Cliente</h2>
+      <p>{{ paso === 1 ? 'Información Personal' : 'Configuración de Cuenta' }}</p>
+    </div>
+
+    <div *ngIf="paso === 1" class="form-step">
+      <div class="input-group">
+        <label>Nombre Completo</label>
+        <input type="text" [(ngModel)]="datos.nombre" placeholder="Nombre completo">
+      </div>
+      <div class="input-group">
+        <label>Cédula</label>
+        <input type="text" [(ngModel)]="datos.cedula" placeholder="Número de documento">
+      </div>
+      <div class="input-group">
+        <label>Correo Electrónico</label>
+        <input type="email" [(ngModel)]="datos.correo" placeholder="correo@ejemplo.com">
+      </div>
+      <div class="input-group">
+        <label>Teléfono</label>
+        <input type="text" [(ngModel)]="datos.telefono" placeholder="300 123 4567">
+      </div>
+
+      <button
+        class="btn-siguiente"
+        [disabled]="!datos.nombre || !datos.cedula || !datos.correo || !datos.telefono"
+        (click)="irAlPaso2()">
+        Siguiente
+      </button>
+    </div>
+
+    <div *ngIf="paso === 2" class="form-step">
+      <div class="input-group">
+        <label>Tipo de Cliente</label>
+        <select class="combo-box" [(ngModel)]="datos.tipoCliente">
+          <option value="" disabled selected>Seleccione su categoría</option>
+          <option value="normal">Cliente Normal</option>
+          <option value="concurrente">Cliente Concurrente</option>
+          <option value="premium">Cliente Premium</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Contraseña</label>
+        <input type="password" [(ngModel)]="datos.contrasenia" placeholder="Cree su contraseña">
+      </div>
+
+      <div class="button-group">
+        <button class="btn-regresar" (click)="paso = 1">Atrás</button>
+        <button
+          class="btn-finalizar"
+          [disabled]="!datos.tipoCliente || !datos.contrasenia"
+          (click)="finalizar()">
+          Registrarme
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

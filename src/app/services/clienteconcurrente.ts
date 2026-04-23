@@ -5,7 +5,7 @@ import { ClienteconcurrenteModel } from '../models/clienteconcurrente.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ClienteConcurrenteService {
+export class ClienteconcurrenteService {
   private cliente = inject(HttpClient);
   private readonly urlbase: string = 'http://localhost:8080';
 
