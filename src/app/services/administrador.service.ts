@@ -11,7 +11,7 @@ export class AdministradorService {
 
 
   getAdministradores() {
-    return this.administrador.get<AdministradorModel[]>(this.urlbase + 'administrador/mostrartodo', {
+    return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/mostrartodo', {
       observe: 'response',
     });
   }
@@ -41,42 +41,42 @@ export class AdministradorService {
 
 
   buscarPorNombre(nombre: string) {
-    return this.administrador.get<AdministradorModel[]>(this.urlbase + 'administrador/buscarpornombre?nombre=' + nombre, {
+    return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/buscarpornombre?nombre=' + nombre, {
       observe: 'response',
     });
   }
 
 
   buscarPorCedula(cedula: string) {
-    return this.administrador.get<AdministradorModel[]>(this.urlbase + 'administrador/buscarporcedula?cedula=' + cedula, {
+    return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/buscarporcedula?cedula=' + cedula, {
       observe: 'response',
     });
   }
 
 
   buscarPorCorreo(correo: string) {
-    return this.administrador.get<AdministradorModel[]>(this.urlbase + 'administrador/buscarporcorreo?correo=' + correo, {
+    return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/buscarporcorreo?correo=' + correo, {
       observe: 'response',
     });
   }
 
 
   buscarPorTelefono(telefono: string) {
-    return this.administrador.get<AdministradorModel[]>(this.urlbase + 'administrador/buscarportelefono?telefono=' + telefono, {
+    return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/buscarportelefono?telefono=' + telefono, {
       observe: 'response',
     });
   }
 
 
   buscarPorUsuario(usuario: string) {
-    return this.administrador.get<AdministradorModel[]>(this.urlbase + 'administrador/buscarporusuario?usuario=' + usuario, {
+    return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/buscarporusuario?usuario=' + usuario, {
       observe: 'response',
     });
   }
 
 
   buscarPorNombreYCedula(nombre: string, cedula: string) {
-    return this.administrador.get<AdministradorModel[]>(this.urlbase + 'administrador/buscarpornombreycedula?nombre=' + nombre + '&cedula=' + cedula, {
+    return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/buscarpornombreycedula?nombre=' + nombre + '&cedula=' + cedula, {
       observe: 'response',
     });
   }
