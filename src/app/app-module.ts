@@ -9,9 +9,11 @@ import { Footer } from './footer/footer';
 import { Registro } from './registro/registro';
 import { Login } from './login/login';
 import { Inicio } from './inicio/inicio';
+import { Administrador } from './administrador/administrador';
+import { Inicioadministrador } from './inicioadministrador/inicioadministrador';
 
 @NgModule({
-  declarations: [App, Navbar, Footer, Registro, Login, Inicio],
+  declarations: [App, Navbar, Footer, Registro, Login, Inicio, Administrador, Inicioadministrador],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
