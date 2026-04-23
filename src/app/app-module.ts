@@ -12,7 +12,7 @@ import { Inicio } from './inicio/inicio';
 
 @NgModule({
   declarations: [App, Navbar, Footer, Registro, Login, Inicio],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })
