@@ -1,0 +1,180 @@
+.admin-wrapper {
+  padding: 30px;
+  background: #f4f7fb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* CONTADOR */
+.contador {
+  margin: 15px 0;
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  gap: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+/* CONTAINER */
+.clientes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARD */
+.cliente-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+  border-left: 6px solid transparent;
+}
+
+/* TIPOS */
+.premium { border-left-color: gold; }
+.concurrente { border-left-color: #6c5ce7; }
+.normal { border-left-color: gray; }
+
+/* MAIN */
+.cliente-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+/* AVATAR */
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+/* COLORS */
+.avatar.premium { background: gold; color: #333; }
+.avatar.concurrente { background: #6c5ce7; }
+.avatar.normal { background: #808080; }
+
+/* INFO (FIX IMPORTANTE: alineación izquierda real) */
+.info {
+  flex: 1;
+  text-align: left;
+}
+
+.info h3 {
+  margin: 0;
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+}
+
+.info p {
+  margin: 3px 0;
+  font-size: 13px;
+  color: #555;
+}
+
+/* BADGES */
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+/* BOTONES */
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #ecf0f1;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* HISTORIAL */
+.historial {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.historial-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ITEM MEJOR ESPACIADO (YA NO TODO PEGADO) */
+.historial-item {
+  background: #f9fafc;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+/* ESTADOS */
+.estado.entregado { color: #27ae60; font-weight: 600; }
+.estado.camino { color: #f39c12; font-weight: 600; }
+
+
+.legend {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 15px 0;
+}
+
+.legend-item {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 500;
+}
+
+.legend-item.premium {
+  background: gold;
+  color: #333;
+}
+
+.legend-item.concurrente {
+  background: #6c5ce7;
+  color: white;
+}
+
+.legend-item.normal {
+  background: #b2bec3;
+  color: #2d3436;
+}
