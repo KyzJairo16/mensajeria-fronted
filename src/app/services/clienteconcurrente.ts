@@ -17,8 +17,8 @@ export class ClienteconcurrenteService {
   }
 
 
-  crearClienteConcurrente(nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaConcurrente: number) {
-    return this.cliente.post(this.urlbase + '/clienteconcurrente/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaConcurrente=' + tarifaConcurrente, null, {
+  crearClienteConcurrente(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
+    return this.cliente.post(this.urlbase + '/clienteconcurrente/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }

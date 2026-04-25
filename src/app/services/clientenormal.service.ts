@@ -18,8 +18,8 @@ export class ClientenormalService {
   }
 
 
-  crearClienteNormal(nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaNormal: number) {
-    return this.cliente.post(this.urlbase + '/clientenormal/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaNormal=' + tarifaNormal, null, {
+  crearClienteNormal(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
+    return this.cliente.post(this.urlbase + '/clientenormal/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }
