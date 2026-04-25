@@ -16,8 +16,8 @@ export class ClientepremiumService {
     });
   }
 
-  crearClientePremium(nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaPremium: number) {
-    return this.cliente.post(this.urlbase + '/clientepremium/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaPremium=' + tarifaPremium, null, {
+  crearClientePremium(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
+    return this.cliente.post(this.urlbase + '/clientepremium/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }
