@@ -26,8 +26,9 @@ export class ClientenormalService {
     );
   }
 
-  actualizarClienteNormal(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaNormal: number) {
-    return this.cliente.put(this.urlbase + '/clientenormal/actualizarclientenormal?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaNormal=' + tarifaNormal, null, {
+
+  actualizarClienteNormal(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, contrasenia: string) {
+    return this.cliente.put(this.urlbase + '/clientenormal/actualizarclientenormal?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }

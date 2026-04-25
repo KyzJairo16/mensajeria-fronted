@@ -25,8 +25,8 @@ export class ClientepremiumService {
   }
 
 
-  actualizarClientePremium(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaPremium: number) {
-    return this.cliente.put(this.urlbase + '/clientepremium/actualizar?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaPremium=' + tarifaPremium, null, {
+  actualizarClientePremium(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, contrasenia: string) {
+    return this.cliente.put(this.urlbase + '/clientepremium/actualizar?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }

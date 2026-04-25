@@ -1,0 +1,143 @@
+
+.admin-wrapper {
+  padding: 30px;
+  background: #f4f7fb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* LEYENDA */
+.legend {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.legend-item {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 500;
+  color: white;
+}
+
+.conductor { background: #3498db; }
+.manipulador { background: #f39c12; }
+.admin { background: #2ecc71; }
+
+/* CONTADOR */
+.contador {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+/* CONTAINER */
+.workers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* CARD */
+.worker-card {
+  background: white;
+  border-radius: 14px;
+  padding: 15px;
+  border-left: 6px solid transparent;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* BORDES */
+.worker-card.conductor { border-left-color: #3498db; }
+.worker-card.manipulador { border-left-color: #f39c12; }
+.worker-card.admin { border-left-color: #2ecc71; }
+
+/* TOP */
+.worker-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* AVATAR */
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}
+
+.avatar.conductor { background: #3498db; }
+.avatar.manipulador { background: #f39c12; }
+.avatar.admin { background: #2ecc71; }
+
+/* INFO */
+.worker-info {
+  flex: 1;
+  margin-left: 15px;
+}
+
+.name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.turno {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #555;
+}
+
+/* BADGE */
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: white;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.actions button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+
+
+
+

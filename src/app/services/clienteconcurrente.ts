@@ -30,8 +30,8 @@ export class ClienteconcurrenteService {
   }
 
 
-  actualizarClienteConcurrente(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaConcurrente: number) {
-    return this.cliente.put(this.urlbase + '/clienteconcurrente/actualizarclienteconcurrente?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaConcurrente=' + tarifaConcurrente, null, {
+  actualizarClienteConcurrente(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, contrasenia: string) {
+    return this.cliente.put(this.urlbase + '/clienteconcurrente/actualizarclienteconcurrente?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }
