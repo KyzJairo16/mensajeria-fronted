@@ -1,0 +1,64 @@
+<div class="container my-5">
+
+  <div class="header-usuarios">
+    <h2 class="titulo">
+      <i class="fas fa-users-cog"></i> Gestión de Usuarios
+    </h2>
+
+    <select class="filtro">
+      <option>Todos</option>
+      <option>Normal</option>
+      <option>Premium</option>
+      <option>Concurrente</option>
+    </select>
+  </div>
+
+  <!-- CONTADOR -->
+  <div class="contador-usuarios">
+    <i class="fas fa-users"></i>
+    <span>Total de usuarios:</span>
+    <strong>2</strong>
+  </div>
+
+  <div class="card-usuarios">
+
+    <table class="tabla-usuarios">
+
+      <thead>
+      <tr>
+        <th><i class="fas fa-user"></i> Usuario</th>
+        <th><i class="fas fa-envelope"></i> Email</th>
+        <th><i class="fas fa-layer-group"></i> Tipo</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      <tr>
+        <td>Juan Pérez</td>
+        <td>juan@mail.com</td>
+        <td><span class="badge normal">Normal</span></td>
+        <td>
+          <button class="btn editar"><i class="fas fa-edit"></i></button>
+          <button class="btn eliminar"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Ana Gómez</td>
+        <td>ana@mail.com</td>
+        <td><span class="badge premium">Premium</span></td>
+        <td>
+          <button class="btn editar"><i class="fas fa-edit"></i></button>
+          <button class="btn eliminar"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

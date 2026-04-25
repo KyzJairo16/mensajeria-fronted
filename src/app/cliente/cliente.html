@@ -1,0 +1,77 @@
+<div class="cliente-container animate__animated animate__fadeIn">
+  <div class="dashboard-grid">
+
+    <div class="side-panel">
+      <div class="profile-card">
+        <div class="avatar-circle">JP</div>
+        <h2>Bienvenido, <br><span>Juan Pérez</span></h2>
+        <div class="badge-tipo">Cliente Premium</div>
+
+        <div class="info-section">
+          <p><strong>Cédula:</strong> 12345678</p>
+          <p><strong>Correo:</strong> juan.perez@email.com</p>
+          <p><strong>Teléfono:</strong> 3001234567</p>
+        </div>
+
+        <button class="btn-logout-side" routerLink = "/inicio">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="card status-card">
+        <div class="stat-item">
+          <label>Método de Pago Preferido</label>
+          <p>Tarjeta de Crédito</p>
+        </div>
+        <div class="divider"></div>
+        <div class="stat-item">
+          <label>Tu Tarifa Especial Premium</label>
+          <p class="highlight">15% de descuento</p>
+        </div>
+      </div>
+
+      <div class="actions-container">
+        <button class="btn-action yellow" routerLink="/nuevoenvio">
+          <span class="icon"><i class="fa-solid fa-plus"></i></span> Nuevo Pedido
+        </button>
+      </div>
+
+      <div class="card history-card">
+        <h3>Tus Envíos Recientes</h3>
+        <table class="history-table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Destino</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>ENV001</td>
+            <td>Medellín</td>
+            <td><span class="status-pill en-camino">En Camino</span></td>
+            <td>20 Jul</td>
+          </tr>
+          <tr>
+            <td>ENV002</td>
+            <td>Barranquilla</td>
+            <td><span class="status-pill entregado">Entregado</span></td>
+            <td>18 Jul</td>
+          </tr>
+          <tr>
+            <td>ENV003</td>
+            <td>Cali</td>
+            <td><span class="status-pill pendiente">Pendiente</span></td>
+            <td>22 Jul</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="pedido-container animate__animated animate__fadeIn">
+
+  <div class="form-header">
+    <h1><i class="fa-solid fa-box-archive"></i> Crear Nuevo Envío</h1>
+    <p>Complete los detalles del paquete para generar la guía de transporte.</p>
+  </div>
+
+  <div class="form-grid">
+
+    <!-- 1. UBICACIÓN -->
+    <div class="form-card">
+      <h3><span class="step-num">1</span> Ubicación de Entrega</h3>
+
+      <div class="field-group">
+        <label>Dirección de Destino</label>
+        <input type="text" placeholder="Ej: Calle 100 #20-30">
+      </div>
+
+      <div class="field-group">
+        <label>Ciudad</label>
+        <input type="text" placeholder="Ej: Bogotá">
+      </div>
+    </div>
+
+    <!-- 2. DETALLES -->
+    <div class="form-card">
+      <h3><span class="step-num">2</span> Detalles del Contenido</h3>
+
+      <label>Tipo de Paquete</label>
+      <select class="tipo-select">
+        <option>Alimenticio</option>
+        <option>No Alimenticio</option>
+        <option>Carta / Documento</option>
+      </select>
+
+      <div class="dynamic-inputs">
+
+        <div class="fade-in">
+          <label>Detalle del contenido</label>
+          <input type="text" placeholder="Ej: Descripción del paquete">
+          <p class="info-auto">
+            <i class="fa-solid fa-circle-info"></i> Información adicional del envío.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 3. OPCIONES -->
+    <div class="form-card">
+      <h3><span class="step-num">3</span> Opciones Finales</h3>
+
+      <div class="priority-box">
+        <div class="priority-text">
+          <label>¿Envío Prioritario?</label>
+          <p>Asegura entrega en tiempo récord.</p>
+        </div>
+
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn-back">Cancelar</button>
+        <button class="btn-submit">Generar envío y guía.</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
