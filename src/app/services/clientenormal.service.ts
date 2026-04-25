@@ -19,9 +19,11 @@ export class ClientenormalService {
 
 
   crearClienteNormal(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
-    return this.cliente.post(this.urlbase + '/clientenormal/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&contrasenia=' + contrasenia, null, {
-      responseType: 'text',
-    });
+    return this.cliente.post(
+      this.urlbase + `/clientenormal/crear?nombre=${encodeURIComponent(nombre)}&cedula=${encodeURIComponent(cedula)}&correo=${encodeURIComponent(correo)}&telefono=${encodeURIComponent(telefono)}&contrasenia=${encodeURIComponent(contrasenia)}`,
+      null,
+      { responseType: 'text' }
+    );
   }
 
 
