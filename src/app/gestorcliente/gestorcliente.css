@@ -96,25 +96,6 @@
   font-size: 11px;
 }
 
-/* BOTONES */
-.acciones {
-  display: flex;
-  gap: 8px;
-}
-
-.btn {
-  border: none;
-  padding: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  background: #ecf0f1;
-  transition: 0.2s;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-}
-
 /* HISTORIAL */
 .historial {
   margin-top: 15px;
@@ -130,7 +111,7 @@
   align-items: center;
 }
 
-/* ITEM MEJOR ESPACIADO (YA NO TODO PEGADO) */
+/* ITEM MEJOR ESPACIADO */
 .historial-item {
   background: #f9fafc;
   padding: 10px 12px;
@@ -178,3 +159,18 @@
   background: #b2bec3;
   color: #2d3436;
 }
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.actions button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
