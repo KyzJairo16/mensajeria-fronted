@@ -1,63 +1,211 @@
-<div class="container my-5">
 
-  <div class="header-usuarios">
-    <h2 class="titulo">
-      <i class="fas fa-users-cog"></i> Gestión de Usuarios
+<div class="admin-wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h2>
+      <i class="fas fa-users-cog"></i>
+      Gestión de Clientes
     </h2>
 
     <select class="filtro">
       <option>Todos</option>
       <option>Normal</option>
-      <option>Premium</option>
       <option>Concurrente</option>
+      <option>Premium</option>
     </select>
   </div>
 
-  <!-- CONTADOR -->
-  <div class="contador-usuarios">
-    <i class="fas fa-users"></i>
-    <span>Total de usuarios:</span>
-    <strong>2</strong>
+  <!-- 🔥 LEYENDA (IMPORTANTE PARA EL ADMIN) -->
+  <div class="legend">
+
+    <span class="legend-item premium">
+      <i class="fas fa-crown"></i> Premium
+    </span>
+
+    <span class="legend-item concurrente">
+      <i class="fas fa-sync"></i> Concurrente
+    </span>
+
+    <span class="legend-item normal">
+      <i class="fas fa-user"></i> Normal
+    </span>
+
   </div>
 
-  <div class="card-usuarios">
+  <!-- CONTADOR -->
+  <div class="contador">
+    <i class="fas fa-users"></i>
+    <span>Total clientes:</span>
+    <strong>3</strong>
+  </div>
 
-    <table class="tabla-usuarios">
+  <div class="clientes-container">
 
-      <thead>
-      <tr>
-        <th><i class="fas fa-user"></i> Usuario</th>
-        <th><i class="fas fa-envelope"></i> Email</th>
-        <th><i class="fas fa-layer-group"></i> Tipo</th>
-        <th>Acciones</th>
-      </tr>
-      </thead>
+    <!-- 🔥 PREMIUM -->
+    <div class="cliente-card premium">
 
-      <tbody>
+      <div class="cliente-main">
 
-      <tr>
-        <td>Juan Pérez</td>
-        <td>juan@mail.com</td>
-        <td><span class="badge normal">Normal</span></td>
-        <td>
-          <button class="btn editar"><i class="fas fa-edit"></i></button>
-          <button class="btn eliminar"><i class="fas fa-trash"></i></button>
-        </td>
-      </tr>
+        <div class="avatar premium">JP</div>
 
-      <tr>
-        <td>Ana Gómez</td>
-        <td>ana@mail.com</td>
-        <td><span class="badge premium">Premium</span></td>
-        <td>
-          <button class="btn editar"><i class="fas fa-edit"></i></button>
-          <button class="btn eliminar"><i class="fas fa-trash"></i></button>
-        </td>
-      </tr>
+        <div class="info">
 
-      </tbody>
+          <div class="name-row">
+            <h3>
+              <i class="fas fa-user"></i>
+              Juan Pérez
+            </h3>
 
-    </table>
+            <span class="badge premium">
+              <i class="fas fa-crown"></i>
+              Tipo: Premium
+            </span>
+          </div>
+
+          <p><i class="fas fa-id-card"></i> CC 12.345.678</p>
+          <p><i class="fas fa-envelope"></i> juan@mail.com</p>
+          <p><i class="fas fa-phone"></i> 3001234567</p>
+
+        </div>
+
+        <div class="acciones">
+          <button class="btn"><i class="fas fa-pen"></i></button>
+          <button class="btn"><i class="fas fa-trash"></i></button>
+          <button class="btn"><i class="fas fa-eye"></i></button>
+        </div>
+
+      </div>
+
+      <div class="historial">
+        <div class="historial-title">
+          <i class="fas fa-truck"></i> Historial
+        </div>
+
+        <div class="historial-item">
+          <i class="fas fa-box"></i> #ENV001
+          <i class="fas fa-map-marker-alt"></i> Bogotá
+          <span class="estado entregado">
+            <i class="fas fa-check-circle"></i> Entregado
+          </span>
+          <i class="fas fa-calendar"></i> 20 Jul
+        </div>
+
+        <div class="historial-item">
+          <i class="fas fa-box"></i> #ENV002
+          <i class="fas fa-map-marker-alt"></i> Medellín
+          <span class="estado camino">
+            <i class="fas fa-truck"></i> En camino
+          </span>
+          <i class="fas fa-calendar"></i> 22 Jul
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 🔥 CONCURRENTE -->
+    <div class="cliente-card concurrente">
+
+      <div class="cliente-main">
+
+        <div class="avatar concurrente">AM</div>
+
+        <div class="info">
+
+          <div class="name-row">
+            <h3>
+              <i class="fas fa-user"></i>
+              Ana Martínez
+            </h3>
+
+            <span class="badge concurrente">
+              <i class="fas fa-sync"></i>
+              Tipo: Concurrente
+            </span>
+          </div>
+
+          <p><i class="fas fa-id-card"></i> CC 98.765.432</p>
+          <p><i class="fas fa-envelope"></i> ana@mail.com</p>
+          <p><i class="fas fa-phone"></i> 3109876543</p>
+
+        </div>
+
+        <div class="acciones">
+          <button class="btn"><i class="fas fa-pen"></i></button>
+          <button class="btn"><i class="fas fa-trash"></i></button>
+          <button class="btn"><i class="fas fa-eye"></i></button>
+        </div>
+
+      </div>
+
+      <div class="historial">
+        <div class="historial-title">
+          <i class="fas fa-truck"></i> Historial
+        </div>
+
+        <div class="historial-item">
+          <i class="fas fa-box"></i> #ENV010
+          <i class="fas fa-map-marker-alt"></i> Cali
+          <span class="estado camino">
+            <i class="fas fa-truck"></i> En camino
+          </span>
+          <i class="fas fa-calendar"></i> 18 Jul
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 🔥 NORMAL -->
+    <div class="cliente-card normal">
+
+      <div class="cliente-main">
+
+        <div class="avatar normal">CR</div>
+
+        <div class="info">
+
+          <div class="name-row">
+            <h3>
+              <i class="fas fa-user"></i>
+              Carlos Ruiz
+            </h3>
+
+            <span class="badge normal">
+              <i class="fas fa-user"></i>
+              Tipo: Normal
+            </span>
+          </div>
+
+          <p><i class="fas fa-id-card"></i> CC 11.223.344</p>
+          <p><i class="fas fa-envelope"></i> carlos@mail.com</p>
+          <p><i class="fas fa-phone"></i> 3011122334</p>
+
+        </div>
+
+        <div class="acciones">
+          <button class="btn"><i class="fas fa-pen"></i></button>
+          <button class="btn"><i class="fas fa-trash"></i></button>
+          <button class="btn"><i class="fas fa-eye"></i></button>
+        </div>
+
+      </div>
+
+      <div class="historial">
+        <div class="historial-title">
+          <i class="fas fa-truck"></i> Historial
+        </div>
+
+        <div class="historial-item">
+          <i class="fas fa-box"></i> #ENV020
+          <i class="fas fa-map-marker-alt"></i> Bogotá
+          <span class="estado entregado">
+            <i class="fas fa-check-circle"></i> Entregado
+          </span>
+          <i class="fas fa-calendar"></i> 10 Jul
+        </div>
+      </div>
+
+    </div>
 
   </div>
 
