@@ -1,8 +1,10 @@
+/* gestortrabajador.css */
 
 .admin-wrapper {
-  padding: 30px;
-  background: #f4f7fb;
-  font-family: 'Segoe UI', sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* HEADER */
@@ -10,134 +12,545 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.header i {
+  color: #3498db;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.filtro {
+  padding: 8px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filtro:hover {
+  border-color: #3498db;
+}
+
+.btn-recargar {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-recargar:hover:not(:disabled) {
+  background: #45a049;
+  transform: translateY(-1px);
+}
+
+.btn-recargar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* LEYENDA */
 .legend {
   display: flex;
-  gap: 10px;
-  margin: 15px 0;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  flex-wrap: wrap;
 }
 
 .legend-item {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
   display: flex;
-  gap: 6px;
   align-items: center;
+  gap: 8px;
+  font-size: 14px;
   font-weight: 500;
-  color: white;
 }
 
-.conductor { background: #3498db; }
-.manipulador { background: #f39c12; }
-.admin { background: #2ecc71; }
+.legend-item.conductor {
+  color: #e67e22;
+}
+
+.legend-item.manipulador {
+  color: #2ecc71;
+}
+
+.legend-item.admin {
+  color: #9b59b6;
+}
 
 /* CONTADOR */
 .contador {
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 
-/* CONTAINER */
+.contador i {
+  font-size: 20px;
+}
+
+.contador strong {
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+/* ESTADOS DE CARGA */
+.estado-carga {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid #1976d2;
+}
+
+.carga-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.carga-info i {
+  font-size: 18px;
+}
+
+.tiempo-espera {
+  font-family: monospace;
+  font-weight: bold;
+  background: rgba(25, 118, 210, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.btn-recargar-carga {
+  background: #ff9800;
+  color: white;
+  border: none;
+  padding: 6px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-recargar-carga:hover {
+  background: #f57c00;
+}
+
+.estado-warning {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 20px;
+  background: #fff3e0;
+  color: #f57c00;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid #f57c00;
+}
+
+.estado-error {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #ffebee;
+  color: #d32f2f;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid #d32f2f;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.estado-error i {
+  font-size: 20px;
+}
+
+.btn-reintentar {
+  background: #2196f3;
+  color: white;
+  border: none;
+  padding: 6px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-reintentar:hover {
+  background: #1976d2;
+}
+
+.estado-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 40px 20px;
+  background: #f5f5f5;
+  color: #757575;
+  border-radius: 8px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.estado-vacio i {
+  font-size: 48px;
+  color: #bdbdbd;
+}
+
+.estado-vacio p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* CONTENEDOR DE TRABAJADORES */
 .workers-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
+  margin-top: 20px;
 }
 
-/* CARD */
+/* TARJETA DE TRABAJADOR */
 .worker-card {
   background: white;
-  border-radius: 14px;
-  padding: 15px;
-  border-left: 6px solid transparent;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-left: 4px solid;
 }
 
-/* BORDES */
-.worker-card.conductor { border-left-color: #3498db; }
-.worker-card.manipulador { border-left-color: #f39c12; }
-.worker-card.admin { border-left-color: #2ecc71; }
+.worker-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
 
-/* TOP */
+/* Colores por tipo de trabajador */
+.worker-card.conductor {
+  border-left-color: #e67e22;
+}
+
+.worker-card.manipulador {
+  border-left-color: #2ecc71;
+}
+
+.worker-card.admin {
+  border-left-color: #9b59b6;
+}
+
 .worker-top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 /* AVATAR */
 .avatar {
-  width: 55px;
-  height: 55px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: white;
+  justify-content: center;
   font-weight: bold;
+  font-size: 24px;
+  color: white;
+  flex-shrink: 0;
 }
 
-.avatar.conductor { background: #3498db; }
-.avatar.manipulador { background: #f39c12; }
-.avatar.admin { background: #2ecc71; }
+.avatar.conductor {
+  background: linear-gradient(135deg, #e67e22, #f39c12);
+}
 
-/* INFO */
+.avatar.manipulador {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+.avatar.admin {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+/* INFO DEL TRABAJADOR */
 .worker-info {
   flex: 1;
-  margin-left: 15px;
+  min-width: 200px;
 }
 
 .name-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.name-row h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.conductor {
+  background: #fef5e8;
+  color: #e67e22;
+}
+
+.badge.manipulador {
+  background: #e8f8f0;
+  color: #2ecc71;
+}
+
+.badge.admin {
+  background: #f3e8f8;
+  color: #9b59b6;
 }
 
 .details {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
-  font-size: 12px;
-  margin-top: 5px;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.details span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #666;
+}
+
+.details i {
+  width: 16px;
+  color: #3498db;
 }
 
 .turno {
-  margin-top: 5px;
-  font-size: 12px;
-  color: #555;
-}
-
-/* BADGE */
-.badge {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  display: flex;
-  gap: 5px;
+  display: inline-flex;
   align-items: center;
-  color: white;
+  gap: 8px;
+  padding: 5px 12px;
+  background: #ecf0f1;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #2c3e50;
 }
 
+.turno i {
+  color: #3498db;
+}
+
+/* ACCIONES */
 .actions {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 
-.actions button {
+.btn {
+  padding: 8px 16px;
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-weight: 500;
 }
 
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
 
+.btn-primary:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+}
 
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+}
 
+.btn-danger:hover:not(:disabled) {
+  background: #c0392b;
+  transform: translateY(-1px);
+}
 
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-warning {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #e67e22;
+  transform: translateY(-1px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .admin-wrapper {
+    padding: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    justify-content: space-between;
+  }
+
+  .worker-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .name-row {
+    justify-content: center;
+  }
+
+  .details {
+    justify-content: center;
+  }
+
+  .actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .legend {
+    justify-content: center;
+  }
+
+  .estado-error {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions {
+    flex-direction: column;
+  }
+
+  .filtro, .btn-recargar {
+    width: 100%;
+  }
+
+  .details {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ANIMACIONES */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* SCROLLBAR PERSONALIZADO */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
