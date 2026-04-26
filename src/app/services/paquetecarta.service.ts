@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { PaquetecartaModel } from '../models/paquetecarta.model';
 
 @Injectable({
@@ -24,16 +24,18 @@ export class PaquetecartaService {
     ciudadDestino: string,
     tipoCarta: string
   ) {
-    return this.http.post(
-      this.urlbase + '/paquetecarta/crear' +
-      '?idCliente=' + idCliente +
-      '&direccionDestino=' + direccionDestino +
-      '&tamanio=' + tamanio +
-      '&ciudadDestino=' + ciudadDestino +
-      '&tipoCarta=' + tipoCarta,
-      null,
-      { responseType: 'text', observe: 'response' }  // ✅ CORREGIDO
-    );
+    const params = new HttpParams()
+      .set('idCliente', idCliente.toString())
+      .set('direccionDestino', direccionDestino)
+      .set('tamanio', tamanio)
+      .set('ciudadDestino', ciudadDestino)
+      .set('tipoCarta', tipoCarta);
+
+    return this.http.post(this.urlbase + '/paquetecarta/crear', null, {
+      params: params,
+      responseType: 'text',
+      observe: 'response'
+    });
   }
 
 
