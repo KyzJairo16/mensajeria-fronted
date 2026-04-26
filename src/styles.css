@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+body.dark-theme {
+  background-color: #121212 !important;
+}
+
+body.dark-theme .navbar-container {
+  background-color: #1a1a1a !important;
+  border-bottom: 1px solid #333;
+}
+
+body.dark-theme .brand-name,
+body.dark-theme .nav-item,
+body.dark-theme .btn-login {
+  color: #ffffff !important;
+}
+
+body.dark-theme .main-title,
+body.dark-theme .main-description {
+  color: #ffffff !important;
+}
+
+body.dark-theme .service-card {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-theme .footer {
+  background-color: #051a3d !important;
+}
+
+.btn-tema {
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+body.dark-theme .btn-tema {
+  background: #333;
+  color: #fff;
+  border-color: #555;
+}
