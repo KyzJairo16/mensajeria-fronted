@@ -71,9 +71,12 @@ export class ClienteconcurrenteService {
   }
 
   login(cedula: string, contrasenia: string) {
-    return this.cliente.post(this.urlbase + '/clienteconcurrente/login?cedula=' + cedula + '&contrasenia=' + contrasenia, null, {
-      responseType: 'text'
-    });
+    return this.cliente.post<number>(
+      this.urlbase + '/clienteconcurrente/login?cedula=' + encodeURIComponent(cedula) +
+      '&contrasenia=' + encodeURIComponent(contrasenia),
+      null,
+      { observe: 'response' }
+    );
   }
 
 

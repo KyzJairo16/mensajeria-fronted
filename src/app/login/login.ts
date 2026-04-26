@@ -32,38 +32,76 @@ export class Login {
     this.intentarLoginNormal();
   }
 
-  private intentarLoginNormal() {
+  private cedulaInvalida = false;
 
+  private intentarLoginNormal() {
     this.normalService.login(this.credencial.cedula, this.credencial.pass).subscribe({
-      next: (respuesta) => {
-        console.log('✅ Cliente Normal encontrado:', respuesta);
-        this.router.navigate(['/cliente']);
+      next: (resp: any) => {
+        const codigo = resp.body ?? resp;
+        if (codigo === 0) {
+          this.router.navigate(['/cliente']);
+          console.log('Inicio de sesion exitoso');
+        }
       },
-      error: () => this.intentarLoginPremium()
+      error: (err) => {
+        const codigo = err.error;
+        if (err.status === 401) {
+          // Contraseña incorrecta — detenemos la cadena
+          console.log('Credenciales incorrectas');
+        } else if (err.status === 400) {
+          this.cedulaInvalida = true;
+          console.log('Cédula inválida');
+        } else if (err.status === 404) {
+          // No existe en Normal → probar Premium
+          this.intentarLoginPremium();
+        }
+      }
     });
   }
 
   private intentarLoginPremium() {
-
     this.premiumService.login(this.credencial.cedula, this.credencial.pass).subscribe({
-      next: (respuesta) => {
-        console.log( respuesta);
-        this.router.navigate(['/cliente']);
+      next: (resp: any) => {
+        const codigo = resp.body ?? resp;
+        if (codigo === 0) {
+          this.router.navigate(['/cliente']);
+          console.log('Inicio de sesion exitoso');
+        }
       },
-      error: () => this.intentarLoginConcurrente()
+      error: (err) => {
+        if (err.status === 401) {
+          console.log('Credenciales incorrectas');
+        } else if (err.status === 400) {
+          this.cedulaInvalida = true;
+          console.log('Cédula inválida');
+        } else if (err.status === 404) {
+          this.intentarLoginConcurrente();
+        }
+      }
     });
   }
 
   private intentarLoginConcurrente() {
-
     this.concurrenteService.login(this.credencial.cedula, this.credencial.pass).subscribe({
-      next: (respuesta) => {
-        console.log( respuesta);
-        this.router.navigate(['/cliente']);
+      next: (resp: any) => {
+        const codigo = resp.body ?? resp;
+        if (codigo === 0) {
+          this.router.navigate(['/cliente']);
+          console.log('Inicio de sesion exitoso');
+        }
       },
-      error: () => {
-
-        console.log('Error: Las credenciales no coinciden con ningún cliente.');
+      error: (err) => {
+        if (err.status === 401) {
+          console.log('Credenciales incorrectas');
+        } else if (err.status === 400) {
+          console.log('Cédula inválida');
+        } else if (err.status === 404) {
+          if (this.cedulaInvalida) {
+            console.log('Cédula inválida');
+          } else {
+            console.log('Usuario no encontrado en ningún sistema');
+          }
+        }
       }
     });
   }
