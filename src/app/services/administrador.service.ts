@@ -9,7 +9,7 @@ export class AdministradorService {
   private administrador = inject(HttpClient);
   private readonly urlbase: string = 'http://localhost:8080';
 
-
+//
   getAdministradores() {
     return this.administrador.get<AdministradorModel[]>(this.urlbase + '/administrador/mostrartodo', {
       observe: 'response',
