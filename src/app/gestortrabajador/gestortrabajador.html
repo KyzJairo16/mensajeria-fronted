@@ -3,16 +3,16 @@
   <!-- HEADER -->
   <div class="header">
     <h2>
-      <i class="fas fa-user-tie"></i>
+      <i class="fas fa-users"></i>
       Gestión de Trabajadores
     </h2>
 
     <div class="header-actions">
       <select class="filtro" (change)="onFiltroChange($event)">
         <option value="Todos">Todos</option>
-        <option value="Conductor">Conductores</option>
-        <option value="Manipulador">Manipuladores</option>
-        <option value="Administrativo">Administrativos</option>
+        <option value="Administrador">Administrador</option>
+        <option value="Conductor">Conductor</option>
+        <option value="Manipulador">Manipulador de Paquete</option>
       </select>
 
       <!-- BOTÓN DE RECARGA MANUAL -->
@@ -23,17 +23,23 @@
     </div>
   </div>
 
+  <!-- MENSAJE DE ÉXITO -->
+  <div *ngIf="mensajeExito" class="mensaje-exito">
+    <i class="fas fa-check-circle"></i>
+    {{ mensajeExito }}
+  </div>
+
   <!-- LEYENDA -->
   <div class="legend">
-    <div class="legend-item conductor">
-      <i class="fas fa-truck"></i> Conductores
-    </div>
-    <div class="legend-item manipulador">
-      <i class="fas fa-box"></i> Manipuladores
-    </div>
-    <div class="legend-item admin">
-      <i class="fas fa-user-shield"></i> Administrativos
-    </div>
+    <span class="legend-item administrador">
+      <i class="fas fa-user-shield"></i> Administrador
+    </span>
+    <span class="legend-item conductor">
+      <i class="fas fa-truck"></i> Conductor
+    </span>
+    <span class="legend-item manipulador">
+      <i class="fas fa-boxes"></i> Manipulador de Paquete
+    </span>
   </div>
 
   <!-- CONTADOR -->
@@ -43,12 +49,11 @@
     <strong>{{ trabajadoresFiltrados.length }}</strong>
   </div>
 
-  <!-- ESTADO DE CARGA CON TIEMPO DE ESPERA Y BOTÓN RECARGAR -->
+  <!-- ESTADO DE CARGA -->
   <div *ngIf="cargando" class="estado-carga">
     <div class="carga-info">
       <i class="fas fa-spinner fa-spin"></i>
       <span>Cargando trabajadores...</span>
-      <span class="tiempo-espera" *ngIf="tiempoEspera > 0">({{ tiempoEspera }}s)</span>
     </div>
     <button class="btn-recargar-carga" (click)="cancelarCarga()" type="button">
       <i class="fas fa-sync-alt"></i> Recargar
@@ -80,21 +85,21 @@
   </div>
 
   <!-- LISTA DE TRABAJADORES -->
-  <div class="workers-container" *ngIf="!cargando && !error && trabajadoresFiltrados.length > 0">
+  <div class="trabajadores-container" *ngIf="!cargando && !error && trabajadoresFiltrados.length > 0">
 
     <div
       *ngFor="let trabajador of trabajadoresFiltrados"
-      class="worker-card"
-      [ngClass]="getTipoBadge(trabajador.tipo)">
+      class="trabajador-card"
+      [ngClass]="getTipoClase(trabajador.tipo)">
 
-      <div class="worker-top">
+      <div class="trabajador-main">
 
         <!-- Avatar con iniciales -->
-        <div class="avatar" [ngClass]="getTipoBadge(trabajador.tipo)">
+        <div class="avatar" [ngClass]="getTipoClase(trabajador.tipo)">
           {{ getIniciales(trabajador.nombre) }}
         </div>
 
-        <div class="worker-info">
+        <div class="info">
 
           <div class="name-row">
             <h3>
@@ -102,27 +107,31 @@
               {{ trabajador.nombre }}
             </h3>
 
-            <span class="badge" [ngClass]="getTipoBadge(trabajador.tipo)">
-              <i class="fas" [ngClass]="getTipoIcono(trabajador.tipo)"></i>
-              Tipo: {{ trabajador.tipo }}
+            <span class="badge" [ngClass]="getTipoClase(trabajador.tipo)">
+              <i class="fas" [ngClass]="getIcono(trabajador.tipo)"></i>
+              {{ getTipoTexto(trabajador.tipo) }}
             </span>
           </div>
 
-          <div class="details">
-            <span><i class="fas fa-id-card"></i> CC {{ trabajador.cedula || 'N/A' }}</span>
-            <span><i class="fas fa-phone"></i> {{ trabajador.telefono || 'N/A' }}</span>
-            <span *ngIf="trabajador.correo">
-              <i class="fas fa-envelope"></i> {{ trabajador.correo }}
-            </span>
-            <span *ngIf="getDetalleEspecifico(trabajador).texto !== 'Sin información adicional'">
-              <i class="fas" [ngClass]="getDetalleEspecifico(trabajador).icono"></i>
-              {{ getDetalleEspecifico(trabajador).texto }}
-            </span>
-          </div>
+          <p><i class="fas fa-id-card"></i> CC {{ trabajador.cedula }}</p>
+          <p><i class="fas fa-envelope"></i> {{ trabajador.correo }}</p>
+          <p><i class="fas fa-phone"></i> {{ trabajador.telefono }}</p>
+          <p><i class="fas fa-clock"></i> <strong>Turno:</strong> {{ trabajador.turno }}</p>
 
-          <div class="turno">
-            <i class="fas fa-clock"></i> Turno: {{ trabajador.turno }}
-          </div>
+          <!-- Campo específico para Administrador -->
+          <p *ngIf="trabajador.tipo === 'Administrador' && trabajador.usuario">
+            <i class="fas fa-user-circle"></i> <strong>Usuario:</strong> {{ trabajador.usuario }}
+          </p>
+
+          <!-- Campo específico para Conductor -->
+          <p *ngIf="trabajador.tipo === 'Conductor' && trabajador.placaVehiculo">
+            <i class="fas fa-truck"></i> <strong>Placa vehículo:</strong> {{ trabajador.placaVehiculo }}
+          </p>
+
+          <!-- Campo específico para Manipulador -->
+          <p *ngIf="trabajador.tipo === 'Manipulador' && trabajador.tipoManipulador">
+            <i class="fas fa-box"></i> <strong>Tipo manipulador:</strong> {{ trabajador.tipoManipulador }}
+          </p>
 
         </div>
 
@@ -130,11 +139,7 @@
           <button type="button" class="btn btn-primary" (click)="actualizarTrabajador(trabajador)">
             <i class="fas fa-sync-alt"></i> Actualizar
           </button>
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="eliminarTrabajador(trabajador)"
-            [disabled]="trabajador.tipo === 'Administrativo'">
+          <button type="button" class="btn btn-danger" (click)="eliminarTrabajador(trabajador)">
             <i class="fas fa-trash"></i> Eliminar
           </button>
         </div>

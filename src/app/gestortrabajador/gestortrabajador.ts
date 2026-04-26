@@ -1,12 +1,12 @@
-// gestortrabajador.ts - VERSIÓN CON RECARGA Y TIMEOUT PARA TRABAJADORES
+
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { AdministradorService } from '../services/administrador.service';
 import { ConductorService } from '../services/conductor.service';
 import { ManipuladordepaqueteService } from '../services/manipuladordepaquete.service';
-import { AdministradorService } from '../services/administrador.service';
+import { AdministradorModel } from '../models/administrador.model';
 import { ConductorModel } from '../models/conductor.model';
 import { ManipuladordepaqueteModel } from '../models/manipuladordepaquete.model';
-import { AdministradorModel } from '../models/administrador.model';
 import { Subscription, timeout, catchError, of } from 'rxjs';
 
 interface TrabajadorUnificado {
@@ -15,13 +15,12 @@ interface TrabajadorUnificado {
   cedula: string;
   correo: string;
   telefono: string;
-  tipo: 'Conductor' | 'Manipulador' | 'Administrativo';
   turno: string;
-  // Campos específicos
+  tipo: 'Administrador' | 'Conductor' | 'Manipulador';
+  usuario?: string;
+  contrasenia?: string;
   placaVehiculo?: string;
   tipoManipulador?: string;
-  usuario?: string;
-  area?: string;
 }
 
 @Component({
@@ -32,9 +31,9 @@ interface TrabajadorUnificado {
 })
 export class Gestortrabajador implements OnInit, OnDestroy {
 
+  private administradorService = inject(AdministradorService);
   private conductorService = inject(ConductorService);
   private manipuladorService = inject(ManipuladordepaqueteService);
-  private administradorService = inject(AdministradorService);
 
   trabajadores: TrabajadorUnificado[] = [];
   trabajadoresFiltrados: TrabajadorUnificado[] = [];
@@ -43,6 +42,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
   error: string = '';
   timeoutWarning: boolean = false;
   tiempoEspera: number = 0;
+  mensajeExito: string = '';
 
   private subscriptions: Subscription[] = [];
   private timeoutId: any;
@@ -67,6 +67,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
 
     this.cargando = true;
     this.error = '';
+    this.mensajeExito = '';
     this.timeoutWarning = false;
     this.tiempoEspera = 0;
     this.trabajadores = [];
@@ -108,217 +109,233 @@ export class Gestortrabajador implements OnInit, OnDestroy {
 
     const verificarFinalizacion = () => {
       peticionesCompletadas++;
-      console.log(`📊 Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
+      console.log(`Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
 
-      if (peticionesCompletadas === totalPeticiones) {
-        clearTimeout(this.timeoutId);
-        clearInterval(this.esperaInterval);
-        this.cargando = false;
-        console.log('🟢 Total trabajadores cargados:', this.trabajadores.length);
-        console.table(this.trabajadores);
-        this.aplicarFiltro();
+if (peticionesCompletadas === totalPeticiones) {
+  clearTimeout(this.timeoutId);
+  clearInterval(this.esperaInterval);
+  this.cargando = false;
+  console.log('Total trabajadores cargados:', this.trabajadores.length);
+  this.aplicarFiltro();
 
-        if (this.trabajadores.length === 0 && !this.error) {
-          this.error = 'No hay trabajadores registrados en el sistema.';
-        }
-      }
-    };
-
-    const manejarError = (tipo: string, err: any) => {
-      console.error(`❌ Error cargando ${tipo}:`, err.message || err);
-      verificarFinalizacion();
-    };
-
-    // Cargar Conductores
-    const conductoresSub = this.conductorService.getConductores()
-      .pipe(
-        timeout(8000),
-        catchError(err => {
-          manejarError('conductores', err);
-          return of(null);
-        })
-      )
-      .subscribe({
-        next: (resp: HttpResponse<ConductorModel[]> | null) => {
-          if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-            const conductores: TrabajadorUnificado[] = resp.body.map((c: ConductorModel) => ({
-              id: c.id,
-              nombre: c.nombre,
-              cedula: c.cedula,
-              correo: c.correo,
-              telefono: c.telefono,
-              tipo: 'Conductor' as const,
-              turno: c.turno,
-              placaVehiculo: c.placaVehiculo
-            }));
-            console.log('✅ Conductores mapeados:', conductores.length);
-            this.trabajadores.push(...conductores);
-          } else {
-            console.log('ℹ️ No hay conductores registrados');
-          }
-          verificarFinalizacion();
-        },
-        error: () => verificarFinalizacion()
-      });
-    this.subscriptions.push(conductoresSub);
-
-    // Cargar Manipuladores
-    const manipuladoresSub = this.manipuladorService.getManipuladores()
-      .pipe(
-        timeout(8000),
-        catchError(err => {
-          manejarError('manipuladores', err);
-          return of(null);
-        })
-      )
-      .subscribe({
-        next: (resp: HttpResponse<ManipuladordepaqueteModel[]> | null) => {
-          if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-            const manipuladores: TrabajadorUnificado[] = resp.body.map((m: ManipuladordepaqueteModel) => ({
-              id: m.id,
-              nombre: m.nombre,
-              cedula: m.cedula,
-              correo: m.correo,
-              telefono: m.telefono,
-              tipo: 'Manipulador' as const,
-              turno: m.turno,
-              tipoManipulador: m.tipoManipulador
-            }));
-            console.log('✅ Manipuladores mapeados:', manipuladores.length);
-            this.trabajadores.push(...manipuladores);
-          } else {
-            console.log('ℹ️ No hay manipuladores registrados');
-          }
-          verificarFinalizacion();
-        },
-        error: () => verificarFinalizacion()
-      });
-    this.subscriptions.push(manipuladoresSub);
-
-    // Cargar Administradores
-    const administradoresSub = this.administradorService.getAdministradores()
-      .pipe(
-        timeout(8000),
-        catchError(err => {
-          manejarError('administradores', err);
-          return of(null);
-        })
-      )
-      .subscribe({
-        next: (resp: HttpResponse<AdministradorModel[]> | null) => {
-          if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-            const administrativos: TrabajadorUnificado[] = resp.body.map((a: AdministradorModel) => ({
-              id: 0, // Los administradores pueden no tener ID en el modelo
-              nombre: a.usuario || 'Administrador',
-              cedula: '',
-              correo: '',
-              telefono: '',
-              tipo: 'Administrativo' as const,
-              turno: 'Completo',
-              usuario: a.usuario,
-              area: 'Gestión'
-            }));
-            console.log('✅ Administradores mapeados:', administrativos.length);
-            this.trabajadores.push(...administrativos);
-          } else {
-            console.log('ℹ️ No hay administradores registrados');
-          }
-          verificarFinalizacion();
-        },
-        error: () => verificarFinalizacion()
-      });
-    this.subscriptions.push(administradoresSub);
-  }
-
-  actualizarTrabajador(trabajador: TrabajadorUnificado): void {
-    console.log('📝 Actualizar trabajador:', trabajador);
-    alert(`Función de actualización para ${trabajador.nombre} - Próximamente implementada`);
-  }
-
-  aplicarFiltro(): void {
-    if (this.filtroActual === 'Todos') {
-      this.trabajadoresFiltrados = [...this.trabajadores];
-    } else {
-      this.trabajadoresFiltrados = this.trabajadores.filter(
-        (t: TrabajadorUnificado) => t.tipo === this.filtroActual
-      );
-    }
-    console.log(`🔍 Filtro: ${this.filtroActual} -> ${this.trabajadoresFiltrados.length} trabajadores`);
-  }
-
-  onFiltroChange(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    this.filtroActual = select.value;
-    this.aplicarFiltro();
-  }
-
-  getIniciales(nombre: string): string {
-    if (!nombre) return '??';
-    return nombre
-      .split(' ')
-      .slice(0, 2)
-      .map((n: string) => n[0])
-      .join('')
-      .toUpperCase();
-  }
-
-  eliminarTrabajador(trabajador: TrabajadorUnificado): void {
-    if (!confirm(`¿Eliminar a ${trabajador.nombre}?`)) return;
-
-    let eliminar$;
-    if (trabajador.tipo === 'Conductor') {
-      eliminar$ = this.conductorService.eliminarConductor(trabajador.id);
-    } else if (trabajador.tipo === 'Manipulador') {
-      eliminar$ = this.manipuladorService.eliminarManipulador(trabajador.id);
-    } else {
-      alert('No se puede eliminar administradores desde esta interfaz');
-      return;
-    }
-
-    const sub = eliminar$.subscribe({
-      next: () => {
-        console.log(`Trabajador ${trabajador.tipo} eliminado`);
-        this.recargarTrabajadores();
-      },
-      error: (err) => {
-        console.error('Error:', err);
-        alert('Error al eliminar trabajador');
-      }
-    });
-    this.subscriptions.push(sub);
-  }
-
-  // Método auxiliar para obtener badge de tipo de trabajador
-  getTipoBadge(tipo: string): string {
-    switch(tipo) {
-      case 'Conductor': return 'conductor';
-      case 'Manipulador': return 'manipulador';
-      case 'Administrativo': return 'admin';
-      default: return '';
-    }
-  }
-
-  // Método auxiliar para obtener ícono del tipo de trabajador
-  getTipoIcono(tipo: string): string {
-    switch(tipo) {
-      case 'Conductor': return 'fa-truck';
-      case 'Manipulador': return 'fa-box';
-      case 'Administrativo': return 'fa-user-shield';
-      default: return 'fa-user';
-    }
-  }
-
-  // Método auxiliar para obtener detalle específico según tipo
-  getDetalleEspecifico(trabajador: TrabajadorUnificado): { icono: string; texto: string } {
-    switch(trabajador.tipo) {
-      case 'Conductor':
-        return { icono: 'fa-id-badge', texto: `Licencia: ${trabajador.placaVehiculo || 'N/A'}` };
-      case 'Manipulador':
-        return { icono: 'fa-warehouse', texto: `Tipo: ${trabajador.tipoManipulador || 'N/A'}` };
-      case 'Administrativo':
-        return { icono: 'fa-building', texto: `Área: ${trabajador.area || 'Gestión'}` };
-      default:
-        return { icono: 'fa-info-circle', texto: 'Sin información adicional' };
-    }
+  if (this.trabajadores.length === 0 && !this.error) {
+    this.error = 'No hay trabajadores registrados en el sistema.';
   }
 }
+};
+
+const manejarError = (tipo: string, err: any) => {
+  console.error(`Error cargando ${tipo}:`, err.message || err);
+  verificarFinalizacion();
+};
+
+// Cargar Administradores
+const adminSub = this.administradorService.getAdministradores()
+  .pipe(
+    timeout(8000),
+    catchError(err => {
+      manejarError('administradores', err);
+      return of(null);
+    })
+  )
+  .subscribe({
+    next: (resp: HttpResponse<AdministradorModel[]> | null) => {
+      if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
+        const administradores: TrabajadorUnificado[] = resp.body.map((a: any) => ({
+          id: a.id || a.idAdministrador,
+          nombre: a.nombre || a.nombreAdministrador,
+          cedula: a.cedula || a.cedulaAdministrador,
+          correo: a.correo || a.correoAdministrador,
+          telefono: a.telefono || a.telefonoAdministrador,
+          turno: a.turno,
+          tipo: 'Administrador' as const,
+          usuario: a.usuario,
+          contrasenia: a.contrasenia
+        }));
+        console.log('Administradores mapeados:', administradores.length);
+        this.trabajadores.push(...administradores);
+      } else {
+        console.log('No hay administradores registrados');
+      }
+      verificarFinalizacion();
+    },
+    error: () => verificarFinalizacion()
+  });
+this.subscriptions.push(adminSub);
+
+// Cargar Conductores
+const conductorSub = this.conductorService.getConductores()
+  .pipe(
+    timeout(8000),
+    catchError(err => {
+      manejarError('conductores', err);
+      return of(null);
+    })
+  )
+  .subscribe({
+    next: (resp: HttpResponse<ConductorModel[]> | null) => {
+      if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
+        const conductores: TrabajadorUnificado[] = resp.body.map((c: any) => ({
+          id: c.id || c.idConductor,
+          nombre: c.nombre || c.nombreConductor,
+          cedula: c.cedula || c.cedulaConductor,
+          correo: c.correo || c.correoConductor,
+          telefono: c.telefono || c.telefonoConductor,
+          turno: c.turno,
+          tipo: 'Conductor' as const,
+          placaVehiculo: c.placaVehiculo
+        }));
+        console.log('Conductores mapeados:', conductores.length);
+        this.trabajadores.push(...conductores);
+      } else {
+        console.log('No hay conductores registrados');
+      }
+      verificarFinalizacion();
+    },
+    error: () => verificarFinalizacion()
+  });
+this.subscriptions.push(conductorSub);
+
+// Cargar Manipuladores
+const manipuladorSub = this.manipuladorService.getManipuladores()
+  .pipe(
+    timeout(8000),
+    catchError(err => {
+      manejarError('manipuladores', err);
+      return of(null);
+    })
+  )
+  .subscribe({
+    next: (resp: HttpResponse<ManipuladordepaqueteModel[]> | null) => {
+      if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
+        const manipuladores: TrabajadorUnificado[] = resp.body.map((m: any) => ({
+          id: m.id || m.idManipulador,
+          nombre: m.nombre || m.nombreManipulador,
+          cedula: m.cedula || m.cedulaManipulador,
+          correo: m.correo || m.correoManipulador,
+          telefono: m.telefono || m.telefonoManipulador,
+          turno: m.turno,
+          tipo: 'Manipulador' as const,
+          tipoManipulador: m.tipoManipulador
+        }));
+        console.log('Manipuladores mapeados:', manipuladores.length);
+        this.trabajadores.push(...manipuladores);
+      } else {
+        console.log('No hay manipuladores registrados');
+      }
+      verificarFinalizacion();
+    },
+    error: () => verificarFinalizacion()
+  });
+this.subscriptions.push(manipuladorSub);
+}
+
+aplicarFiltro(): void {
+  if (this.filtroActual === 'Todos') {
+  this.trabajadoresFiltrados = [...this.trabajadores];
+} else {
+  this.trabajadoresFiltrados = this.trabajadores.filter((t: TrabajadorUnificado) => t.tipo === this.filtroActual);
+}
+console.log(`Filtro: ${this.filtroActual} -> ${this.trabajadoresFiltrados.length} trabajadores`);
+}
+
+onFiltroChange(event: Event): void {
+  const select = event.target as HTMLSelectElement;
+  this.filtroActual = select.value;
+  this.aplicarFiltro();
+}
+
+getIniciales(nombre: string): string {
+  if (!nombre) return '??';
+  return nombre
+    .split(' ')
+    .slice(0, 2)
+    .map((n: string) => n[0])
+    .join('')
+    .toUpperCase();
+}
+
+getTipoClase(tipo: string): string {
+  switch(tipo) {
+    case 'Administrador': return 'administrador';
+    case 'Conductor': return 'conductor';
+    case 'Manipulador': return 'manipulador';
+    default: return '';
+  }
+}
+
+getIcono(tipo: string): string {
+  switch(tipo) {
+    case 'Administrador': return 'fa-user-shield';
+    case 'Conductor': return 'fa-truck';
+    case 'Manipulador': return 'fa-boxes';
+    default: return 'fa-user';
+  }
+}
+
+getTipoTexto(tipo: string): string {
+  switch(tipo) {
+    case 'Administrador': return 'Administrador';
+    case 'Conductor': return 'Conductor';
+    case 'Manipulador': return 'Manipulador de Paquete';
+    default: return tipo;
+  }
+}
+
+actualizarTrabajador(trabajador: TrabajadorUnificado): void {
+  console.log('Actualizar trabajador:', trabajador);
+  alert(`Función de actualización para ${trabajador.nombre} - Próximamente implementada`);
+}
+
+eliminarTrabajador(trabajador: TrabajadorUnificado): void {
+  if (!confirm(`¿Estás seguro de eliminar a ${trabajador.nombre}?`)) return;
+
+const trabajadorEliminado = { ...trabajador };
+
+let eliminar$;
+if (trabajador.tipo === 'Administrador') {
+  eliminar$ = this.administradorService.eliminarAdministrador(trabajador.id);
+} else if (trabajador.tipo === 'Conductor') {
+  eliminar$ = this.conductorService.eliminarConductor(trabajador.id);
+} else {
+  eliminar$ = this.manipuladorService.eliminarManipulador(trabajador.id);
+}
+
+this.cargando = true;
+
+const sub = eliminar$.subscribe({
+  next: (respuesta: any) => {
+    console.log(`Trabajador ${trabajadorEliminado.tipo} eliminado:`, respuesta);
+
+    const index = this.trabajadores.findIndex(t =>
+      t.tipo === trabajadorEliminado.tipo && t.id === trabajadorEliminado.id
+    );
+
+    if (index !== -1) {
+      this.trabajadores.splice(index, 1);
+      this.aplicarFiltro();
+      console.log(`Trabajador eliminado de la lista local. Total restante: ${this.trabajadores.length}`);
+    }
+
+    this.mensajeExito = `${trabajadorEliminado.nombre} eliminado correctamente`;
+    this.cargando = false;
+    this.error = '';
+
+    setTimeout(() => {
+      if (this.mensajeExito === `${trabajadorEliminado.nombre} eliminado correctamente`) {
+        this.mensajeExito = '';
+      }
+    }, 3000);
+  },
+  error: (err) => {
+    console.error('Error al eliminar:', err);
+    this.cargando = false;
+    this.error = `Error al eliminar ${trabajadorEliminado.nombre}: ${err.error || err.message}`;
+    alert(this.error);
+  }
+});
+
+this.subscriptions.push(sub);
+}
+}
+
