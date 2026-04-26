@@ -67,4 +67,10 @@ export class ClientepremiumService {
       observe: 'response',
     });
   }
+
+  login(cedula: string, contrasenia: string) {
+    return this.cliente.post(this.urlbase + '/clientepremium/login?cedula=' + cedula + '&contrasenia=' + contrasenia, null, {
+      responseType: 'text'
+    });
+  }
 }

@@ -5,20 +5,35 @@
       <p class="subtitle">Accede a tus servicios 4-72</p>
     </div>
 
-    <form class="registro-form">
+    <form class="registro-form" (submit)="$event.preventDefault()">
+
       <div class="form-group">
-        <label>Cedula</label>
-        <input type="text" class="form-input" placeholder="Cedula">
+        <label>Cédula</label>
+        <input
+          type="text"
+          name="cedula"
+          [(ngModel)]="credencial.cedula"
+          class="form-input"
+          placeholder="Cedula">
       </div>
 
       <div class="form-group">
         <label>Contraseña</label>
-        <input type="password" class="form-input" placeholder="*********">
+        <input
+          type="password"
+          name="pass"
+          [(ngModel)]="credencial.pass"
+          class="form-input"
+          placeholder="*********">
         <div class="forgot-link" style="text-align: right; margin-top: 5px;"></div>
       </div>
 
       <div class="actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-        <button type="submit" class="btn-registrar-full" routerLink="/cliente">Iniciar Sesión</button>
+        <button
+          type="button"
+          class="btn-registrar-full" (click)="ingresar()" >
+          Iniciar Sesión
+        </button>
 
         <button
           type="button"
