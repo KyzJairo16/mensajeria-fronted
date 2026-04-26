@@ -9,7 +9,7 @@ export class PaquetenoalimenticioService {
   private http = inject(HttpClient);
   private readonly urlbase: string = 'http://localhost:8080';
 
-  // Mostrar todos los paquetes no alimenticios
+
   getPaquetesNoAlimenticios() {
     return this.http.get<PaquetenoalimenticioModel[]>(this.urlbase + '/paquetenoalimenticio/mostrartodo', {
       observe: 'response',
@@ -17,15 +17,15 @@ export class PaquetenoalimenticioService {
   }
 
 
-  crearPaqueteNoAlimenticio(esFragil: boolean, precioEnvio: number, direccionDestino: string, tamanio: string, fechaCreacionPedido: Date, fechaEstimadaEntrega: Date) {
-    return this.http.post(this.urlbase + '/paquetenoalimenticio/crear?esFragil=' + esFragil + '&precioEnvio=' + precioEnvio + '&direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&fechaCreacionPedido=' + fechaCreacionPedido + '&fechaEstimadaEntrega=' + fechaEstimadaEntrega, null, {
+  crearPaqueteNoAlimenticio(direccionDestino: string, tamanio: string, ciudadDestino: string, esFragil: boolean) {
+    return this.http.post(this.urlbase + '/paquetenoalimenticio/crear?direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&ciudadDestino=' +ciudadDestino + '&esFragil=' + esFragil, null, {
       responseType: 'text',
     });
   }
 
 
-  actualizarPaqueteNoAlimenticio(id: number, esFragil: boolean, precioEnvio: number, direccionDestino: string, tamanio: string, fechaCreacionPedido: Date, fechaEstimadaEntrega: Date) {
-    return this.http.put(this.urlbase + '/paquetenoalimenticio/actualizar?id=' + id + '&esFragil=' + esFragil + '&precioEnvio=' + precioEnvio + '&direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&fechaCreacionPedido=' + fechaCreacionPedido + '&fechaEstimadaEntrega=' + fechaEstimadaEntrega, null, {
+  actualizarPaqueteNoAlimenticio(id: number, direccionDestino: string, ciudadDestino: string, tamanio: string) {
+    return this.http.put(this.urlbase + '/paquetenoalimenticio/actualizar?id='+id + '&direccionDestino=' + direccionDestino +'&ciudadDestino=' + ciudadDestino + '&tamanio=' + tamanio, null, {
       responseType: 'text',
     });
   }
@@ -38,22 +38,36 @@ export class PaquetenoalimenticioService {
   }
 
 
+
+
+
+  buscarPorTamanio(tamanio: string) {
+    return this.http.get<PaquetenoalimenticioModel[]>(this.urlbase + '/paquetenoalimenticio/buscarportamanio?tamanio='+tamanio, {
+      observe: 'response',
+    });
+  }
+
   buscarPorEsFragil(esFragil: boolean) {
     return this.http.get<PaquetenoalimenticioModel[]>(this.urlbase + '/paquetenoalimenticio/buscarporesfragil?esFragil=' + esFragil, {
       observe: 'response',
     });
   }
 
+  buscarPorTamanioYFragil(tamanio: string, esFragil: boolean) {
+    return this.http.get<PaquetenoalimenticioModel[]>(this.urlbase + '/paquetenoalimenticio/buscarportamanioyfragil?tamanio='+tamanio+'&esFragil='+esFragil, {
+      observe: 'response',
+    });
+  }
 
-  buscarPorTamanio(tamanio: string) {
-    return this.http.get<PaquetenoalimenticioModel[]>(this.urlbase + '/paquetenoalimenticio/buscarportamanio?tamanio=' + tamanio, {
+  buscarPorId(id: number) {
+    return this.http.get<PaquetenoalimenticioModel>(this.urlbase+'/paquetenoalimenticio/buscarporid?id='+id, {
       observe: 'response',
     });
   }
 
 
-  buscarPorDireccionDestino(direccionDestino: string) {
-    return this.http.get<PaquetenoalimenticioModel[]>(this.urlbase + '/paquetenoalimenticio/buscarpordirecciondestino?direccionDestino=' + direccionDestino, {
+  buscarDireccionYCiudad(dir: string, ciudad: string) {
+    return this.http.get<PaquetenoalimenticioModel[]>(this.urlbase + '/paquetenoalimenticio/buscardireccionyciudad?dir='+dir +'&ciudad=' + ciudad, {
       observe: 'response',
     });
   }

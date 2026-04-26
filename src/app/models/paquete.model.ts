@@ -5,4 +5,9 @@ export interface PaqueteModel {
   tamanio:string;
   fechaCreacionPedido:Date;
   fechaEstimadaEntrega:Date;
+  ciudadDestino:string;
+  estadoPedido:string;
+  esPrioritario:boolean;
+  precioFinal:number;
+  idCliente:number;
 }
