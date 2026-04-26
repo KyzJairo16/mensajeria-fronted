@@ -1,78 +1,112 @@
-import { Component, OnInit } from '@angular/core'; // Importamos OnInit
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { PaquetealimenticioService } from '../services/paquetealimenticio.service';
+import { PaquetenoalimenticioService } from '../services/paquetenoalimenticio.service';
+import { PaquetecartaService } from '../services/paquetecarta.service';
 
 @Component({
-  selector: 'app-nuevoenvio',
+  selector: 'app-registro-envio',
   standalone: false,
   templateUrl: './nuevoenvio.html',
-  styleUrl: './nuevoenvio.css',
+  styleUrls: ['./nuevoenvio.css']
 })
-export class Nuevoenvio implements OnInit { // Implementamos OnInit
-  tipoSeleccionado: string = 'alimenticio';
-  idClienteLogueado: number = 0; // Variable para el blindaje
+export class RegistroEnvioComponent {
 
-  paquete: any = {
-    direccionDestino: '',
+  tipoSeleccionado: string = 'alimenticio';
+  mensajeError: string = '';
+  mensajeExito: string = '';
+
+  paquete = {
     ciudadDestino: '',
-    tamanio: 'Mediano',
+    direccionDestino: '',
     tipoDeAlimento: '',
+    descripcionContenido: '',
     tipoCarta: '',
-    descripcionContenido: '', // Agregado para No Alimenticio
-    seEnviaHoy: true
+    tamanio: 'Pequeño',
+    metodoPago: 'PSE',
+    esPrioritario: false,
+    esFragil: false
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  ciudades: string[] = [
+    'Armenia', 'Barranquilla', 'Bogotá', 'Bucaramanga', 'Cali',
+    'Cartagena', 'Cúcuta', 'Florencia', 'Ibagué', 'Manizales',
+    'Medellín', 'Montería', 'Neiva', 'Pasto', 'Pereira',
+    'Popayán', 'Quibdó', 'Riohacha', 'Santa Marta', 'Sincelejo',
+    'Tunja', 'Valledupar', 'Villavicencio', 'Yopal'
+  ].sort();
 
-  ngOnInit(): void {
-    // Recuperamos el ID del cliente que guardamos en el Login
-    const userJson = localStorage.getItem('usuarioLogueado');
-    if (userJson) {
-      const user = JSON.parse(userJson);
-      this.idClienteLogueado = user.id; // Asegúrate que en el login lo guardas como 'id'
-    } else {
-      alert("Sesión expirada. Por favor inicie sesión nuevamente.");
-      this.router.navigate(['/login']);
-    }
+  constructor(
+    private router: Router,
+    private alimenticioSvc: PaquetealimenticioService,
+    private noAlimenticioSvc: PaquetenoalimenticioService,
+    private cartaSvc: PaquetecartaService
+  ) {}
+
+  private get idCliente(): number {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogueado') ?? '{}');
+    return Number(usuario.id ?? 0);
   }
 
   guardarEnvio() {
-    const base = 'http://localhost:8080';
-    let url = '';
+    this.mensajeError = '';
+    this.mensajeExito = '';
 
-    // Inicializamos params con los datos comunes Y el idCliente (Blindaje)
-    let params = new HttpParams()
-      .set('idCliente', this.idClienteLogueado.toString()) // <-- CRÍTICO
-      .set('direccionDestino', this.paquete.direccionDestino)
-      .set('ciudadDestino', this.paquete.ciudadDestino)
-      .set('tamanio', this.paquete.tamanio);
+    const { ciudadDestino, direccionDestino, tamanio } = this.paquete;
 
-    // Configuración según el tipo seleccionado
+    if (!ciudadDestino || !direccionDestino) {
+      this.mensajeError = 'Por favor completa la ciudad y dirección de destino.';
+      return;
+    }
+
     if (this.tipoSeleccionado === 'alimenticio') {
-      url = `${base}/paquetealimenticio/crear`;
-      params = params
-        .set('seEnviaHoy', this.paquete.seEnviaHoy.toString())
-        .set('tipoDeAlimento', this.paquete.tipoDeAlimento);
-    }
-    else if (this.tipoSeleccionado === 'no-alimenticio') {
-      url = `${base}/paquetenoalimenticio/crear`;
-      params = params.set('descripcionContenido', this.paquete.descripcionContenido);
-    }
-    else if (this.tipoSeleccionado === 'carta') {
-      url = `${base}/paquetecarta/crear`;
-      params = params.set('tipoCarta', this.paquete.tipoCarta);
-    }
-
-    // Ejecución de la petición
-    this.http.post(url, {}, { params, responseType: 'text' }).subscribe({
-      next: (res) => {
-        alert("¡Éxito!: " + res);
-        this.router.navigate(['/cliente']);
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Error: ' + (err.error || 'No se pudo conectar con el servidor'));
+      if (!this.paquete.tipoDeAlimento) {
+        this.mensajeError = 'Ingresa el tipo de alimento.';
+        return;
       }
-    });
+      this.alimenticioSvc.crearPaqueteAlimenticio(
+        direccionDestino, tamanio, ciudadDestino,
+        this.idCliente, this.paquete.tipoDeAlimento
+      ).subscribe({
+        next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
+        error: (err) => this.handleError(err)
+      });
+
+    } else if (this.tipoSeleccionado === 'no-alimenticio') {
+      this.noAlimenticioSvc.crearPaqueteNoAlimenticio(
+        this.idCliente, direccionDestino, tamanio,
+        ciudadDestino, this.paquete.esFragil
+      ).subscribe({
+        next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
+        error: (err) => this.handleError(err)
+      });
+
+    } else if (this.tipoSeleccionado === 'carta') {
+      if (!this.paquete.tipoCarta) {
+        this.mensajeError = 'Ingresa la categoría de carta.';
+        return;
+      }
+      this.cartaSvc.crearPaqueteCarta(
+        this.idCliente, direccionDestino, tamanio,
+        ciudadDestino, this.paquete.tipoCarta
+      ).subscribe({
+        next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
+        error: (err) => this.handleError(err)
+      });
+    }
+  }
+
+  private handleExito(mensaje: string) {
+    this.mensajeExito = mensaje;
+    setTimeout(() => this.router.navigate(['/cliente']), 1500);
+  }
+
+  private handleError(err: any) {
+    // ✅ CORREGIDO: err.error llega como string con el mensaje exacto del backend
+    if (typeof err.error === 'string' && err.error.trim().length > 0) {
+      this.mensajeError = err.error;
+    } else {
+      this.mensajeError = 'Error al registrar el envío.';
+    }
   }
 }

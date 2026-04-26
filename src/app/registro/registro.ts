@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ClientenormalService } from '../services/clientenormal.service';
-import { ClienteconcurrenteService } from '../services/clienteconcurrente';
+import { ClienteconcurrenteService } from '../services/clienteconcurrente.service';
 import { ClientepremiumService } from '../services/clientepremium.service';
 
 @Component({

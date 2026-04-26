@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ClienteconcurrenteService } from './clienteconcurrente';
+import { ClienteconcurrenteService } from './clienteconcurrente.service';
 
 describe('Clienteconcurrente', () => {
   let service: ClienteconcurrenteService;

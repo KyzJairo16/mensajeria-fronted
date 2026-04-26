@@ -1,6 +1,8 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -13,7 +15,7 @@ import { Administrador } from './administrador/administrador';
 import { Inicioadministrador } from './inicioadministrador/inicioadministrador';
 import { Gestorcliente } from './gestorcliente/gestorcliente';
 import { Cliente } from './cliente/cliente';
-import { Nuevoenvio } from './nuevoenvio/nuevoenvio';
+import { RegistroEnvioComponent } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
 
 @NgModule({
@@ -28,10 +30,16 @@ import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
     Inicioadministrador,
     Gestorcliente,
     Cliente,
-    Nuevoenvio,
+    RegistroEnvioComponent,
     Gestortrabajador,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    RouterModule,
+    HttpClientModule,
+  ],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })
