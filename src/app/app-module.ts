@@ -17,6 +17,7 @@ import { Gestorcliente } from './gestorcliente/gestorcliente';
 import { Cliente } from './cliente/cliente';
 import { RegistroEnvioComponent } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
+import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
 
 @NgModule({
   declarations: [
@@ -32,14 +33,9 @@ import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
     Cliente,
     RegistroEnvioComponent,
     Gestortrabajador,
+    Gestorpaquete,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    RouterModule,
-    HttpClientModule,
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })

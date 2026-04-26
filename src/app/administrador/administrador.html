@@ -1,9 +1,10 @@
 <div class="admin-welcome-container animate__animated animate__fadeIn">
-  <div class="header-decoration"></div> <div class="welcome-header">
-  <span class="badge-admin">Módulo de Control</span>
-  <h1>¡Bienvenido, Administrador!</h1>
-  <p class="subtitle">Gestione la red logística y el personal de la compañía</p>
-</div>
+  <div class="header-decoration"></div>
+  <div class="welcome-header">
+    <span class="badge-admin">Módulo de Control</span>
+    <h1>¡Bienvenido, Administrador!</h1>
+    <p class="subtitle">Gestione la red logística y el personal de la compañía</p>
+  </div>
 
   <div class="admin-options-grid">
     <div class="admin-card mega-card" routerLink="/gestion-clientes">
@@ -14,7 +15,9 @@
         <h3>Gestión de Usuarios</h3>
         <p>Administre clientes Normales, Premium y Concurrentes.</p>
         <div class="card-footer-decoration">
-          <button class="btn-action-premium" routerLink = '/gestorcliente'>Entrar al Módulo <i class="fas fa-arrow-right"></i></button>
+          <button class="btn-action-premium" routerLink='/gestorcliente'>
+            Entrar al Módulo <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -27,7 +30,24 @@
         <h3>Gestión de Personal</h3>
         <p>Control total de Conductores y Manipuladores. Asignación de turnos y perfiles administrativos.</p>
         <div class="card-footer-decoration">
-          <button class="btn-action-premium" routerLink = "/gestortrabajador">Entrar al Módulo <i class="fas fa-arrow-right"></i></button>
+          <button class="btn-action-premium" routerLink="/gestortrabajador">
+            Entrar al Módulo <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-card mega-card" routerLink="/gestion-paquetes">
+      <div class="card-icon-wrapper">
+        <i class="fas fa-box"></i>
+      </div>
+      <div class="card-content">
+        <h3>Gestión de Paquetes</h3>
+        <p>Administre todo tipo de paquetes (alimenticios, no alimenticios y cartas) en el sistema.</p>
+        <div class="card-footer-decoration">
+          <button class="btn-action-premium" routerLink="/gestorpaquete">
+            Entrar al Módulo <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
       </div>
     </div>
