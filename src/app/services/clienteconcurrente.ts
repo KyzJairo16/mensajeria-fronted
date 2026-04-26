@@ -17,15 +17,21 @@ export class ClienteconcurrenteService {
   }
 
 
-  crearClienteConcurrente(nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaConcurrente: number) {
-    return this.cliente.post(this.urlbase + '/clienteconcurrente/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaConcurrente=' + tarifaConcurrente, null, {
-      responseType: 'text',
-    });
+  crearClienteConcurrente(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
+    return this.cliente.post(
+      this.urlbase + '/clienteconcurrente/crear?nombre=' + encodeURIComponent(nombre) +
+      '&cedula=' + encodeURIComponent(cedula) +
+      '&correo=' + encodeURIComponent(correo) +
+      '&telefono=' + encodeURIComponent(telefono) +
+      '&contrasenia=' + encodeURIComponent(contrasenia),
+      null,
+      { responseType: 'text' }
+    );
   }
 
 
-  actualizarClienteConcurrente(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaConcurrente: number) {
-    return this.cliente.put(this.urlbase + '/clienteconcurrente/actualizarclienteconcurrente?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaConcurrente=' + tarifaConcurrente, null, {
+  actualizarClienteConcurrente(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, contrasenia: string) {
+    return this.cliente.put(this.urlbase + '/clienteconcurrente/actualizarclienteconcurrente?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }

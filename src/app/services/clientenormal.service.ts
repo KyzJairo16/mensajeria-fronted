@@ -18,15 +18,21 @@ export class ClientenormalService {
   }
 
 
-  crearClienteNormal(nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaNormal: number) {
-    return this.cliente.post(this.urlbase + '/clientenormal/crear?nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaNormal=' + tarifaNormal, null, {
-      responseType: 'text',
-    });
+  crearClienteNormal(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
+    return this.cliente.post(
+      this.urlbase + '/clientenormal/crear?nombre=' + encodeURIComponent(nombre)
+      +'&cedula=' +encodeURIComponent(cedula) +
+      '&correo='+ encodeURIComponent(correo)+
+      '&telefono=' +encodeURIComponent(telefono)+
+      '&contrasenia=' + encodeURIComponent(contrasenia),
+      null,
+      { responseType: 'text' }
+    );
   }
 
 
-  actualizarClienteNormal(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, tipoPedido: string, tarifaNormal: number) {
-    return this.cliente.put(this.urlbase + '/clientenormal/actualizarclientenormal?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&tipoPedido=' + tipoPedido + '&tarifaNormal=' + tarifaNormal, null, {
+  actualizarClienteNormal(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, contrasenia: string) {
+    return this.cliente.put(this.urlbase + '/clientenormal/actualizarclientenormal?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }
