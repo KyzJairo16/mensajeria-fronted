@@ -15,7 +15,7 @@ import { Administrador } from './administrador/administrador';
 import { Inicioadministrador } from './inicioadministrador/inicioadministrador';
 import { Gestorcliente } from './gestorcliente/gestorcliente';
 import { Cliente } from './cliente/cliente';
-import { RegistroEnvioComponent } from './nuevoenvio/nuevoenvio';
+import { Nuevoenvio } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
 import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
 
@@ -30,12 +30,19 @@ import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
     Administrador,
     Inicioadministrador,
     Gestorcliente,
-    Cliente,
-    RegistroEnvioComponent,
+    Nuevoenvio,
     Gestortrabajador,
-    Gestorpaquete,
+    // Aquí combinamos lo de ambas ramas:
+    Cliente,
+    Gestorpaquete
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule, HttpClientModule],
+  imports: [
+    BrowserModule, 
+    AppRoutingModule, 
+    FormsModule, 
+    RouterModule, 
+    HttpClientModule
+  ],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
 })

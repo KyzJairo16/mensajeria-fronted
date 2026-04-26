@@ -34,7 +34,7 @@
         </select>
       </div>
 
-      <div *ngIf="tipoSeleccionado === 'alimenticio'" >
+      <div *ngIf="tipoSeleccionado === 'alimenticio'"  class="specific-field">
         <label>Tipo de Alimento</label>
         <select [(ngModel)]="paquete.tipoDeAlimento" class="tipo-select">
           <option value="" disabled selected>Seleccione un tipo</option>
@@ -60,7 +60,13 @@
 
         <div *ngIf="tipoSeleccionado === 'carta'" class="specific-field">
           <label>Categoría de Carta</label>
-          <input type="text" [(ngModel)]="paquete.tipoCarta" placeholder="Ej: Documento Legal, Factura...">
+          <select [(ngModel)]="paquete.tipoCarta" class="tipo-select">
+            <option value="" disabled selected>Seleccione un tipo</option>
+              <option value="Estandar">Estandar</option>
+            <option value="Certificada">Certificada</option>
+            <option value="Juridica">Juridica</option>
+            <option value="Publicitaria">Publicitaria</option>
+          </select>
         </div>
       </div>
 

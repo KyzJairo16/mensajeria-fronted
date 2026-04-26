@@ -10,7 +10,7 @@ import { PaquetecartaService } from '../services/paquetecarta.service';
   templateUrl: './nuevoenvio.html',
   styleUrls: ['./nuevoenvio.css']
 })
-export class RegistroEnvioComponent {
+export class Nuevoenvio {
 
   tipoSeleccionado: string = 'alimenticio';
   mensajeError: string = '';
@@ -66,7 +66,7 @@ export class RegistroEnvioComponent {
       }
       this.alimenticioSvc.crearPaqueteAlimenticio(
         direccionDestino, tamanio, ciudadDestino,
-        this.idCliente, this.paquete.tipoDeAlimento
+        this.idCliente, this.paquete.tipoDeAlimento, this.paquete.esPrioritario
       ).subscribe({
         next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
         error: (err) => this.handleError(err)
@@ -75,7 +75,7 @@ export class RegistroEnvioComponent {
     } else if (this.tipoSeleccionado === 'no-alimenticio') {
       this.noAlimenticioSvc.crearPaqueteNoAlimenticio(
         this.idCliente, direccionDestino, tamanio,
-        ciudadDestino, this.paquete.esFragil
+        ciudadDestino, this.paquete.esFragil, this.paquete.esPrioritario
       ).subscribe({
         next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
         error: (err) => this.handleError(err)
@@ -86,9 +86,10 @@ export class RegistroEnvioComponent {
         this.mensajeError = 'Ingresa la categoría de carta.';
         return;
       }
+
       this.cartaSvc.crearPaqueteCarta(
         this.idCliente, direccionDestino, tamanio,
-        ciudadDestino, this.paquete.tipoCarta
+        ciudadDestino, this.paquete.tipoCarta, this.paquete.esPrioritario
       ).subscribe({
         next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
         error: (err) => this.handleError(err)
