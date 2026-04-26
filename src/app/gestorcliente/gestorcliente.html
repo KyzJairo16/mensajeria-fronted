@@ -7,12 +7,20 @@
       Gestión de Clientes
     </h2>
 
-    <select class="filtro" (change)="onFiltroChange($event)">
-      <option value="Todos">Todos</option>
-      <option value="Normal">Normal</option>
-      <option value="Concurrente">Concurrente</option>
-      <option value="Premium">Premium</option>
-    </select>
+    <div class="header-actions">
+      <select class="filtro" (change)="onFiltroChange($event)">
+        <option value="Todos">Todos</option>
+        <option value="Normal">Normal</option>
+        <option value="Concurrente">Concurrente</option>
+        <option value="Premium">Premium</option>
+      </select>
+
+      <!-- BOTÓN DE RECARGA MANUAL -->
+      <button type="button" class="btn-recargar" (click)="recargarClientes()" [disabled]="cargando">
+        <i class="fas" [ngClass]="cargando ? 'fa-spinner fa-spin' : 'fa-sync-alt'"></i>
+        {{ cargando ? 'Cargando...' : 'Recargar' }}
+      </button>
+    </div>
   </div>
 
   <!-- LEYENDA -->
@@ -35,24 +43,44 @@
     <strong>{{ clientesFiltrados.length }}</strong>
   </div>
 
-  <!-- ESTADO DE CARGA -->
+  <!-- ESTADO DE CARGA CON TIEMPO DE ESPERA Y BOTÓN RECARGAR (que cancela la carga) -->
   <div *ngIf="cargando" class="estado-carga">
-    <i class="fas fa-spinner fa-spin"></i> Cargando clientes...
+    <div class="carga-info">
+      <i class="fas fa-spinner fa-spin"></i>
+      <span>Cargando clientes...</span>
+      <span class="tiempo-espera" *ngIf="tiempoEspera > 0">({{ tiempoEspera }}s)</span>
+    </div>
+    <button class="btn-recargar-carga" (click)="cancelarCarga()" type="button">
+      <i class="fas fa-sync-alt"></i> Recargar
+    </button>
   </div>
 
-  <!-- ERROR -->
+  <!-- ADVERTENCIA DE TIMEOUT -->
+  <div *ngIf="timeoutWarning && !cargando" class="estado-warning">
+    <i class="fas fa-clock"></i>
+    <span>La carga está tomando más tiempo de lo esperado. Puedes usar el botón "Recargar" para intentar de nuevo.</span>
+  </div>
+
+  <!-- ERROR CON OPCIÓN DE REINTENTO -->
   <div *ngIf="error" class="estado-error">
-    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{ error }}</span>
+    <button class="btn-reintentar" (click)="recargarClientes()" type="button">
+      <i class="fas fa-redo-alt"></i> Reintentar
+    </button>
   </div>
 
   <!-- SIN RESULTADOS -->
   <div *ngIf="!cargando && clientesFiltrados.length === 0 && !error" class="estado-vacio">
     <i class="fas fa-inbox"></i>
     <p>No hay clientes registrados.</p>
+    <button class="btn-recargar" (click)="recargarClientes()" type="button">
+      <i class="fas fa-sync-alt"></i> Recargar
+    </button>
   </div>
 
   <!-- LISTA DE CLIENTES -->
-  <div class="clientes-container" *ngIf="!cargando">
+  <div class="clientes-container" *ngIf="!cargando && !error && clientesFiltrados.length > 0">
 
     <div
       *ngFor="let cliente of clientesFiltrados"
@@ -92,7 +120,6 @@
         </div>
 
         <div class="actions">
-          <!-- CORREGIDO: Ahora el botón Actualizar tiene su función (click) -->
           <button type="button" class="btn btn-primary" (click)="actualizarCliente(cliente)">
             <i class="fas fa-sync-alt"></i> Actualizar
           </button>

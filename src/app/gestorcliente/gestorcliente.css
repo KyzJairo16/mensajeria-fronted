@@ -1,176 +1,688 @@
+/* gestorcliente.css - Estilos completos para la gestión de clientes */
+
+/* ============================================
+   WRAPPER PRINCIPAL
+   ============================================ */
 .admin-wrapper {
-  padding: 30px;
-  background: #f4f7fb;
-  font-family: 'Segoe UI', sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
 }
 
-/* HEADER */
+/* ============================================
+   HEADER
+   ============================================ */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-/* CONTADOR */
-.contador {
-  margin: 15px 0;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
   background: white;
-  padding: 12px;
+  padding: 1rem 1.5rem;
   border-radius: 12px;
-  display: flex;
-  gap: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* CONTAINER */
-.clientes-container {
+.header h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* CARD */
-.cliente-card {
+.header h2 i {
+  color: #3498db;
+  font-size: 1.6rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Filtro */
+.filtro {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
   background: white;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.06);
-  border-left: 6px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* TIPOS */
-.premium { border-left-color: gold; }
-.concurrente { border-left-color: #6c5ce7; }
-.normal { border-left-color: gray; }
+.filtro:hover {
+  border-color: #3498db;
+}
 
-/* MAIN */
-.cliente-main {
+.filtro:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+
+/* Botón de recarga */
+.btn-recargar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-recargar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-recargar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón cancelar */
+.btn-cancelar {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-cancelar:hover {
+  background: #c82333;
+  transform: scale(1.02);
+}
+
+/* Botón reintentar */
+.btn-reintentar {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-reintentar:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+/* Botones de acción en tarjetas */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c0392b;
+  transform: translateY(-1px);
+}
+
+.btn-warning {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #e67e22;
+  transform: translateY(-1px);
+}
+
+/* ============================================
+   LEYENDA
+   ============================================ */
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+.legend-item.premium {
+  background: rgba(255, 193, 7, 0.1);
+  color: #f39c12;
+}
+
+.legend-item.concurrente {
+  background: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+}
+
+.legend-item.normal {
+  background: rgba(46, 204, 113, 0.1);
+  color: #27ae60;
+}
+
+/* ============================================
+   CONTADOR
+   ============================================ */
+.contador {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+}
+
+.contador i {
+  color: #3498db;
+  font-size: 1rem;
+}
+
+.contador strong {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-left: 0.25rem;
+}
+
+/* ============================================
+   ESTADOS DE CARGA, ERROR Y ADVERTENCIA
+   ============================================ */
+
+/* Estado de carga */
+.estado-carga {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdef5 100%);
+  color: #1976d2;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-left: 4px solid #1976d2;
 }
 
-/* AVATAR */
+.carga-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.tiempo-espera {
+  font-family: monospace;
+  background: rgba(25, 118, 210, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+/* Estado de advertencia */
+.estado-warning {
+  background: #fff3cd;
+  color: #856404;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-left: 4px solid #ffc107;
+}
+
+.estado-warning i {
+  font-size: 1.2rem;
+}
+
+/* Estado de error */
+.estado-error {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-left: 4px solid #dc3545;
+}
+
+.estado-error i {
+  font-size: 1.2rem;
+}
+
+/* Estado vacío */
+.estado-vacio {
+  text-align: center;
+  padding: 3rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  color: #6c757d;
+  margin: 1rem 0;
+}
+
+.estado-vacio i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.estado-vacio p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.estado-vacio .btn-recargar {
+  display: inline-flex;
+  margin-top: 0.5rem;
+}
+
+/* ============================================
+   CONTENEDOR DE CLIENTES (TARJETAS)
+   ============================================ */
+.clientes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Tarjeta de cliente */
+.cliente-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-left: 4px solid;
+}
+
+.cliente-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Colores por tipo de cliente */
+.cliente-card.premium {
+  border-left-color: #f39c12;
+  background: linear-gradient(to right, white, #fffef5);
+}
+
+.cliente-card.concurrente {
+  border-left-color: #3498db;
+  background: linear-gradient(to right, white, #f0f8ff);
+}
+
+.cliente-card.normal {
+  border-left-color: #27ae60;
+  background: linear-gradient(to right, white, #f0fff4);
+}
+
+.cliente-main {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Avatar */
 .avatar {
-  width: 55px;
-  height: 55px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  flex-shrink: 0;
 }
 
-/* COLORS */
-.avatar.premium { background: gold; color: #333; }
-.avatar.concurrente { background: #6c5ce7; }
-.avatar.normal { background: #808080; }
+.avatar.premium {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+}
 
-/* INFO (FIX IMPORTANTE: alineación izquierda real) */
+.avatar.concurrente {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.avatar.normal {
+  background: linear-gradient(135deg, #27ae60, #229954);
+}
+
+/* Información del cliente */
 .info {
   flex: 1;
-  text-align: left;
+  min-width: 200px;
 }
 
-.info h3 {
-  margin: 0;
-  font-size: 16px;
+.name-row {
   display: flex;
-  justify-content: flex-start;
-  gap: 10px;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.name-row h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.name-row h3 i {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+/* Badge de tipo */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge.premium {
+  background: #f39c12;
+  color: white;
+}
+
+.badge.concurrente {
+  background: #3498db;
+  color: white;
+}
+
+.badge.normal {
+  background: #27ae60;
+  color: white;
 }
 
 .info p {
-  margin: 3px 0;
-  font-size: 13px;
+  margin: 0.5rem 0;
   color: #555;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-/* BADGES */
-.badge {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
+.info p i {
+  width: 20px;
+  color: #7f8c8d;
 }
 
-/* HISTORIAL */
+/* ============================================
+   HISTORIAL
+   ============================================ */
 .historial {
-  margin-top: 15px;
-  padding-top: 15px;
   border-top: 1px solid #eee;
+  padding: 1rem 1.5rem;
+  background: #fafafa;
 }
 
 .historial-title {
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
   display: flex;
-  gap: 8px;
   align-items: center;
+  gap: 0.5rem;
 }
 
-/* ITEM MEJOR ESPACIADO */
-.historial-item {
-  background: #f9fafc;
-  padding: 10px 12px;
+.historial-vacio {
+  text-align: center;
+  padding: 1rem;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .admin-wrapper {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .header-actions select,
+  .header-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .estado-carga,
+  .estado-error,
+  .estado-warning {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .carga-info {
+    justify-content: center;
+  }
+
+  .cliente-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .avatar {
+    margin-bottom: 0.5rem;
+  }
+
+  .name-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info p {
+    justify-content: center;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .legend {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cliente-card {
+    margin: 0;
+  }
+
+  .cliente-main {
+    padding: 1rem;
+  }
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cliente-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Spinner animation */
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   SCROLLBAR PERSONALIZADA
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
   border-radius: 10px;
-  margin-bottom: 8px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  font-size: 12px;
-  flex-wrap: wrap;
 }
 
-/* ESTADOS */
-.estado.entregado { color: #27ae60; font-weight: 600; }
-.estado.camino { color: #f39c12; font-weight: 600; }
-
-
-.legend {
-  display: flex;
-  gap: 10px;
-  margin: 10px 0 15px 0;
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
 }
 
-.legend-item {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  font-weight: 500;
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
-.legend-item.premium {
-  background: gold;
-  color: #333;
-}
-
-.legend-item.concurrente {
-  background: #6c5ce7;
+/* Botón recargar dentro del estado de carga */
+.btn-recargar-carga {
+  background: #3498db;
   color: white;
-}
-
-.legend-item.normal {
-  background: #b2bec3;
-  color: #2d3436;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.actions button {
   border: none;
-  padding: 8px 12px;
+  padding: 0.5rem 1.2rem;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 500;
 }
 
+.btn-recargar-carga:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-recargar-carga:active {
+  transform: translateY(0);
+}
