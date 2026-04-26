@@ -1,74 +1,89 @@
 <div class="pedido-container animate__animated animate__fadeIn">
-
   <div class="form-header">
-    <h1><i class="fa-solid fa-box-archive"></i> Crear Nuevo Envío</h1>
-    <p>Complete los detalles del paquete para generar la guía de transporte.</p>
+    <h1><i class="fa-solid fa-box-open"></i> Registrar Nuevo Envío</h1>
+    <p>Complete los datos para generar su guía de transporte virtual.</p>
   </div>
 
   <div class="form-grid">
 
-    <!-- 1. UBICACIÓN -->
     <div class="form-card">
-      <h3><span class="step-num">1</span> Ubicación de Entrega</h3>
-
-      <div class="field-group">
-        <label>Dirección de Destino</label>
-        <input type="text" placeholder="Ej: Calle 100 #20-30">
+      <h3><span class="step-num">1</span> Destino de Entrega</h3>
+      <div class="field">
+        <label>Ciudad de Destino</label>
+        <input type="text" [(ngModel)]="paquete.ciudadDestino" placeholder="Ej: Bogotá">
       </div>
-
-      <div class="field-group">
-        <label>Ciudad</label>
-        <input type="text" placeholder="Ej: Bogotá">
+      <div class="field">
+        <label>Dirección de Destino</label>
+        <input type="text" [(ngModel)]="paquete.direccionDestino" placeholder="Ej: Calle 100 #20-30">
       </div>
     </div>
 
-    <!-- 2. DETALLES -->
     <div class="form-card">
-      <h3><span class="step-num">2</span> Detalles del Contenido</h3>
+      <h3><span class="step-num">2</span> Tipo y Contenido</h3>
+      <div class="field">
+        <label>Seleccione Categoría</label>
+        <select [(ngModel)]="tipoSeleccionado" class="tipo-select">
+          <option value="alimenticio">Paquete Alimenticio</option>
+          <option value="no-alimenticio">Paquete No Alimenticio</option>
+          <option value="carta">Carta / Documento</option>
+        </select>
+      </div>
 
-      <label>Tipo de Paquete</label>
-      <select class="tipo-select">
-        <option>Alimenticio</option>
-        <option>No Alimenticio</option>
-        <option>Carta / Documento</option>
-      </select>
-
-      <div class="dynamic-inputs">
-
-        <div class="fade-in">
-          <label>Detalle del contenido</label>
-          <input type="text" placeholder="Ej: Descripción del paquete">
-          <p class="info-auto">
-            <i class="fa-solid fa-circle-info"></i> Información adicional del envío.
-          </p>
+      <div class="dynamic-zone">
+        <div *ngIf="tipoSeleccionado === 'alimenticio'" class="specific-field">
+          <label>Tipo de Alimento</label>
+          <input type="text" [(ngModel)]="paquete.tipoDeAlimento" placeholder="Ej: Frutas, Cárnicos...">
         </div>
 
+        <div *ngIf="tipoSeleccionado === 'no-alimenticio'" class="specific-field">
+          <label>Descripción del Objeto</label>
+          <input type="text" [(ngModel)]="paquete.descripcionContenido" placeholder="Ej: Celular, Ropa...">
+        </div>
+
+        <div *ngIf="tipoSeleccionado === 'carta'" class="specific-field">
+          <label>Categoría de Carta</label>
+          <input type="text" [(ngModel)]="paquete.tipoCarta" placeholder="Ej: Documento Legal, Factura...">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Peso (kg)</label>
+          <input type="number" [(ngModel)]="paquete.peso" placeholder="0.0">
+        </div>
+        <div class="field">
+          <label>Tamaño</label>
+          <select [(ngModel)]="paquete.tamanio">
+            <option value="Pequeño">Pequeño</option>
+            <option value="Mediano">Mediano</option>
+            <option value="Grande">Grande</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <!-- 3. OPCIONES -->
     <div class="form-card">
-      <h3><span class="step-num">3</span> Opciones Finales</h3>
+      <h3><span class="step-num">3</span> Pago y Prioridad</h3>
+
+      <div class="field">
+        <label>Método de Pago (Virtual)</label>
+        <select [(ngModel)]="paquete.metodoPago" class="virtual-select">
+          <option value="PSE">PSE (Nequi, Daviplata, Bancos)</option>
+          <option value="Tarjeta de Débito">Tarjeta de Débito</option>
+          <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+        </select>
+      </div>
 
       <div class="priority-box">
-        <div class="priority-text">
-          <label>¿Envío Prioritario?</label>
-          <p>Asegura entrega en tiempo récord.</p>
-        </div>
-
-        <label class="switch">
-          <input type="checkbox">
-          <span class="slider round"></span>
-        </label>
+        <label>¿Envío Prioritario?</label>
+        <input type="checkbox" [(ngModel)]="paquete.esPrioritario">
       </div>
 
       <div class="actions">
-        <button class="btn-back">Cancelar</button>
-        <button class="btn-submit">Generar envío y guía.</button>
+        <button class="btn-cancel" routerLink="/cliente">Cancelar</button>
+        <button class="btn-submit" (click)="guardarEnvio()">Generar Envío y Guía</button>
       </div>
-
     </div>
 
   </div>
-
 </div>
