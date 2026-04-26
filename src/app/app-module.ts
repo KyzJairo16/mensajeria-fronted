@@ -32,7 +32,6 @@ import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
     Gestorcliente,
     Nuevoenvio,
     Gestortrabajador,
-    // Aquí combinamos lo de ambas ramas:
     Cliente,
     Gestorpaquete
   ],
