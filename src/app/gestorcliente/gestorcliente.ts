@@ -1,5 +1,5 @@
-// gestorcliente.ts - VERSIÓN CORREGIDA
-import { Component, OnInit, inject } from '@angular/core';
+// gestorcliente.ts - VERSIÓN CON RECARGA Y TIMEOUT
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ClientenormalService } from '../services/clientenormal.service';
 import { ClienteconcurrenteService } from '../services/clienteconcurrente.service';
@@ -7,6 +7,7 @@ import { ClientepremiumService } from '../services/clientepremium.service';
 import { ClientenormalModel } from '../models/clientenormal.model';
 import { ClienteconcurrenteModel } from '../models/clienteconcurrente.model';
 import { ClientepremiumModel } from '../models/clientepremium.model';
+import { Subscription, timeout, catchError, of, finalize } from 'rxjs';
 
 interface ClienteUnificado {
   id: number;
@@ -24,7 +25,7 @@ interface ClienteUnificado {
   templateUrl: './gestorcliente.html',
   styleUrl: './gestorcliente.css',
 })
-export class Gestorcliente implements OnInit {
+export class Gestorcliente implements OnInit, OnDestroy {
 
   private clienteNormalService = inject(ClientenormalService);
   private clienteConcurrenteService = inject(ClienteconcurrenteService);
@@ -33,28 +34,89 @@ export class Gestorcliente implements OnInit {
   clientes: ClienteUnificado[] = [];
   clientesFiltrados: ClienteUnificado[] = [];
   filtroActual: string = 'Todos';
-  cargando: boolean = true; // Inicializar en true
+  cargando: boolean = false;
   error: string = '';
+  timeoutWarning: boolean = false;
+  tiempoEspera: number = 0;
   historialVisible: { [key: string]: boolean } = {};
 
+  private subscriptions: Subscription[] = [];
+  private timeoutId: any;
+  private esperaInterval: any;
+
   ngOnInit(): void {
+    this.recargarClientes();
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar todas las suscripciones
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    if (this.timeoutId) clearTimeout(this.timeoutId);
+    if (this.esperaInterval) clearInterval(this.esperaInterval);
+  }
+
+  recargarClientes(): void {
+    // Limpiar tiempo de espera anterior
+    if (this.timeoutId) clearTimeout(this.timeoutId);
+    if (this.esperaInterval) clearInterval(this.esperaInterval);
+
+    // Limpiar suscripciones anteriores
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = [];
+
+    // Reiniciar estados
+    this.cargando = true;
+    this.error = '';
+    this.timeoutWarning = false;
+    this.tiempoEspera = 0;
+    this.clientes = [];
+    this.clientesFiltrados = [];
+
+    // Iniciar contador de espera
+    this.esperaInterval = setInterval(() => {
+      this.tiempoEspera++;
+      if (this.tiempoEspera >= 5 && !this.timeoutWarning && this.cargando) {
+        this.timeoutWarning = true;
+      }
+    }, 1000);
+
+    // Timeout global de 15 segundos
+    this.timeoutId = setTimeout(() => {
+      if (this.cargando) {
+        this.cargando = false;
+        this.error = 'La carga de datos está tomando demasiado tiempo. Verifica tu conexión o recarga manualmente.';
+        if (this.esperaInterval) clearInterval(this.esperaInterval);
+      }
+    }, 15000);
+
+    console.log('🔄 Recargando clientes...');
     this.cargarTodosLosClientes();
   }
 
-  cargarTodosLosClientes(): void {
-    this.cargando = true;
-    this.error = '';
-    this.clientes = [];
+  cancelarCarga(): void {
+    if (this.cargando) {
+      // Cancelar todas las suscripciones
+      this.subscriptions.forEach(sub => sub.unsubscribe());
+      this.subscriptions = [];
+      this.cargando = false;
+      this.error = 'Carga cancelada por el usuario.';
+      if (this.timeoutId) clearTimeout(this.timeoutId);
+      if (this.esperaInterval) clearInterval(this.esperaInterval);
+    }
+  }
 
+  cargarTodosLosClientes(): void {
     // Contador de peticiones completadas
     let peticionesCompletadas = 0;
-    const totalPeticiones = 3; // Normal, Concurrente, Premium
+    const totalPeticiones = 3;
 
     const verificarFinalizacion = () => {
       peticionesCompletadas++;
       console.log(`📊 Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
 
       if (peticionesCompletadas === totalPeticiones) {
+        clearTimeout(this.timeoutId);
+        clearInterval(this.esperaInterval);
         this.cargando = false;
         console.log('🟢 Total clientes cargados:', this.clientes.length);
         console.table(this.clientes);
@@ -66,94 +128,112 @@ export class Gestorcliente implements OnInit {
       }
     };
 
-    // Cargar clientes normales
-    this.clienteNormalService.getClientesNormales().subscribe({
-      next: (resp: HttpResponse<ClientenormalModel[]>) => {
-        console.log('📋 Clientes Normales - Status:', resp.status);
+    // Función para manejar errores individuales
+    const manejarError = (tipo: string, err: any) => {
+      console.error(`❌ Error cargando clientes ${tipo}:`, err.message || err);
+      // No establecemos error global aquí, solo continuamos
+      verificarFinalizacion();
+    };
 
-        if (resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-          const normales: ClienteUnificado[] = resp.body.map((c: ClientenormalModel) => ({
-            id: c.id,
-            nombre: c.nombre,
-            cedula: c.cedula,
-            correo: c.correo,
-            telefono: c.telefono,
-            tipo: 'Normal' as const,
-            metodoPago: c.metodoPago || 'No especificado'
-          }));
-          console.log('✅ Clientes Normales mapeados:', normales.length);
-          this.clientes.push(...normales);
-        } else {
-          console.log('ℹ️ No hay clientes normales registrados');
-        }
-        verificarFinalizacion();
-      },
-      error: (err: any) => {
-        console.error('❌ Error cargando clientes normales:', err.message);
-        verificarFinalizacion();
-      }
-    });
+    // Cargar clientes normales con timeout
+    const normalSub = this.clienteNormalService.getClientesNormales()
+      .pipe(
+        timeout(8000),
+        catchError(err => {
+          manejarError('normales', err);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (resp: HttpResponse<ClientenormalModel[]> | null) => {
+          if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
+            const normales: ClienteUnificado[] = resp.body.map((c: ClientenormalModel) => ({
+              id: c.id,
+              nombre: c.nombre,
+              cedula: c.cedula,
+              correo: c.correo,
+              telefono: c.telefono,
+              tipo: 'Normal' as const,
+              metodoPago: c.metodoPago || 'No especificado'
+            }));
+            console.log('✅ Clientes Normales mapeados:', normales.length);
+            this.clientes.push(...normales);
+          } else {
+            console.log('ℹ️ No hay clientes normales registrados');
+          }
+          verificarFinalizacion();
+        },
+        error: () => verificarFinalizacion()
+      });
+    this.subscriptions.push(normalSub);
 
-    // Cargar clientes concurrentes
-    this.clienteConcurrenteService.getClientesConcurrentes().subscribe({
-      next: (resp: HttpResponse<ClienteconcurrenteModel[]>) => {
-        console.log('📋 Clientes Concurrentes - Status:', resp.status);
+    // Cargar clientes concurrentes con timeout
+    const concurrenteSub = this.clienteConcurrenteService.getClientesConcurrentes()
+      .pipe(
+        timeout(8000),
+        catchError(err => {
+          manejarError('concurrentes', err);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (resp: HttpResponse<ClienteconcurrenteModel[]> | null) => {
+          if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
+            const concurrentes: ClienteUnificado[] = resp.body.map((c: ClienteconcurrenteModel) => ({
+              id: c.id,
+              nombre: c.nombre,
+              cedula: c.cedula,
+              correo: c.correo,
+              telefono: c.telefono,
+              tipo: 'Concurrente' as const,
+              metodoPago: c.metodoPago || 'No especificado'
+            }));
+            console.log('✅ Clientes Concurrentes mapeados:', concurrentes.length);
+            this.clientes.push(...concurrentes);
+          } else {
+            console.log('ℹ️ No hay clientes concurrentes registrados');
+          }
+          verificarFinalizacion();
+        },
+        error: () => verificarFinalizacion()
+      });
+    this.subscriptions.push(concurrenteSub);
 
-        if (resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-          const concurrentes: ClienteUnificado[] = resp.body.map((c: ClienteconcurrenteModel) => ({
-            id: c.id,
-            nombre: c.nombre,
-            cedula: c.cedula,
-            correo: c.correo,
-            telefono: c.telefono,
-            tipo: 'Concurrente' as const,
-            metodoPago: c.metodoPago || 'No especificado'
-          }));
-          console.log('✅ Clientes Concurrentes mapeados:', concurrentes.length);
-          this.clientes.push(...concurrentes);
-        } else {
-          console.log('ℹ️ No hay clientes concurrentes registrados');
-        }
-        verificarFinalizacion();
-      },
-      error: (err: any) => {
-        console.error('❌ Error cargando clientes concurrentes:', err.message);
-        verificarFinalizacion();
-      }
-    });
-
-    // Cargar clientes premium
-    this.clientePremiumService.getClientesPremium().subscribe({
-      next: (resp: HttpResponse<ClientepremiumModel[]>) => {
-        console.log('📋 Clientes Premium - Status:', resp.status);
-
-        if (resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-          const premium: ClienteUnificado[] = resp.body.map((c: ClientepremiumModel) => ({
-            id: c.id,
-            nombre: c.nombre,
-            cedula: c.cedula,
-            correo: c.correo,
-            telefono: c.telefono,
-            tipo: 'Premium' as const,
-            metodoPago: c.metodoPago || 'No especificado'
-          }));
-          console.log('✅ Clientes Premium mapeados:', premium.length);
-          this.clientes.push(...premium);
-        } else {
-          console.log('ℹ️ No hay clientes premium registrados');
-        }
-        verificarFinalizacion();
-      },
-      error: (err: any) => {
-        console.error('❌ Error cargando clientes premium:', err.message);
-        verificarFinalizacion();
-      }
-    });
+    // Cargar clientes premium con timeout
+    const premiumSub = this.clientePremiumService.getClientesPremium()
+      .pipe(
+        timeout(8000),
+        catchError(err => {
+          manejarError('premium', err);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (resp: HttpResponse<ClientepremiumModel[]> | null) => {
+          if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
+            const premium: ClienteUnificado[] = resp.body.map((c: ClientepremiumModel) => ({
+              id: c.id,
+              nombre: c.nombre,
+              cedula: c.cedula,
+              correo: c.correo,
+              telefono: c.telefono,
+              tipo: 'Premium' as const,
+              metodoPago: c.metodoPago || 'No especificado'
+            }));
+            console.log('✅ Clientes Premium mapeados:', premium.length);
+            this.clientes.push(...premium);
+          } else {
+            console.log('ℹ️ No hay clientes premium registrados');
+          }
+          verificarFinalizacion();
+        },
+        error: () => verificarFinalizacion()
+      });
+    this.subscriptions.push(premiumSub);
   }
 
   actualizarCliente(cliente: ClienteUnificado): void {
     console.log('📝 Actualizar cliente:', cliente);
-    // Aquí puedes implementar la lógica de actualización
     alert(`Función de actualización para ${cliente.nombre} - Próximamente implementada`);
   }
 
@@ -193,39 +273,25 @@ export class Gestorcliente implements OnInit {
   eliminarCliente(cliente: ClienteUnificado): void {
     if (!confirm(`¿Eliminar a ${cliente.nombre}?`)) return;
 
+    let eliminar$;
     if (cliente.tipo === 'Normal') {
-      this.clienteNormalService.eliminarClienteNormal(cliente.id).subscribe({
-        next: () => {
-          console.log('Cliente normal eliminado');
-          this.cargarTodosLosClientes();
-        },
-        error: (err) => {
-          console.error('Error:', err);
-          alert('Error al eliminar cliente');
-        }
-      });
+      eliminar$ = this.clienteNormalService.eliminarClienteNormal(cliente.id);
     } else if (cliente.tipo === 'Concurrente') {
-      this.clienteConcurrenteService.eliminarClienteConcurrente(cliente.id).subscribe({
-        next: () => {
-          console.log('Cliente concurrente eliminado');
-          this.cargarTodosLosClientes();
-        },
-        error: (err) => {
-          console.error('Error:', err);
-          alert('Error al eliminar cliente');
-        }
-      });
-    } else if (cliente.tipo === 'Premium') {
-      this.clientePremiumService.eliminarClientePremium(cliente.id).subscribe({
-        next: () => {
-          console.log('Cliente premium eliminado');
-          this.cargarTodosLosClientes();
-        },
-        error: (err) => {
-          console.error('Error:', err);
-          alert('Error al eliminar cliente');
-        }
-      });
+      eliminar$ = this.clienteConcurrenteService.eliminarClienteConcurrente(cliente.id);
+    } else {
+      eliminar$ = this.clientePremiumService.eliminarClientePremium(cliente.id);
     }
+
+    const sub = eliminar$.subscribe({
+      next: () => {
+        console.log(`Cliente ${cliente.tipo} eliminado`);
+        this.recargarClientes();
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        alert('Error al eliminar cliente');
+      }
+    });
+    this.subscriptions.push(sub);
   }
 }
