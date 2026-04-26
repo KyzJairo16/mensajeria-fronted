@@ -162,7 +162,7 @@
 }
 
 .btn-recargar-carga {
-  background: #ff9800;
+  background: #3498db;
   color: white;
   border: none;
   padding: 6px 15px;
@@ -175,7 +175,7 @@
 }
 
 .btn-recargar-carga:hover {
-  background: #f57c00;
+  background: #2980b9;
 }
 
 .estado-warning {
