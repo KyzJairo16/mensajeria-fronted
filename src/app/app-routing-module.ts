@@ -10,6 +10,7 @@ import { Cliente } from './cliente/cliente';
 import { Gestorcliente } from './gestorcliente/gestorcliente';
 import { Nuevoenvio } from './nuevoenvio/nuevoenvio'; // ✅ CORREGIDO
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
+import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
 
 const routes: Routes = [
   { path: 'login', component: Login },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'gestorcliente', component: Gestorcliente },
   { path: 'nuevoenvio', component: Nuevoenvio },
   { path: 'gestortrabajador', component: Gestortrabajador },
+  { path: 'gestorpaquete', component: Gestorpaquete },
 ];
 
 @NgModule({

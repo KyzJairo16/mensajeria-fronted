@@ -1,7 +1,8 @@
+/* administrador.css */
 .admin-welcome-container {
   position: relative;
   text-align: center;
-  padding: 100px 20px;
+  padding: 80px 20px; /* Reducido un poco para dar aire a las 3 tarjetas */
   background: radial-gradient(circle at top, #ffffff 0%, #f0f2f5 100%);
   min-height: 85vh;
   overflow: hidden;
@@ -30,7 +31,7 @@
 
 .welcome-header h1 {
   color: #003399;
-  font-size: 48px; /* Título extra grande */
+  font-size: 42px; /* Ligeramente más pequeño para balancear con 3 columnas */
   font-weight: 900;
   margin-top: 15px;
 }
@@ -38,63 +39,73 @@
 .admin-options-grid {
   display: flex;
   justify-content: center;
-  gap: 50px;
-  margin-top: 60px;
+  flex-wrap: wrap; /* CRUCIAL: Permite que las tarjetas bajen en pantallas pequeñas */
+  gap: 30px;       /* Espacio optimizado entre las 3 tarjetas */
+  margin-top: 50px;
+  max-width: 1400px; /* Evita que se estiren demasiado en monitores muy grandes */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Tarjeta Mega con decoración */
 .admin-card.mega-card {
   background: white;
-  width: 450px; /* Tamaño máximo para llenar la pantalla */
-  padding: 60px 40px;
+  flex: 1;          /* Permite que crezcan proporcionalmente */
+  min-width: 350px; /* Mínimo para que no se deformen */
+  max-width: 400px; /* Máximo para que no se vean gigantes */
+  padding: 50px 30px;
   border-radius: 25px;
   box-shadow: 0 20px 50px rgba(0, 51, 153, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.05);
   transition: all 0.4s ease;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .admin-card.mega-card:hover {
-  transform: translateY(-15px) scale(1.02); /* Efecto de levitación  */
+  transform: translateY(-15px) scale(1.02);
   box-shadow: 0 30px 60px rgba(0, 51, 153, 0.15);
 }
 
 .card-icon-wrapper {
   background: #f0f4ff;
-  width: 120px;
-  height: 120px;
+  width: 100px; /* Ajustado de 120px a 100px */
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  margin: 0 auto 30px;
+  margin: 0 auto 25px;
   color: #003399;
-  font-size: 50px;
+  font-size: 40px; /* Ajustado de 50px a 40px */
   border: 5px solid #fff;
   box-shadow: 0 10px 20px rgba(0, 51, 153, 0.1);
 }
 
 .admin-card h3 {
-  font-size: 30px;
+  font-size: 26px; /* Ajustado de 30px a 26px para mejor lectura */
   color: #003399;
   font-weight: 800;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .admin-card p {
   color: #666;
-  font-size: 17px;
-  line-height: 1.8;
-  margin-bottom: 40px;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  flex-grow: 1; /* Empuja el botón hacia abajo para que todos queden alineados */
 }
 
 .btn-action-premium {
   background-color: #003399;
   color: white;
   border: none;
-  padding: 18px 45px;
+  padding: 16px 30px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   width: 100%;
