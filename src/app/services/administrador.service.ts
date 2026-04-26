@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AdministradorModel } from '../models/administrador.model';
-import { Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -82,14 +81,10 @@ export class AdministradorService {
     });
   }
 
-  loginAdmin(usuario: string, contrasenia: string): Observable<any> {
-    if (usuario === 'admin' && contrasenia === '1234') {
-      return of({ mensaje: 'Acceso concedido', rol: 'administrador' });
-    } else {
-      return throwError(() => ({
-        error: 'Usuario o contraseña incorrectos'
-      }));
-    }
+  loginAdmin(usuario: string, contrasenia: string) {
+    return this.administrador.post(this.urlbase + '/administrador/login?usuario=' + usuario + '&contrasenia=' + contrasenia, null, {
+      responseType: 'text'
+    });
   }
 
 }
