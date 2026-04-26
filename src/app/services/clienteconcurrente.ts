@@ -54,6 +54,8 @@ export class ClienteconcurrenteService {
     return this.cliente.get<ClienteconcurrenteModel[]>(this.urlbase + '/clienteconcurrente/buscarporcedula?cedula=' + cedula, {
       observe: 'response',
     });
+
+
   }
 
   buscarPorCorreo(correo: string) {
@@ -67,4 +69,12 @@ export class ClienteconcurrenteService {
       observe: 'response',
     });
   }
+
+  login(cedula: string, contrasenia: string) {
+    return this.cliente.post(this.urlbase + '/clienteconcurrente/login?cedula=' + cedula + '&contrasenia=' + contrasenia, null, {
+      responseType: 'text'
+    });
+  }
+
+
 }

@@ -68,4 +68,10 @@ export class ClientenormalService {
       observe: 'response',
     });
   }
+
+  login(cedula: string, contrasenia: string) {
+    return this.cliente.post(this.urlbase + '/clientenormal/login?cedula=' + cedula + '&contrasenia=' + contrasenia, null, {
+      responseType: 'text'
+    });
+  }
 }
