@@ -1,6 +1,7 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http'; // Importación moderna de HTTP
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -31,8 +32,15 @@ import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
     Nuevoenvio,
     Gestortrabajador,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [provideBrowserGlobalErrorListeners()],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+  ],
+  providers: [
+    provideHttpClient(),
+    provideBrowserGlobalErrorListeners()
+  ],
   bootstrap: [App],
 })
 export class AppModule {}
