@@ -18,7 +18,11 @@ export class ClientepremiumService {
 
   crearClientePremium(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
     return this.cliente.post(
-      this.urlbase + `/clientepremium/crear?nombre=${encodeURIComponent(nombre)}&cedula=${encodeURIComponent(cedula)}&correo=${encodeURIComponent(correo)}&telefono=${encodeURIComponent(telefono)}&contrasenia=${encodeURIComponent(contrasenia)}`,
+      this.urlbase + '/clientepremium/crear?nombre=' +encodeURIComponent(nombre) +
+      '&cedula=' +encodeURIComponent(cedula) +
+      '&correo=' + encodeURIComponent(correo)+
+      '&telefono=' +encodeURIComponent(telefono) +
+      '&contrasenia=' +encodeURIComponent(contrasenia),
       null,
       { responseType: 'text' }
     );
