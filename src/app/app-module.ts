@@ -17,6 +17,7 @@ import { Gestorcliente } from './gestorcliente/gestorcliente';
 import { Cliente } from './cliente/cliente';
 import { Nuevoenvio } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
+import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
 
 @NgModule({
   declarations: [
@@ -31,13 +32,15 @@ import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
     Gestorcliente,
     Nuevoenvio,
     Gestortrabajador,
-    Cliente
+    // Aquí combinamos lo de ambas ramas:
+    Cliente,
+    Gestorpaquete
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    RouterModule,
+    BrowserModule, 
+    AppRoutingModule, 
+    FormsModule, 
+    RouterModule, 
     HttpClientModule
   ],
   providers: [provideBrowserGlobalErrorListeners()],
