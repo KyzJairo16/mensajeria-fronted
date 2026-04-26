@@ -31,6 +31,16 @@ export class PaquetecartaService {
       .set('ciudadDestino', ciudadDestino)
       .set('tipoCarta', tipoCarta);
 
+
+    console.log({
+      idCliente,
+      direccionDestino,
+      tamanio,
+      ciudadDestino,
+      tipoCarta,
+      urlCompleta: `${this.urlbase}/paquetecarta/crear?${params.toString()}`
+    });
+
     return this.http.post(this.urlbase + '/paquetecarta/crear', null, {
       params: params,
       responseType: 'text',

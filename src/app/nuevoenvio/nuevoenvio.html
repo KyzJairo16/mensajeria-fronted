@@ -34,11 +34,18 @@
         </select>
       </div>
 
-      <div class="dynamic-zone">
-        <div *ngIf="tipoSeleccionado === 'alimenticio'" class="specific-field">
-          <label>Tipo de Alimento</label>
-          <input type="text" [(ngModel)]="paquete.tipoDeAlimento" placeholder="Ej: Frutas, Cárnicos...">
-        </div>
+      <div *ngIf="tipoSeleccionado === 'alimenticio'" >
+        <label>Tipo de Alimento</label>
+        <select [(ngModel)]="paquete.tipoDeAlimento" class="tipo-select">
+          <option value="" disabled selected>Seleccione un tipo</option>
+          <option value="Carne">Carne</option>
+          <option value="Fruta">Fruta</option>
+          <option value="Verdura">Verdura</option>
+          <option value="Cereal">Cereal</option>
+          <option value="Lacteo">Lácteo</option>
+          <option value="Bebida">Bebida</option>
+        </select>
+      </div>
 
         <div *ngIf="tipoSeleccionado === 'no-alimenticio'" class="specific-field">
           <label>Descripción del Objeto</label>
@@ -98,4 +105,3 @@
   <div *ngIf="mensajeError" class="msg-error">{{ mensajeError }}</div>
   <div *ngIf="mensajeExito" class="msg-exito">{{ mensajeExito }}</div>
 
-</div>
