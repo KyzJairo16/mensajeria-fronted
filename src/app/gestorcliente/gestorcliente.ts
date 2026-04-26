@@ -1,4 +1,4 @@
-// gestorcliente.ts - VERSIÓN CON RECARGA Y TIMEOUT
+// gestorcliente.ts - VERSIÓN CORREGIDA (ELIMINACIÓN FUNCIONAL)
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ClientenormalService } from '../services/clientenormal.service';
@@ -39,6 +39,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
   timeoutWarning: boolean = false;
   tiempoEspera: number = 0;
   historialVisible: { [key: string]: boolean } = {};
+  mensajeExito: string = '';
 
   private subscriptions: Subscription[] = [];
   private timeoutId: any;
@@ -67,6 +68,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
     // Reiniciar estados
     this.cargando = true;
     this.error = '';
+    this.mensajeExito = '';
     this.timeoutWarning = false;
     this.tiempoEspera = 0;
     this.clientes = [];
@@ -131,7 +133,6 @@ export class Gestorcliente implements OnInit, OnDestroy {
     // Función para manejar errores individuales
     const manejarError = (tipo: string, err: any) => {
       console.error(`❌ Error cargando clientes ${tipo}:`, err.message || err);
-      // No establecemos error global aquí, solo continuamos
       verificarFinalizacion();
     };
 
@@ -270,8 +271,12 @@ export class Gestorcliente implements OnInit, OnDestroy {
     return `${cliente.tipo}-${cliente.id}`;
   }
 
+  // ==================== FUNCIÓN ELIMINAR CORREGIDA ====================
   eliminarCliente(cliente: ClienteUnificado): void {
-    if (!confirm(`¿Eliminar a ${cliente.nombre}?`)) return;
+    if (!confirm(`¿Estás seguro de eliminar a ${cliente.nombre}?`)) return;
+
+    // Guardar referencia para usar después
+    const clienteEliminado = { ...cliente };
 
     let eliminar$;
     if (cliente.tipo === 'Normal') {
@@ -282,16 +287,45 @@ export class Gestorcliente implements OnInit, OnDestroy {
       eliminar$ = this.clientePremiumService.eliminarClientePremium(cliente.id);
     }
 
+    // Mostrar loading en el botón específico (opcional)
+    this.cargando = true;
+
     const sub = eliminar$.subscribe({
-      next: () => {
-        console.log(`Cliente ${cliente.tipo} eliminado`);
-        this.recargarClientes();
+      next: (respuesta: any) => {
+        console.log(`✅ Cliente ${clienteEliminado.tipo} eliminado:`, respuesta);
+
+        // ELIMINAR LOCALMENTE - Actualización inmediata
+        const index = this.clientes.findIndex(c =>
+          c.tipo === clienteEliminado.tipo && c.id === clienteEliminado.id
+        );
+
+        if (index !== -1) {
+          this.clientes.splice(index, 1);
+          this.aplicarFiltro(); // Actualizar vista filtrada
+          console.log(`🗑️ Cliente eliminado de la lista local. Total restante: ${this.clientes.length}`);
+        }
+
+        // Mostrar mensaje de éxito
+        this.mensajeExito = `✅ ${clienteEliminado.nombre} eliminado correctamente`;
+        this.cargando = false;
+        this.error = '';
+
+        // Ocultar mensaje después de 3 segundos
+        setTimeout(() => {
+          if (this.mensajeExito === ` ${clienteEliminado.nombre} eliminado correctamente`) {
+            this.mensajeExito = '';
+          }
+        }, 3000);
       },
       error: (err) => {
-        console.error('Error:', err);
-        alert('Error al eliminar cliente');
+        console.error('❌ Error al eliminar:', err);
+        this.cargando = false;
+        this.error = `Error al eliminar ${clienteEliminado.nombre}: ${err.error || err.message}`;
+        alert(this.error);
       }
     });
+
     this.subscriptions.push(sub);
   }
+  // ==================== FIN FUNCIÓN ELIMINAR ====================
 }

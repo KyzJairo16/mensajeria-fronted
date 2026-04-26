@@ -104,6 +104,11 @@
 .btn-recargar-carga:hover {
   background: #2980b9;
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-recargar-carga:active {
+  transform: translateY(0);
 }
 
 .actions {
@@ -142,6 +147,35 @@
 
 .btn-danger:hover {
   background: #c0392b;
+  transform: translateY(-1px);
+}
+
+.btn-danger:active {
+  transform: scale(0.95);
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-reintentar {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-reintentar:hover {
+  background: #218838;
   transform: translateY(-1px);
 }
 
@@ -244,6 +278,10 @@
   border-left: 4px solid #ffc107;
 }
 
+.estado-warning i {
+  font-size: 1.2rem;
+}
+
 .estado-error {
   background: #f8d7da;
   color: #721c24;
@@ -256,6 +294,10 @@
   flex-wrap: wrap;
   gap: 1rem;
   border-left: 4px solid #dc3545;
+}
+
+.estado-error i {
+  font-size: 1.2rem;
 }
 
 .estado-vacio {
@@ -276,6 +318,11 @@
 .estado-vacio p {
   margin-bottom: 1rem;
   font-size: 1.1rem;
+}
+
+.estado-vacio .btn-recargar {
+  display: inline-flex;
+  margin-top: 0.5rem;
 }
 
 /* Contenedor de paquetes */
@@ -465,6 +512,39 @@
   color: #721c24;
 }
 
+/* Mensaje de éxito */
+.mensaje-exito {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  z-index: 9999;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideInRight 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mensaje-exito i {
+  font-size: 1.2rem;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .admin-wrapper {
@@ -484,6 +564,17 @@
   .header-actions select,
   .header-actions button {
     width: 100%;
+    justify-content: center;
+  }
+
+  .estado-carga,
+  .estado-error,
+  .estado-warning {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .carga-info {
     justify-content: center;
   }
 
