@@ -23,6 +23,12 @@
     </div>
   </div>
 
+  <!-- MENSAJE DE ÉXITO -->
+  <div *ngIf="mensajeExito" class="mensaje-exito">
+    <i class="fas fa-check-circle"></i>
+    {{ mensajeExito }}
+  </div>
+
   <!-- LEYENDA -->
   <div class="legend">
     <span class="legend-item alimenticio">
@@ -48,7 +54,6 @@
     <div class="carga-info">
       <i class="fas fa-spinner fa-spin"></i>
       <span>Cargando paquetes...</span>
-      <span class="tiempo-espera" *ngIf="tiempoEspera > 0">({{ tiempoEspera }}s)</span>
     </div>
     <button class="btn-recargar-carga" (click)="cancelarCarga()" type="button">
       <i class="fas fa-sync-alt"></i> Recargar

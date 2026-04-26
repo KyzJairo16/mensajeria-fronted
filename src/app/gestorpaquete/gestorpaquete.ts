@@ -1,4 +1,3 @@
-// gestorpaquete.ts
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { PaquetealimenticioService } from '../services/paquetealimenticio.service';
@@ -47,6 +46,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
   error: string = '';
   timeoutWarning: boolean = false;
   tiempoEspera: number = 0;
+  mensajeExito: string = '';
 
   private subscriptions: Subscription[] = [];
   private timeoutId: any;
@@ -71,6 +71,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
 
     this.cargando = true;
     this.error = '';
+    this.mensajeExito = '';
     this.timeoutWarning = false;
     this.tiempoEspera = 0;
     this.paquetes = [];
@@ -144,7 +145,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: HttpResponse<PaquetealimenticioModel[]> | null) => {
           if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-            const alimenticios: PaqueteUnificado[] = resp.body.map((p: PaquetealimenticioModel) => ({
+            const alimenticios: PaqueteUnificado[] = resp.body.map((p: any) => ({
               id: p.id,
               precioEnvio: p.precioEnvio,
               direccionDestino: p.direccionDestino,
@@ -183,7 +184,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: HttpResponse<PaquetenoalimenticioModel[]> | null) => {
           if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-            const noAlimenticios: PaqueteUnificado[] = resp.body.map((p: PaquetenoalimenticioModel) => ({
+            const noAlimenticios: PaqueteUnificado[] = resp.body.map((p: any) => ({
               id: p.id,
               precioEnvio: p.precioEnvio,
               direccionDestino: p.direccionDestino,
@@ -221,7 +222,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: HttpResponse<PaquetecartaModel[]> | null) => {
           if (resp && resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
-            const cartas: PaqueteUnificado[] = resp.body.map((p: PaquetecartaModel) => ({
+            const cartas: PaqueteUnificado[] = resp.body.map((p: any) => ({
               id: p.id,
               precioEnvio: p.precioEnvio,
               direccionDestino: p.direccionDestino,
@@ -306,8 +307,11 @@ export class Gestorpaquete implements OnInit, OnDestroy {
     alert(`Función de actualización para paquete #${paquete.id} - Próximamente implementada`);
   }
 
+  // ==================== FUNCIÓN ELIMINAR CORREGIDA ====================
   eliminarPaquete(paquete: PaqueteUnificado): void {
-    if (!confirm(`¿Eliminar paquete #${paquete.id} (${this.getTipoTexto(paquete.tipo)})?`)) return;
+    if (!confirm(`¿Estás seguro de eliminar el paquete #${paquete.id} (${this.getTipoTexto(paquete.tipo)})?`)) return;
+
+    const paqueteEliminado = { ...paquete };
 
     let eliminar$;
     if (paquete.tipo === 'Alimenticio') {
@@ -318,16 +322,44 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       eliminar$ = this.paqueteCartaService.eliminarPaqueteCarta(paquete.id);
     }
 
+    this.cargando = true;
+
     const sub = eliminar$.subscribe({
-      next: () => {
-        console.log(`Paquete ${paquete.tipo} eliminado`);
-        this.recargarPaquetes();
+      next: (respuesta: any) => {
+        console.log(`✅ Paquete ${paqueteEliminado.tipo} eliminado:`, respuesta);
+
+        // ELIMINAR LOCALMENTE - Actualización inmediata
+        const index = this.paquetes.findIndex(p =>
+          p.tipo === paqueteEliminado.tipo && p.id === paqueteEliminado.id
+        );
+
+        if (index !== -1) {
+          this.paquetes.splice(index, 1);
+          this.aplicarFiltro(); // Actualizar vista filtrada
+          console.log(`🗑️ Paquete eliminado de la lista local. Total restante: ${this.paquetes.length}`);
+        }
+
+        // Mostrar mensaje de éxito
+        this.mensajeExito = ` Paquete #${paqueteEliminado.id} eliminado correctamente`;
+        this.cargando = false;
+        this.error = '';
+
+        // Ocultar mensaje después de 3 segundos
+        setTimeout(() => {
+          if (this.mensajeExito === ` Paquete #${paqueteEliminado.id} eliminado correctamente`) {
+            this.mensajeExito = '';
+          }
+        }, 3000);
       },
       error: (err) => {
-        console.error('Error:', err);
-        alert('Error al eliminar paquete');
+        console.error('❌ Error al eliminar paquete:', err);
+        this.cargando = false;
+        this.error = `Error al eliminar paquete #${paqueteEliminado.id}: ${err.error || err.message}`;
+        alert(this.error);
       }
     });
+
     this.subscriptions.push(sub);
   }
+  // ==================== FIN FUNCIÓN ELIMINAR ====================
 }
