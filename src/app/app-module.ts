@@ -32,13 +32,14 @@ import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
     Gestorcliente,
     Nuevoenvio,
     Gestortrabajador,
-    Cliente
+    Cliente,
+    Gestorpaquete
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    RouterModule,
+    BrowserModule, 
+    AppRoutingModule, 
+    FormsModule, 
+    RouterModule, 
     HttpClientModule
   ],
   providers: [provideBrowserGlobalErrorListeners()],
