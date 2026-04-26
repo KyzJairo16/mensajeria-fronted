@@ -8,12 +8,19 @@
     <form class="registro-form" (ngSubmit)="iniciarSesion()">
       <div class="form-group">
         <label>Usuario</label>
-        <input type="text" class="form-input" name="usuario" [(ngModel)]="credenciales.usuario" placeholder="Usuario">
+        <input type="text" class="form-input" name="usuario"
+               [(ngModel)]="credenciales.usuario" placeholder="Usuario">
       </div>
 
       <div class="form-group">
         <label>Contraseña</label>
-        <input type="password" class="form-input" name="contrasenia" [(ngModel)]="credenciales.contrasenia" placeholder="Contraseña">
+        <input type="password" class="form-input" name="contrasenia"
+               [(ngModel)]="credenciales.contrasenia" placeholder="Contraseña">
+      </div>
+
+      <!-- Mensaje de error -->
+      <div *ngIf="mensajeError" class="error-message">
+        ⚠️ {{ mensajeError }}
       </div>
 
       <div class="actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
