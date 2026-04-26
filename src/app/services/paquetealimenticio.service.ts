@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import { PaquetealimenticioModel } from '../models/paquetealimenticio.model';
+import { PaquetecartaModel } from '../models/paquetecarta.model';
 
 @Injectable({
   providedIn: 'root',
@@ -100,5 +101,12 @@ export class PaquetealimenticioService {
     return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscardireccionyciudad?dir=' + dir + '&ciudad=' + ciudad, {
       observe: 'response',
     });
+  }
+
+  verHistorial(idCliente: number) {
+    return this.http.get<PaquetealimenticioModel[]>(
+      this.urlbase + '/paquetealimenticio/historialporid?idCliente=' +idCliente,
+      { observe: 'response' }
+    );
   }
 }
