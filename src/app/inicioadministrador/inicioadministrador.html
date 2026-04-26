@@ -5,19 +5,20 @@
       <p class="subtitle">Accede como administrador de la empresa 4-72</p>
     </div>
 
-    <form class="registro-form" (ngSubmit)="iniciarSesion()">
+    <form class="registro-form">
       <div class="form-group">
         <label>Usuario</label>
-        <input type="text" class="form-input" name="usuario" [(ngModel)]="credenciales.usuario" placeholder="Usuario">
+        <input type="text" class="form-input" placeholder="Cedula">
       </div>
 
       <div class="form-group">
         <label>Contraseña</label>
-        <input type="password" class="form-input" name="contrasenia" [(ngModel)]="credenciales.contrasenia" placeholder="Contraseña">
+        <input type="password" class="form-input" placeholder="*********">
+        <div class="forgot-link" style="text-align: right; margin-top: 5px;"></div>
       </div>
 
       <div class="actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-        <button type="submit" class="btn-registrar-full">Iniciar Sesión</button>
+        <button type="submit" class="btn-registrar-full" routerLink="/administrador">Iniciar Sesión</button>
       </div>
     </form>
   </div>

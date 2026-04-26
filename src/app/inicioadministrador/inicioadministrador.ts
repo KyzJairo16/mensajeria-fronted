@@ -1,6 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { AdministradorService } from '../services/administrador.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-inicioadministrador',
@@ -8,27 +6,4 @@ import { AdministradorService } from '../services/administrador.service';
   templateUrl: './inicioadministrador.html',
   styleUrl: './inicioadministrador.css',
 })
-export class Inicioadministrador {
-  credenciales = {
-    usuario: '',
-    contrasenia: ''
-  };
-
-  private router = inject(Router);
-  private adminService = inject(AdministradorService);
-
-  iniciarSesion() {
-    this.adminService.loginAdmin(this.credenciales.usuario, this.credenciales.contrasenia).subscribe({
-
-      next: (respuesta) => {
-        console.log( respuesta);
-        this.router.navigate(['/administrador']);
-      },
-
-      error: (err) => {
-        console.error(err.error || 'Error de acceso');
-      }
-
-    });
-  }
-}
+export class Inicioadministrador {}
