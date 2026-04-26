@@ -22,14 +22,17 @@ export class PaquetenoalimenticioService {
     direccionDestino: string,
     tamanio: string,
     ciudadDestino: string,
-    esFragil: boolean
+    esFragil: boolean,
+    esPrioritario:boolean,
+
   ) {
     const params = new HttpParams()
       .set('idCliente', idCliente.toString())
       .set('direccionDestino', direccionDestino)
       .set('tamanio', tamanio)
       .set('ciudadDestino', ciudadDestino)
-      .set('esFragil', esFragil.toString());
+      .set('esFragil', esFragil.toString())
+      .set('esPrioritario', esPrioritario.toString());
 
     console.log({
       idCliente,
@@ -37,6 +40,7 @@ export class PaquetenoalimenticioService {
       tamanio,
       ciudadDestino,
       esFragil,
+      esPrioritario,
       urlCompleta: `${this.urlbase}/paquetecarta/crear?${params.toString()}`
     });
     return this.http.post(this.urlbase + '/paquetenoalimenticio/crear', null, {

@@ -34,13 +34,15 @@ export class Login {
 
   private intentarLoginNormal() {
     this.normalService.login(this.credencial.cedula, this.credencial.pass).subscribe({
-      next: (respuesta) => {
-        // 👇 CAMBIA ESTO - guarda con la clave que espera nuevoenvio
-        localStorage.setItem('usuarioLogueado', JSON.stringify({
-          id: this.credencial.cedula, // o el id real si el backend lo devuelve
-          cedula: this.credencial.cedula,
-          tipo: 'normal'
-        }));
+      next: (respuesta: any) => {
+        // 1. Si la respuesta llega como texto, la convertimos a un Objeto real
+        let clienteCompleto = typeof respuesta === 'string' ? JSON.parse(respuesta) : respuesta;
+
+        // 2. Le agregamos el tipo
+        clienteCompleto.tipoCliente = 'Normal';
+
+        // 3. Lo guardamos en el localStorage
+        localStorage.setItem('usuarioLogueado', JSON.stringify(clienteCompleto));
         this.router.navigate(['/cliente']);
       },
       error: () => this.intentarLoginPremium()
@@ -49,12 +51,10 @@ export class Login {
 
   private intentarLoginPremium() {
     this.premiumService.login(this.credencial.cedula, this.credencial.pass).subscribe({
-      next: (respuesta) => {
-        localStorage.setItem('usuarioLogueado', JSON.stringify({
-          id: this.credencial.cedula,
-          cedula: this.credencial.cedula,
-          tipo: 'premium'
-        }));
+      next: (respuesta: any) => {
+        let clienteCompleto = typeof respuesta === 'string' ? JSON.parse(respuesta) : respuesta;
+        clienteCompleto.tipoCliente = 'Premium';
+        localStorage.setItem('usuarioLogueado', JSON.stringify(clienteCompleto));
         this.router.navigate(['/cliente']);
       },
       error: () => this.intentarLoginConcurrente()
@@ -63,12 +63,10 @@ export class Login {
 
   private intentarLoginConcurrente() {
     this.concurrenteService.login(this.credencial.cedula, this.credencial.pass).subscribe({
-      next: (respuesta) => {
-        localStorage.setItem('usuarioLogueado', JSON.stringify({
-          id: this.credencial.cedula,
-          cedula: this.credencial.cedula,
-          tipo: 'concurrente'
-        }));
+      next: (respuesta: any) => {
+        let clienteCompleto = typeof respuesta === 'string' ? JSON.parse(respuesta) : respuesta;
+        clienteCompleto.tipoCliente = 'Concurrente';
+        localStorage.setItem('usuarioLogueado', JSON.stringify(clienteCompleto));
         this.router.navigate(['/cliente']);
       },
       error: () => {
@@ -76,4 +74,5 @@ export class Login {
       }
     });
   }
+
 }

@@ -15,7 +15,7 @@ import { Administrador } from './administrador/administrador';
 import { Inicioadministrador } from './inicioadministrador/inicioadministrador';
 import { Gestorcliente } from './gestorcliente/gestorcliente';
 import { Cliente } from './cliente/cliente';
-import { RegistroEnvioComponent } from './nuevoenvio/nuevoenvio';
+import { Nuevoenvio } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
 
 @NgModule({
@@ -29,16 +29,16 @@ import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
     Administrador,
     Inicioadministrador,
     Gestorcliente,
-    Cliente,
-    RegistroEnvioComponent,
+    Nuevoenvio,
     Gestortrabajador,
+    Cliente
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     RouterModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],

@@ -22,7 +22,8 @@ export class PaquetealimenticioService {
     tamanio: string,
     ciudadDestino: string,
     idCliente: number,
-    tipoDeAlimento: string
+    tipoDeAlimento: string,
+    esPrioritario:boolean,
   ) {
 
     const params = new HttpParams()
@@ -31,7 +32,8 @@ export class PaquetealimenticioService {
       .set('ciudadDestino', ciudadDestino)
       .set('idCliente', idCliente.toString())
       .set('seEnviaHoy', 'true')
-      .set('tipoDeAlimento', tipoDeAlimento);
+      .set('tipoDeAlimento', tipoDeAlimento)
+      .set('esPrioritario', esPrioritario.toString());
 
     console.log({
       idCliente,
@@ -39,6 +41,7 @@ export class PaquetealimenticioService {
       tamanio,
       ciudadDestino,
       tipoDeAlimento,
+      esPrioritario,
       urlCompleta: `${this.urlbase}/paquetecarta/crear?${params.toString()}`
     });
     return this.http.post(this.urlbase + '/paquetealimenticio/crear', null, {

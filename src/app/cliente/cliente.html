@@ -2,21 +2,36 @@
   <div class="dashboard-grid">
 
     <div class="side-panel">
-      <div class="profile-card">
-        <div class="avatar-circle">JP</div>
-        <h2>Bienvenido, <br><span>Juan Pérez</span></h2>
-        <div class="badge-tipo">Cliente Premium</div>
 
-        <div class="info-section">
-          <p><strong>Cédula:</strong> 12345678</p>
-          <p><strong>Correo:</strong> juan.perez@email.com</p>
-          <p><strong>Teléfono:</strong> 3001234567</p>
+      <div class="profile-card" *ngIf="usuarioInfo">
+
+        <div class="avatar-circle">
+          <i class="fa-solid fa-user"></i>
         </div>
 
-        <button class="btn-logout-side" routerLink = "/inicio">
+        <h2>Bienvenido, <br><span>{{ usuarioInfo.nombre }}</span></h2>
+
+        <div class="badge-tipo">{{ usuarioInfo.tipoCliente || 'Cliente' }}</div>
+
+        <div class="info-section">
+          <p><strong>Cédula:</strong> {{ usuarioInfo.cedula }}</p>
+          <p><strong>Correo:</strong> {{ usuarioInfo.correo }}</p>
+          <p><strong>Teléfono:</strong> {{ usuarioInfo.telefono }}</p>
+        </div>
+
+        <button class="btn-logout-side" routerLink="/inicio" (click)="cerrarSesion()">
           <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </button>
       </div>
+
+      <div class="profile-card" *ngIf="!usuarioInfo">
+        <h2>Atención</h2>
+        <p>No hemos detectado una sesión activa.</p>
+        <button class="btn-logout-side" routerLink="/login">
+          <i class="fas fa-sign-in-alt"></i> Ir al Login
+        </button>
+      </div>
+
     </div>
 
     <div class="main-content">
