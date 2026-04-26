@@ -31,6 +31,14 @@ export class PaquetenoalimenticioService {
       .set('ciudadDestino', ciudadDestino)
       .set('esFragil', esFragil.toString());
 
+    console.log({
+      idCliente,
+      direccionDestino,
+      tamanio,
+      ciudadDestino,
+      esFragil,
+      urlCompleta: `${this.urlbase}/paquetecarta/crear?${params.toString()}`
+    });
     return this.http.post(this.urlbase + '/paquetenoalimenticio/crear', null, {
       params: params,
       responseType: 'text',

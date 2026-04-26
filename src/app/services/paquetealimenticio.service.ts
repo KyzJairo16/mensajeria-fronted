@@ -33,6 +33,14 @@ export class PaquetealimenticioService {
       .set('seEnviaHoy', 'true')
       .set('tipoDeAlimento', tipoDeAlimento);
 
+    console.log({
+      idCliente,
+      direccionDestino,
+      tamanio,
+      ciudadDestino,
+      tipoDeAlimento,
+      urlCompleta: `${this.urlbase}/paquetecarta/crear?${params.toString()}`
+    });
     return this.http.post(this.urlbase + '/paquetealimenticio/crear', null, {
       params: params,
       responseType: 'text',
