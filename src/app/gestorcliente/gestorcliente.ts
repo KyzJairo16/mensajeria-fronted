@@ -1,3 +1,4 @@
+// gestorcliente.ts - VERSIÓN CORREGIDA
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ClientenormalService } from '../services/clientenormal.service';
@@ -32,7 +33,7 @@ export class Gestorcliente implements OnInit {
   clientes: ClienteUnificado[] = [];
   clientesFiltrados: ClienteUnificado[] = [];
   filtroActual: string = 'Todos';
-  cargando: boolean = false;
+  cargando: boolean = true; // Inicializar en true
   error: string = '';
   historialVisible: { [key: string]: boolean } = {};
 
@@ -45,96 +46,115 @@ export class Gestorcliente implements OnInit {
     this.error = '';
     this.clientes = [];
 
-    let normalesListo = false;
-    let concurrentesListo = false;
-    let premiumListo = false;
+    // Contador de peticiones completadas
+    let peticionesCompletadas = 0;
+    const totalPeticiones = 3; // Normal, Concurrente, Premium
 
-    const verificarYFiltrar = () => {
-      if (normalesListo && concurrentesListo && premiumListo) {
+    const verificarFinalizacion = () => {
+      peticionesCompletadas++;
+      console.log(`📊 Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
+
+      if (peticionesCompletadas === totalPeticiones) {
         this.cargando = false;
         console.log('🟢 Total clientes cargados:', this.clientes.length);
         console.table(this.clientes);
         this.aplicarFiltro();
+
+        if (this.clientes.length === 0 && !this.error) {
+          this.error = 'No hay clientes registrados en el sistema.';
+        }
       }
     };
 
+    // Cargar clientes normales
     this.clienteNormalService.getClientesNormales().subscribe({
       next: (resp: HttpResponse<ClientenormalModel[]>) => {
-        console.log('📋 Clientes Normales (raw):', resp.body);
-        if (resp.body) {
+        console.log('📋 Clientes Normales - Status:', resp.status);
+
+        if (resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
           const normales: ClienteUnificado[] = resp.body.map((c: ClientenormalModel) => ({
-            id: (c as any).id,
+            id: c.id,
             nombre: c.nombre,
             cedula: c.cedula,
             correo: c.correo,
             telefono: c.telefono,
             tipo: 'Normal' as const,
-            metodoPago: (c as any).metodoPago
+            metodoPago: c.metodoPago || 'No especificado'
           }));
-          console.log('✅ Clientes Normales mapeados:', normales);
+          console.log('✅ Clientes Normales mapeados:', normales.length);
           this.clientes.push(...normales);
+        } else {
+          console.log('ℹ️ No hay clientes normales registrados');
         }
-        normalesListo = true;
-        verificarYFiltrar();
+        verificarFinalizacion();
       },
       error: (err: any) => {
-        console.error('❌ Error cargando clientes normales:', err);
-        normalesListo = true;
-        verificarYFiltrar();
+        console.error('❌ Error cargando clientes normales:', err.message);
+        verificarFinalizacion();
       }
     });
 
+    // Cargar clientes concurrentes
     this.clienteConcurrenteService.getClientesConcurrentes().subscribe({
       next: (resp: HttpResponse<ClienteconcurrenteModel[]>) => {
-        console.log('📋 Clientes Concurrentes (raw):', resp.body);
-        if (resp.body) {
+        console.log('📋 Clientes Concurrentes - Status:', resp.status);
+
+        if (resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
           const concurrentes: ClienteUnificado[] = resp.body.map((c: ClienteconcurrenteModel) => ({
-            id: (c as any).id,
+            id: c.id,
             nombre: c.nombre,
             cedula: c.cedula,
             correo: c.correo,
             telefono: c.telefono,
             tipo: 'Concurrente' as const,
-            metodoPago: (c as any).metodoPago
+            metodoPago: c.metodoPago || 'No especificado'
           }));
-          console.log('✅ Clientes Concurrentes mapeados:', concurrentes);
+          console.log('✅ Clientes Concurrentes mapeados:', concurrentes.length);
           this.clientes.push(...concurrentes);
+        } else {
+          console.log('ℹ️ No hay clientes concurrentes registrados');
         }
-        concurrentesListo = true;
-        verificarYFiltrar();
+        verificarFinalizacion();
       },
       error: (err: any) => {
-        console.error('❌ Error cargando clientes concurrentes:', err);
-        concurrentesListo = true;
-        verificarYFiltrar();
+        console.error('❌ Error cargando clientes concurrentes:', err.message);
+        verificarFinalizacion();
       }
     });
 
+    // Cargar clientes premium
     this.clientePremiumService.getClientesPremium().subscribe({
       next: (resp: HttpResponse<ClientepremiumModel[]>) => {
-        console.log('📋 Clientes Premium (raw):', resp.body);
-        if (resp.body) {
+        console.log('📋 Clientes Premium - Status:', resp.status);
+
+        if (resp.body && Array.isArray(resp.body) && resp.body.length > 0) {
           const premium: ClienteUnificado[] = resp.body.map((c: ClientepremiumModel) => ({
-            id: (c as any).id,
+            id: c.id,
             nombre: c.nombre,
             cedula: c.cedula,
             correo: c.correo,
             telefono: c.telefono,
             tipo: 'Premium' as const,
-            metodoPago: (c as any).metodoPago
+            metodoPago: c.metodoPago || 'No especificado'
           }));
-          console.log('✅ Clientes Premium mapeados:', premium);
+          console.log('✅ Clientes Premium mapeados:', premium.length);
           this.clientes.push(...premium);
+        } else {
+          console.log('ℹ️ No hay clientes premium registrados');
         }
-        premiumListo = true;
-        verificarYFiltrar();
+        verificarFinalizacion();
       },
       error: (err: any) => {
-        console.error('❌ Error cargando clientes premium:', err);
-        premiumListo = true;
-        verificarYFiltrar();
+        console.error('❌ Error cargando clientes premium:', err.message);
+        verificarFinalizacion();
       }
     });
+  }
+
+  actualizarCliente(cliente: ClienteUnificado): void {
+    console.log('📝 Actualizar cliente:', cliente);
+    // Aquí puedes implementar la lógica de actualización
+    alert(`Función de actualización para ${cliente.nombre} - Próximamente implementada`);
   }
 
   aplicarFiltro(): void {
@@ -143,6 +163,7 @@ export class Gestorcliente implements OnInit {
     } else {
       this.clientesFiltrados = this.clientes.filter((c: ClienteUnificado) => c.tipo === this.filtroActual);
     }
+    console.log(`🔍 Filtro: ${this.filtroActual} -> ${this.clientesFiltrados.length} clientes`);
   }
 
   onFiltroChange(event: Event): void {
@@ -156,6 +177,7 @@ export class Gestorcliente implements OnInit {
   }
 
   getIniciales(nombre: string): string {
+    if (!nombre) return '??';
     return nombre
       .split(' ')
       .slice(0, 2)
@@ -173,18 +195,36 @@ export class Gestorcliente implements OnInit {
 
     if (cliente.tipo === 'Normal') {
       this.clienteNormalService.eliminarClienteNormal(cliente.id).subscribe({
-        next: () => this.cargarTodosLosClientes(),
-        error: () => alert('Error al eliminar cliente')
+        next: () => {
+          console.log('Cliente normal eliminado');
+          this.cargarTodosLosClientes();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          alert('Error al eliminar cliente');
+        }
       });
     } else if (cliente.tipo === 'Concurrente') {
       this.clienteConcurrenteService.eliminarClienteConcurrente(cliente.id).subscribe({
-        next: () => this.cargarTodosLosClientes(),
-        error: () => alert('Error al eliminar cliente')
+        next: () => {
+          console.log('Cliente concurrente eliminado');
+          this.cargarTodosLosClientes();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          alert('Error al eliminar cliente');
+        }
       });
     } else if (cliente.tipo === 'Premium') {
       this.clientePremiumService.eliminarClientePremium(cliente.id).subscribe({
-        next: () => this.cargarTodosLosClientes(),
-        error: () => alert('Error al eliminar cliente')
+        next: () => {
+          console.log('Cliente premium eliminado');
+          this.cargarTodosLosClientes();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          alert('Error al eliminar cliente');
+        }
       });
     }
   }

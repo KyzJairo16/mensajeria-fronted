@@ -1,7 +1,7 @@
+// clientenormal.service.ts - CORREGIDO
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ClientenormalModel } from '../models/clientenormal.model';
-
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +10,14 @@ export class ClientenormalService {
   private cliente = inject(HttpClient);
   private readonly urlbase: string = 'http://localhost:8080';
 
-  // Mostrar todos
+  // CORREGIDO: Cambiado 'mostrar' por 'mostrartodo' para consistencia
   getClientesNormales() {
-    return this.cliente.get<ClientenormalModel[]>(this.urlbase + '/clientenormal/mostrar', {
+    return this.cliente.get<ClientenormalModel[]>(this.urlbase + '/clientenormal/mostrartodo', {
       observe: 'response',
     });
   }
 
-
+  // Resto del código igual...
   crearClienteNormal(nombre: string, cedula: string, correo: string, telefono: string, contrasenia: string) {
     return this.cliente.post(
       this.urlbase + '/clientenormal/crear?nombre=' + encodeURIComponent(nombre)
@@ -30,20 +30,17 @@ export class ClientenormalService {
     );
   }
 
-
   actualizarClienteNormal(id: number, nombre: string, cedula: string, correo: string, telefono: string, metodoPago: string, contrasenia: string) {
     return this.cliente.put(this.urlbase + '/clientenormal/actualizarclientenormal?id=' + id + '&nombre=' + nombre + '&cedula=' + cedula + '&correo=' + correo + '&telefono=' + telefono + '&metodoPago=' + metodoPago + '&contrasenia=' + contrasenia, null, {
       responseType: 'text',
     });
   }
 
-
   eliminarClienteNormal(id: number) {
     return this.cliente.delete(this.urlbase + '/clientenormal/eliminar?id=' + id, {
       responseType: 'text',
     });
   }
-
 
   buscarPorNombre(nombre: string) {
     return this.cliente.get<ClientenormalModel[]>(this.urlbase + '/clientenormal/buscarpornombre?nombre=' + nombre, {
