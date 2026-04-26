@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { PaquetenoalimenticioModel } from '../models/paquetenoalimenticio.model';
 
 @Injectable({
@@ -24,16 +24,18 @@ export class PaquetenoalimenticioService {
     ciudadDestino: string,
     esFragil: boolean
   ) {
-    return this.http.post(
-      this.urlbase + '/paquetenoalimenticio/crear' +
-      '?idCliente=' + idCliente +
-      '&direccionDestino=' + direccionDestino +
-      '&tamanio=' + tamanio +
-      '&ciudadDestino=' + ciudadDestino +
-      '&esFragil=' + esFragil,
-      null,
-      { responseType: 'text', observe: 'response' }  // ✅ CORREGIDO
-    );
+    const params = new HttpParams()
+      .set('idCliente', idCliente.toString())
+      .set('direccionDestino', direccionDestino)
+      .set('tamanio', tamanio)
+      .set('ciudadDestino', ciudadDestino)
+      .set('esFragil', esFragil.toString());
+
+    return this.http.post(this.urlbase + '/paquetenoalimenticio/crear', null, {
+      params: params,
+      responseType: 'text',
+      observe: 'response'
+    });
   }
 
 
