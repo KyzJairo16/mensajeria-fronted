@@ -80,4 +80,11 @@ export class AdministradorService {
       observe: 'response',
     });
   }
+
+  loginAdmin(usuario: string, contrasenia: string) {
+    return this.administrador.post(this.urlbase + '/administrador/login?usuario=' + usuario + '&contrasenia=' + contrasenia, null, {
+      responseType: 'text'
+    });
+  }
+
 }
