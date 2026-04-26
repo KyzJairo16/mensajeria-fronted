@@ -5,27 +5,27 @@ import { PaquetecartaModel } from '../models/paquetecarta.model';
 @Injectable({
   providedIn: 'root',
 })
-export class PaquetecartaService{
+export class PaquetecartaService {
   private http = inject(HttpClient);
   private readonly urlbase: string = 'http://localhost:8080';
 
 
-  getPaquetesCarta() {
+  getPaquetesCartas() {
     return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/mostrartodo', {
       observe: 'response',
     });
   }
 
 
-  crearPaqueteCarta(precioEnvio: number, direccionDestino: string, tamanio: string, fechaCreacionPedido: Date, fechaEstimadaEntrega: Date, tipoCarta: string) {
-    return this.http.post(this.urlbase + '/paquetecarta/crear?precioEnvio=' + precioEnvio + '&direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&fechaCreacionPedido=' + fechaCreacionPedido + '&fechaEstimadaEntrega=' + fechaEstimadaEntrega + '&tipoCarta=' + tipoCarta, null, {
+  crearPaqueteCarta(direccionDestino: string, tamanio: string, ciudadDestino: string, tipoCarta: string) {
+    return this.http.post(this.urlbase + '/paquetecarta/crear?direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&ciudadDestino=' + ciudadDestino + '&tipoCarta=' + tipoCarta, null, {
       responseType: 'text',
     });
   }
 
 
-  actualizarPaqueteCarta(id: number, precioEnvio: number, direccionDestino: string, tamanio: string, fechaCreacionPedido: Date, fechaEstimadaEntrega: Date, tipoCarta: string) {
-    return this.http.put(this.urlbase + '/paquetecarta/actualizar?id=' + id + '&precioEnvio=' + precioEnvio + '&direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&fechaCreacionPedido=' + fechaCreacionPedido + '&fechaEstimadaEntrega=' + fechaEstimadaEntrega + '&tipoCarta=' + tipoCarta, null, {
+  actualizarPaqueteCarta(id: number, direccionDestino: string, ciudadDestino: string, tamanio: string, tipoCarta: string) {
+    return this.http.put(this.urlbase + '/paquetecarta/actualizar?id=' + id + '&direccionDestino=' + direccionDestino + '&ciudadDestino=' + ciudadDestino + '&tamanio=' + tamanio + '&tipoCarta=' + tipoCarta, null, {
       responseType: 'text',
     });
   }
@@ -37,16 +37,37 @@ export class PaquetecartaService{
     });
   }
 
-  // Búsqueda por precio de envío
-  buscarPorPrecioEnvio(precioEnvio: number) {
-    return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscarporprecioenvio?precioEnvio=' + precioEnvio, {
+
+  buscarPorTamanio(tamanio: string) {
+    return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscarportamanio?tamanio=' + tamanio, {
       observe: 'response',
     });
   }
 
-  // Búsqueda por tipo de carta
+
   buscarPorTipoCarta(tipoCarta: string) {
     return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscarportipocarta?tipoCarta=' + tipoCarta, {
+      observe: 'response',
+    });
+  }
+
+
+  buscarPorTamanioYTipoCarta(tamanio: string, tipoCarta: string) {
+    return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscarportamanioytipocarta?tamanio=' + tamanio + '&tipoCarta=' + tipoCarta, {
+      observe: 'response',
+    });
+  }
+
+
+  buscarPorId(id: number) {
+    return this.http.get<PaquetecartaModel>(this.urlbase + '/paquetecarta/buscarporid?id=' + id, {
+      observe: 'response',
+    });
+  }
+
+
+  buscarDireccionYCiudad(dir: string, ciudad: string) {
+    return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscardireccionyciudad?dir=' + dir + '&ciudad=' + ciudad, {
       observe: 'response',
     });
   }

@@ -1,32 +1,31 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PaquetecartaModel } from '../models/paquetecarta.model';
 import { PaquetealimenticioModel } from '../models/paquetealimenticio.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PaqueteAlimenticioService {
+export class PaquetealimenticioService {
   private http = inject(HttpClient);
   private readonly urlbase: string = 'http://localhost:8080';
 
 
   getPaquetesAlimenticios() {
-    return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetealimenticio/mostrartodo', {
+    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/mostrartodo', {
       observe: 'response',
     });
   }
 
 
-  crearPaqueteAlimenticio(seEnviaHoy: boolean, tipoDeAlimento: string, precioEnvio: number, direccionDestino: string, tamanio: string, fechaCreacion: Date, fechaEntrega: Date) {
-    return this.http.post(this.urlbase + '/paquetealimenticio/crear?seEnviaHoy=' + seEnviaHoy + '&tipoDeAlimento=' + tipoDeAlimento + '&precioEnvio=' + precioEnvio + '&direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&fechaCreacionPedido=' + fechaCreacion + '&fechaEstimadaEntrega=' + fechaEntrega, null, {
+  crearPaqueteAlimenticio(direccionDestino: string, tamanio: string, ciudadDestino: string, tipoDeAlimento: string) {
+    return this.http.post(this.urlbase + '/paquetealimenticio/crear?direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&ciudadDestino=' + ciudadDestino + '&tipoDeAlimento=' + tipoDeAlimento, null, {
       responseType: 'text',
     });
   }
 
 
-  actualizarPaqueteAlimenticio(id: number, seEnviaHoy: boolean, tipoDeAlimento: string, precioEnvio: number, direccionDestino: string, tamanio: string, fechaCreacion: Date, fechaEntrega: Date) {
-    return this.http.put(this.urlbase + '/paquetealimenticio/actualizar?id=' + id + '&seEnviaHoy=' + seEnviaHoy + '&tipoDeAlimento=' + tipoDeAlimento + '&precioEnvio=' + precioEnvio + '&direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&fechaCreacionPedido=' + fechaCreacion + '&fechaEstimadaEntrega=' + fechaEntrega, null, {
+  actualizarPaqueteAlimenticio(id: number, direccionDestino: string, ciudadDestino: string, tamanio: string, tipoDeAlimento: string) {
+    return this.http.put(this.urlbase + '/paquetealimenticio/actualizar?id=' + id + '&direccionDestino=' + direccionDestino + '&ciudadDestino=' + ciudadDestino + '&tamanio=' + tamanio + '&tipoDeAlimento=' + tipoDeAlimento, null, {
       responseType: 'text',
     });
   }
@@ -39,14 +38,42 @@ export class PaqueteAlimenticioService {
   }
 
 
-  buscarPorTipoAlimento(tipoDeAlimento: string) {
-    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscarportipodealimento?tipoDeAlimento=' + tipoDeAlimento, {
+
+
+
+  buscarPorTamanio(tamanio: string) {
+    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscartamanio?tamanio=' + tamanio, {
       observe: 'response',
     });
   }
 
-  buscarPorPrecioEnvio(precioEnvio: number) {
-    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscarporpreciodeenvio?precioEnvio=' + precioEnvio, {
+  buscarPorSeEnviaHoy(seEnviaHoy: boolean) {
+    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscarporenviahoy?seEnviaHoy=' + seEnviaHoy, {
+      observe: 'response',
+    });
+  }
+
+  buscarPorTipoDeAlimento(tipoDeAlimento: string) {
+    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscarportipoalimento?tipoDeAlimento=' + tipoDeAlimento, {
+      observe: 'response',
+    });
+  }
+
+  buscarPorTamanioYTipo(tamanio: string, tipoDeAlimento: string) {
+    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscarportamanioytipo?tamanio=' + tamanio + '&tipoDeAlimento=' + tipoDeAlimento, {
+      observe: 'response',
+    });
+  }
+
+  buscarPorId(id: number) {
+    return this.http.get<PaquetealimenticioModel>(this.urlbase + '/paquetealimenticio/buscarPorId?id=' + id, {
+      observe: 'response',
+    });
+  }
+
+
+  buscarDireccionYCiudad(dir: string, ciudad: string) {
+    return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscardireccionyciudad?dir=' + dir + '&ciudad=' + ciudad, {
       observe: 'response',
     });
   }
