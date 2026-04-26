@@ -17,10 +17,24 @@ export class PaquetealimenticioService {
   }
 
 
-  crearPaqueteAlimenticio(direccionDestino: string, tamanio: string, ciudadDestino: string, tipoDeAlimento: string) {
-    return this.http.post(this.urlbase + '/paquetealimenticio/crear?direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&ciudadDestino=' + ciudadDestino + '&tipoDeAlimento=' + tipoDeAlimento, null, {
-      responseType: 'text',
-    });
+  crearPaqueteAlimenticio(
+    direccionDestino: string,
+    tamanio: string,
+    ciudadDestino: string,
+    idCliente: number,
+    tipoDeAlimento: string
+  ) {
+    return this.http.post(
+      this.urlbase + '/paquetealimenticio/crear' +
+      '?direccionDestino=' + direccionDestino +
+      '&tamanio=' + tamanio +
+      '&ciudadDestino=' + ciudadDestino +
+      '&idCliente=' + idCliente +
+      '&seEnviaHoy=true' +
+      '&tipoDeAlimento=' + tipoDeAlimento,
+      null,
+      { responseType: 'text', observe: 'response' }  // ✅ CORREGIDO
+    );
   }
 
 
@@ -36,9 +50,6 @@ export class PaquetealimenticioService {
       responseType: 'text',
     });
   }
-
-
-
 
 
   buscarPorTamanio(tamanio: string) {
@@ -70,7 +81,6 @@ export class PaquetealimenticioService {
       observe: 'response',
     });
   }
-
 
   buscarDireccionYCiudad(dir: string, ciudad: string) {
     return this.http.get<PaquetealimenticioModel[]>(this.urlbase + '/paquetealimenticio/buscardireccionyciudad?dir=' + dir + '&ciudad=' + ciudad, {

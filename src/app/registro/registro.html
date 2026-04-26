@@ -6,22 +6,27 @@
       <p>{{ paso === 1 ? 'Información Personal' : 'Configuración de Cuenta' }}</p>
     </div>
 
+
     <div *ngIf="paso === 1" class="form-step">
       <div class="input-group">
         <label>Nombre Completo</label>
-        <input type="text" [(ngModel)]="datos.nombre" placeholder="Laura Martinez">
+        <input type="text" name="nombre" [(ngModel)]="datos.nombre" placeholder="Laura Martinez">
+
       </div>
       <div class="input-group">
         <label>Cédula</label>
-        <input type="text" [(ngModel)]="datos.cedula" placeholder="79989999">
+        <input type="text" name="cedula" [(ngModel)]="datos.cedula" placeholder="79989999">
+
       </div>
       <div class="input-group">
         <label>Correo Electrónico</label>
-        <input type="email" [(ngModel)]="datos.correo" placeholder="correo@ejemplo.com">
+        <input type="email" name="correo" [(ngModel)]="datos.correo" placeholder="correo@ejemplo.com">
+
       </div>
       <div class="input-group">
         <label>Teléfono</label>
-        <input type="text" [(ngModel)]="datos.telefono" placeholder="300 123 4567">
+        <input type="text" name="telefono" [(ngModel)]="datos.telefono" placeholder="300 123 4567">
+
       </div>
 
       <button
@@ -32,10 +37,12 @@
       </button>
     </div>
 
+
     <div *ngIf="paso === 2" class="form-step">
       <div class="input-group">
         <label>Tipo de Cliente</label>
-        <select class="combo-box" [(ngModel)]="datos.tipoCliente">
+        <select class="combo-box" name="tipoCliente" [(ngModel)]="datos.tipoCliente">
+
           <option value="" disabled selected>Seleccione su categoría</option>
           <option value="normal">Cliente Normal</option>
           <option value="concurrente">Cliente Concurrente</option>
@@ -45,7 +52,8 @@
 
       <div class="input-group">
         <label>Contraseña</label>
-        <input type="password" [(ngModel)]="datos.contrasenia" placeholder="Cree su contraseña">
+        <input type="password" name="contrasenia" [(ngModel)]="datos.contrasenia" placeholder="Cree su contraseña">
+
       </div>
 
       <div class="button-group">

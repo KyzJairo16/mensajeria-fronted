@@ -1,4 +1,3 @@
-
 <div class="admin-wrapper">
 
   <!-- HEADER -->
@@ -8,200 +7,111 @@
       Gestión de Clientes
     </h2>
 
-    <select class="filtro">
-      <option>Todos</option>
-      <option>Normal</option>
-      <option>Concurrente</option>
-      <option>Premium</option>
+    <select class="filtro" (change)="onFiltroChange($event)">
+      <option value="Todos">Todos</option>
+      <option value="Normal">Normal</option>
+      <option value="Concurrente">Concurrente</option>
+      <option value="Premium">Premium</option>
     </select>
   </div>
 
-  <!-- 🔥 LEYENDA (IMPORTANTE PARA EL ADMIN) -->
+  <!-- LEYENDA -->
   <div class="legend">
-
     <span class="legend-item premium">
       <i class="fas fa-crown"></i> Premium
     </span>
-
     <span class="legend-item concurrente">
       <i class="fas fa-sync"></i> Concurrente
     </span>
-
     <span class="legend-item normal">
       <i class="fas fa-user"></i> Normal
     </span>
-
   </div>
 
   <!-- CONTADOR -->
   <div class="contador">
     <i class="fas fa-users"></i>
     <span>Total clientes:</span>
-    <strong>3</strong>
+    <strong>{{ clientesFiltrados.length }}</strong>
   </div>
 
-  <div class="clientes-container">
+  <!-- ESTADO DE CARGA -->
+  <div *ngIf="cargando" class="estado-carga">
+    <i class="fas fa-spinner fa-spin"></i> Cargando clientes...
+  </div>
 
-    <!-- 🔥 PREMIUM -->
-    <div class="cliente-card premium">
+  <!-- ERROR -->
+  <div *ngIf="error" class="estado-error">
+    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+  </div>
+
+  <!-- SIN RESULTADOS -->
+  <div *ngIf="!cargando && clientesFiltrados.length === 0 && !error" class="estado-vacio">
+    <i class="fas fa-inbox"></i>
+    <p>No hay clientes registrados.</p>
+  </div>
+
+  <!-- LISTA DE CLIENTES -->
+  <div class="clientes-container" *ngIf="!cargando">
+
+    <div
+      *ngFor="let cliente of clientesFiltrados"
+      class="cliente-card"
+      [ngClass]="cliente.tipo.toLowerCase()">
 
       <div class="cliente-main">
 
-        <div class="avatar premium">JP</div>
+        <!-- Avatar con iniciales -->
+        <div class="avatar" [ngClass]="cliente.tipo.toLowerCase()">
+          {{ getIniciales(cliente.nombre) }}
+        </div>
 
         <div class="info">
 
           <div class="name-row">
             <h3>
               <i class="fas fa-user"></i>
-              Juan Pérez
+              {{ cliente.nombre }}
             </h3>
 
-            <span class="badge premium">
-              <i class="fas fa-crown"></i>
-              Tipo: Premium
+            <span class="badge" [ngClass]="cliente.tipo.toLowerCase()">
+              <i class="fas fa-crown" *ngIf="cliente.tipo === 'Premium'"></i>
+              <i class="fas fa-sync" *ngIf="cliente.tipo === 'Concurrente'"></i>
+              <i class="fas fa-user" *ngIf="cliente.tipo === 'Normal'"></i>
+              Tipo: {{ cliente.tipo }}
             </span>
           </div>
 
-          <p><i class="fas fa-id-card"></i> CC 12.345.678</p>
-          <p><i class="fas fa-envelope"></i> juan@mail.com</p>
-          <p><i class="fas fa-phone"></i> 3001234567</p>
+          <p><i class="fas fa-id-card"></i> CC {{ cliente.cedula }}</p>
+          <p><i class="fas fa-envelope"></i> {{ cliente.correo }}</p>
+          <p><i class="fas fa-phone"></i> {{ cliente.telefono }}</p>
+          <p *ngIf="cliente.metodoPago">
+            <i class="fas fa-credit-card"></i> {{ cliente.metodoPago }}
+          </p>
 
         </div>
 
         <div class="actions">
-            <button type="button" class="btn btn-primary" ><i class="fas fa-sync-alt"></i> Actualizar</button>
-            <button type="button" class="btn btn-danger" ><i class="fa-solid fa-trash"></i> Eliminar </button>
-            <button type="button" class="btn btn-warning"> <i class="fas fa-eye"></i> Historial </button>
+          <button type="button" class="btn btn-primary">
+            <i class="fas fa-sync-alt"></i> Actualizar
+          </button>
+          <button type="button" class="btn btn-danger" (click)="eliminarCliente(cliente)">
+            <i class="fa-solid fa-trash"></i> Eliminar
+          </button>
+          <button type="button" class="btn btn-warning" (click)="toggleHistorial(getClienteKey(cliente))">
+            <i class="fas fa-eye"></i> Historial
+          </button>
         </div>
 
       </div>
 
-      <div class="historial">
+      <!-- HISTORIAL (se muestra al hacer clic) -->
+      <div class="historial" *ngIf="historialVisible[getClienteKey(cliente)]">
         <div class="historial-title">
-          <i class="fas fa-truck"></i> Historial
+          <i class="fas fa-truck"></i> Historial de envíos
         </div>
-
-        <div class="historial-item">
-          <i class="fas fa-box"></i> #ENV001
-          <i class="fas fa-map-marker-alt"></i> Bogotá
-          <span class="estado entregado">
-            <i class="fas fa-check-circle"></i> Entregado
-          </span>
-          <i class="fas fa-calendar"></i> 20 Jul
-        </div>
-
-        <div class="historial-item">
-          <i class="fas fa-box"></i> #ENV002
-          <i class="fas fa-map-marker-alt"></i> Medellín
-          <span class="estado camino">
-            <i class="fas fa-truck"></i> En camino
-          </span>
-          <i class="fas fa-calendar"></i> 22 Jul
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 🔥 CONCURRENTE -->
-    <div class="cliente-card concurrente">
-
-      <div class="cliente-main">
-
-        <div class="avatar concurrente">AM</div>
-
-        <div class="info">
-
-          <div class="name-row">
-            <h3>
-              <i class="fas fa-user"></i>
-              Ana Martínez
-            </h3>
-
-            <span class="badge concurrente">
-              <i class="fas fa-sync"></i>
-              Tipo: Concurrente
-            </span>
-          </div>
-
-          <p><i class="fas fa-id-card"></i> CC 98.765.432</p>
-          <p><i class="fas fa-envelope"></i> ana@mail.com</p>
-          <p><i class="fas fa-phone"></i> 3109876543</p>
-
-        </div>
-
-        <div class="actions">
-          <button type="button" class="btn btn-primary" ><i class="fas fa-sync-alt"></i> Actualizar</button>
-          <button type="button" class="btn btn-danger" ><i class="fa-solid fa-trash"></i> Eliminar </button>
-          <button type="button" class="btn btn-warning"> <i class="fas fa-eye"></i> Historial </button>
-        </div>
-
-      </div>
-
-      <div class="historial">
-        <div class="historial-title">
-          <i class="fas fa-truck"></i> Historial
-        </div>
-
-        <div class="historial-item">
-          <i class="fas fa-box"></i> #ENV010
-          <i class="fas fa-map-marker-alt"></i> Cali
-          <span class="estado camino">
-            <i class="fas fa-truck"></i> En camino
-          </span>
-          <i class="fas fa-calendar"></i> 18 Jul
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 🔥 NORMAL -->
-    <div class="cliente-card normal">
-
-      <div class="cliente-main">
-
-        <div class="avatar normal">CR</div>
-
-        <div class="info">
-
-          <div class="name-row">
-            <h3>
-              <i class="fas fa-user"></i>
-              Carlos Ruiz
-            </h3>
-
-            <span class="badge normal">
-              <i class="fas fa-user"></i>
-              Tipo: Normal
-            </span>
-          </div>
-
-          <p><i class="fas fa-id-card"></i> CC 11.223.344</p>
-          <p><i class="fas fa-envelope"></i> carlos@mail.com</p>
-          <p><i class="fas fa-phone"></i> 3011122334</p>
-
-        </div>
-
-        <div class="actions">
-          <button type="button" class="btn btn-primary" ><i class="fas fa-sync-alt"></i> Actualizar</button>
-          <button type="button" class="btn btn-danger" ><i class="fa-solid fa-trash"></i> Eliminar </button>
-          <button type="button" class="btn btn-warning"> <i class="fas fa-eye"></i> Historial </button>
-        </div>
-
-      </div>
-
-      <div class="historial">
-        <div class="historial-title">
-          <i class="fas fa-truck"></i> Historial
-        </div>
-
-        <div class="historial-item">
-          <i class="fas fa-box"></i> #ENV020
-          <i class="fas fa-map-marker-alt"></i> Bogotá
-          <span class="estado entregado">
-            <i class="fas fa-check-circle"></i> Entregado
-          </span>
-          <i class="fas fa-calendar"></i> 10 Jul
+        <div class="historial-vacio">
+          <i class="fas fa-info-circle"></i> No hay envíos registrados para este cliente.
         </div>
       </div>
 
