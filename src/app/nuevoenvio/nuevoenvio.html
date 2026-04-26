@@ -10,7 +10,12 @@
       <h3><span class="step-num">1</span> Destino de Entrega</h3>
       <div class="field">
         <label>Ciudad de Destino</label>
-        <input type="text" [(ngModel)]="paquete.ciudadDestino" placeholder="Ej: Bogotá">
+        <select [(ngModel)]="paquete.ciudadDestino">
+          <option value="" disabled selected>Seleccione una ciudad</option>
+          <option *ngFor="let ciudad of ciudades" [value]="ciudad">
+            {{ ciudad }}
+          </option>
+        </select>
       </div>
       <div class="field">
         <label>Dirección de Destino</label>
@@ -40,6 +45,12 @@
           <input type="text" [(ngModel)]="paquete.descripcionContenido" placeholder="Ej: Celular, Ropa...">
         </div>
 
+
+        <div *ngIf="tipoSeleccionado === 'no-alimenticio'" class="specific-field">
+          <label>¿Es frágil?</label>
+          <input type="checkbox" [(ngModel)]="paquete.esFragil">
+        </div>
+
         <div *ngIf="tipoSeleccionado === 'carta'" class="specific-field">
           <label>Categoría de Carta</label>
           <input type="text" [(ngModel)]="paquete.tipoCarta" placeholder="Ej: Documento Legal, Factura...">
@@ -47,10 +58,6 @@
       </div>
 
       <div class="row">
-        <div class="field">
-          <label>Peso (kg)</label>
-          <input type="number" [(ngModel)]="paquete.peso" placeholder="0.0">
-        </div>
         <div class="field">
           <label>Tamaño</label>
           <select [(ngModel)]="paquete.tamanio">
@@ -86,4 +93,9 @@
     </div>
 
   </div>
+
+
+  <div *ngIf="mensajeError" class="msg-error">{{ mensajeError }}</div>
+  <div *ngIf="mensajeExito" class="msg-exito">{{ mensajeExito }}</div>
+
 </div>

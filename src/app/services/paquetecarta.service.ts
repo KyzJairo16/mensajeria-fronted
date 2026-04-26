@@ -17,10 +17,23 @@ export class PaquetecartaService {
   }
 
 
-  crearPaqueteCarta(direccionDestino: string, tamanio: string, ciudadDestino: string, tipoCarta: string) {
-    return this.http.post(this.urlbase + '/paquetecarta/crear?direccionDestino=' + direccionDestino + '&tamanio=' + tamanio + '&ciudadDestino=' + ciudadDestino + '&tipoCarta=' + tipoCarta, null, {
-      responseType: 'text',
-    });
+  crearPaqueteCarta(
+    idCliente: number,
+    direccionDestino: string,
+    tamanio: string,
+    ciudadDestino: string,
+    tipoCarta: string
+  ) {
+    return this.http.post(
+      this.urlbase + '/paquetecarta/crear' +
+      '?idCliente=' + idCliente +
+      '&direccionDestino=' + direccionDestino +
+      '&tamanio=' + tamanio +
+      '&ciudadDestino=' + ciudadDestino +
+      '&tipoCarta=' + tipoCarta,
+      null,
+      { responseType: 'text', observe: 'response' }  // ✅ CORREGIDO
+    );
   }
 
 
@@ -44,13 +57,11 @@ export class PaquetecartaService {
     });
   }
 
-
   buscarPorTipoCarta(tipoCarta: string) {
     return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscarportipocarta?tipoCarta=' + tipoCarta, {
       observe: 'response',
     });
   }
-
 
   buscarPorTamanioYTipoCarta(tamanio: string, tipoCarta: string) {
     return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscarportamanioytipocarta?tamanio=' + tamanio + '&tipoCarta=' + tipoCarta, {
@@ -58,13 +69,11 @@ export class PaquetecartaService {
     });
   }
 
-
   buscarPorId(id: number) {
     return this.http.get<PaquetecartaModel>(this.urlbase + '/paquetecarta/buscarporid?id=' + id, {
       observe: 'response',
     });
   }
-
 
   buscarDireccionYCiudad(dir: string, ciudad: string) {
     return this.http.get<PaquetecartaModel[]>(this.urlbase + '/paquetecarta/buscardireccionyciudad?dir=' + dir + '&ciudad=' + ciudad, {

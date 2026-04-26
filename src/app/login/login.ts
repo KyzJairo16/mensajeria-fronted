@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientenormalService } from '../services/clientenormal.service';
 import { ClientepremiumService } from '../services/clientepremium.service';
-import { ClienteconcurrenteService } from '../services/clienteconcurrente';
+import { ClienteconcurrenteService } from '../services/clienteconcurrente.service';
 
 @Component({
   selector: 'app-login',
@@ -33,10 +33,14 @@ export class Login {
   }
 
   private intentarLoginNormal() {
-
     this.normalService.login(this.credencial.cedula, this.credencial.pass).subscribe({
       next: (respuesta) => {
-        console.log('✅ Cliente Normal encontrado:', respuesta);
+        // 👇 CAMBIA ESTO - guarda con la clave que espera nuevoenvio
+        localStorage.setItem('usuarioLogueado', JSON.stringify({
+          id: this.credencial.cedula, // o el id real si el backend lo devuelve
+          cedula: this.credencial.cedula,
+          tipo: 'normal'
+        }));
         this.router.navigate(['/cliente']);
       },
       error: () => this.intentarLoginPremium()
@@ -44,10 +48,13 @@ export class Login {
   }
 
   private intentarLoginPremium() {
-
     this.premiumService.login(this.credencial.cedula, this.credencial.pass).subscribe({
       next: (respuesta) => {
-        console.log( respuesta);
+        localStorage.setItem('usuarioLogueado', JSON.stringify({
+          id: this.credencial.cedula,
+          cedula: this.credencial.cedula,
+          tipo: 'premium'
+        }));
         this.router.navigate(['/cliente']);
       },
       error: () => this.intentarLoginConcurrente()
@@ -55,15 +62,17 @@ export class Login {
   }
 
   private intentarLoginConcurrente() {
-
     this.concurrenteService.login(this.credencial.cedula, this.credencial.pass).subscribe({
       next: (respuesta) => {
-        console.log( respuesta);
+        localStorage.setItem('usuarioLogueado', JSON.stringify({
+          id: this.credencial.cedula,
+          cedula: this.credencial.cedula,
+          tipo: 'concurrente'
+        }));
         this.router.navigate(['/cliente']);
       },
       error: () => {
-
-        console.log('Error: Las credenciales no coinciden con ningún cliente.');
+        console.log('Credenciales incorrectas');
       }
     });
   }
