@@ -14,7 +14,7 @@ import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
 
 const routes: Routes = [
   { path: 'login', component: Login },
-  { path: 'inicio', component: Inicio },
+  { path: '', component: Inicio },
   { path: 'registro', component: Registro },
   { path: 'administrador', component: Administrador },
   { path: 'inicioadministrador', component: Inicioadministrador },
