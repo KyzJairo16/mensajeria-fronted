@@ -22,14 +22,17 @@ export class PaquetecartaService {
     direccionDestino: string,
     tamanio: string,
     ciudadDestino: string,
-    tipoCarta: string
+    tipoCarta: string,
+    esPrioritario:boolean,
   ) {
     const params = new HttpParams()
       .set('idCliente', idCliente.toString())
       .set('direccionDestino', direccionDestino)
       .set('tamanio', tamanio)
       .set('ciudadDestino', ciudadDestino)
-      .set('tipoCarta', tipoCarta);
+      .set('tipoCarta', tipoCarta)
+      .set('esPrioritario', esPrioritario.toString());
+
 
 
     console.log({
@@ -38,6 +41,7 @@ export class PaquetecartaService {
       tamanio,
       ciudadDestino,
       tipoCarta,
+      esPrioritario,
       urlCompleta: `${this.urlbase}/paquetecarta/crear?${params.toString()}`
     });
 

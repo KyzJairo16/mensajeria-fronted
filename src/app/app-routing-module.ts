@@ -8,19 +8,19 @@ import { Administrador } from './administrador/administrador';
 import { Inicioadministrador } from './inicioadministrador/inicioadministrador';
 import { Cliente } from './cliente/cliente';
 import { Gestorcliente } from './gestorcliente/gestorcliente';
-import { RegistroEnvioComponent } from './nuevoenvio/nuevoenvio'; // ✅ CORREGIDO
+import { Nuevoenvio } from './nuevoenvio/nuevoenvio'; // ✅ CORREGIDO
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
 import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
 
 const routes: Routes = [
   { path: 'login', component: Login },
-  { path: '', component: Inicio },
+  { path: 'inicio', component: Inicio },
   { path: 'registro', component: Registro },
   { path: 'administrador', component: Administrador },
   { path: 'inicioadministrador', component: Inicioadministrador },
   { path: 'cliente', component: Cliente },
   { path: 'gestorcliente', component: Gestorcliente },
-  { path: 'nuevoenvio', component: RegistroEnvioComponent },
+  { path: 'nuevoenvio', component: Nuevoenvio },
   { path: 'gestortrabajador', component: Gestortrabajador },
   { path: 'gestorpaquete', component: Gestorpaquete },
 ];
