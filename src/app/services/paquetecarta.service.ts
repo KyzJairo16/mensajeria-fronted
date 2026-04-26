@@ -96,4 +96,11 @@ export class PaquetecartaService {
       observe: 'response',
     });
   }
+
+  verHistorial(idCliente: number) {
+    return this.http.get<PaquetecartaModel[]>(
+      this.urlbase + '/paquetecarta/historialporid?idCliente=' +idCliente,
+      { observe: 'response' }
+    );
+  }
 }

@@ -65,23 +65,19 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>ENV001</td>
-            <td>Medellín</td>
-            <td><span class="status-pill en-camino">En Camino</span></td>
-            <td>20 Jul</td>
+          <tr *ngIf="listaEnvios.length === 0">
+            <td colspan="4" style="text-align: center;">Aún no tienes pedidos registrados.</td>
           </tr>
-          <tr>
-            <td>ENV002</td>
-            <td>Barranquilla</td>
-            <td><span class="status-pill entregado">Entregado</span></td>
-            <td>18 Jul</td>
-          </tr>
-          <tr>
-            <td>ENV003</td>
-            <td>Cali</td>
-            <td><span class="status-pill pendiente">Pendiente</span></td>
-            <td>22 Jul</td>
+
+          <tr *ngFor="let envio of listaEnvios">
+            <td>#{{ envio.id }}</td>
+            <td>{{ envio.ciudadDestino }}</td>
+            <td>
+      <span class="status-pill" [ngClass]="envio.estadoPedido?.toLowerCase() || 'pendiente'">
+        {{ envio.estadoPedido || 'EN PROCESO' }}
+      </span>
+            </td>
+            <td>{{ envio.fechaCreacionPedido | date:'dd MMM' }}</td>
           </tr>
           </tbody>
         </table>
