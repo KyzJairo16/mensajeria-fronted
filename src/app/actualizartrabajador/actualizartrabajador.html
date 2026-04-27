@@ -31,37 +31,40 @@
       </select>
     </div>
 
-    <div ngIf="tipo === 'Conductor'" class="group">
+    <div *ngIf="tipo === 'Conductor'" class="group">
       <label>Placa del Vehículo</label>
       <input type="text" [(ngModel)]="modelo.placaVehiculo" name="placa">
     </div>
 
-    <divngIf="tipo === 'Manipulador'" class="group">
-    <label>Tipo de Manipulador</label>
-    <input type="text" [(ngModel)]="modelo.tipoManipulador" name="tipoM">
-</div>
+    <div *ngIf="tipo === 'Manipulador'" class="group">
+      <label>Tipo de Manipulador</label>
+      <input type="text" [(ngModel)]="modelo.tipoManipulador" name="tipoM">
+    </div>
 
-<div *ngIf="tipo === 'Administrador'">
-  <div class="group">
-    <label>Nombre de Usuario</label>
-    <input type="text" [(ngModel)]="modelo.usuario" name="user">
-  </div>
-  <div class="group">
-    <label>Contraseña</label>
-    <input type="password" [(ngModel)]="modelo.contrasenia" name="pass">
-  </div>
-</div>
+    <div *ngIf="tipo === 'Administrador'">
+      <div class="group">
+        <label>Nombre de Usuario</label>
+        <input type="text" [(ngModel)]="modelo.usuario" name="user">
+      </div>
+      <div class="group">
+        <label>Contraseña</label>
+        <input type="password" [(ngModel)]="modelo.contrasenia" name="pass">
+      </div>
+    </div>
 
-<div class="buttons" style="margin-top: 20px;">
-  <button class="btn-edit"
-          [routerLink]="['/admin/actualizartrabajador', trabajador.tipo, trabajador.id]">
-    <i class="fas fa-edit"></i> Actualizar
-  </button>
-  <button type="submit" class="btn-save" [disabled]="cargando">
-    {{ cargando ? 'Guardando...' : 'Guardar Cambios' }}
-  </button>
-  <button type="button" class="btn-cancel" (click)="exito()">
-    Cancelar
-  </button>
+    <div class="buttons" style="margin-top: 20px;">
+      <button type="button" class="btn-edit"
+              [routerLink]="['/admin/actualizartrabajador', tipo, id]">
+        <i class="fas fa-edit"></i> Refrescar
+      </button>
+
+      <button type="submit" class="btn-save" [disabled]="cargando">
+        {{ cargando ? 'Guardando...' : 'Guardar Cambios' }}
+      </button>
+
+      <button type="button" class="btn-cancel" (click)="exito()">
+        Cancelar
+      </button>
+    </div>
   </form>
 </div>

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Administrador } from './administrador';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('Administrador', () => {
   let component: Administrador;
@@ -9,11 +9,12 @@ describe('Administrador', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [Administrador],
+      imports: [RouterTestingModule] // Esto arregla el error de los routerLink
     }).compileComponents();
 
     fixture = TestBed.createComponent(Administrador);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

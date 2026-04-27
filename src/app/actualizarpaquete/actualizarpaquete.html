@@ -17,39 +17,37 @@
       <input type="text" [(ngModel)]="modelo.tamanio" name="tam" required>
     </div>
 
-    <div ngIf="tipo === 'Carta'" class="group">
+    <div *ngIf="tipo === 'Carta'" class="group">
       <label>Tipo de Carta (Ej: Urgente, Normal)</label>
       <input type="text" [(ngModel)]="modelo.tipoCarta" name="tcarta">
     </div>
-<div>
-    <divngIf="tipo === 'Alimenticio'" class="group">
-    <label>Tipo de Alimento</label>
-    <input type="text" [(ngModel)]="modelo.tipoDeAlimento" name="talim">
-</div>
 
-<div *ngIf="tipo === 'NoAlimenticio'" class="group">
-  <label>¿Es material frágil?</label>
-  <select [(ngModel)]="modelo.esFragil" name="fragil">
-    <option [ngValue]="true">Sí, es frágil</option>
-    <option [ngValue]="false">No es frágil</option>
-  </select>
-</div>
+    <div *ngIf="tipo === 'Alimenticio'" class="group">
+      <label>Tipo de Alimento</label>
+      <input type="text" [(ngModel)]="modelo.tipoDeAlimento" name="talim">
+    </div>
 
-<div class="buttons" style="margin-top: 20px;">
-  <button class="btn-edit"
-          [routerLink]="['/admin/actualizarpaquete', paquete.tipo, paquete.id]">
-    <i class="fas fa-edit"></i> Actualizar
-  </button>
-  <button type="submit" class="btn-save" [disabled]="cargando">
-    {{ cargando ? 'Actualizar Paquete' : 'Actualizar Paquete' }}
-  </button>
-  <button type="button" class="btn-cancel" (click)="listo()">
-    Volver
-  </button>
+    <div *ngIf="tipo === 'NoAlimenticio'" class="group">
+      <label>¿Es material frágil?</label>
+      <select [(ngModel)]="modelo.esFragil" name="fragil">
+        <option [ngValue]="true">Sí, es frágil</option>
+        <option [ngValue]="false">No es frágil</option>
+      </select>
+    </div>
+
+    <div class="buttons" style="margin-top: 20px;">
+      <button type="button" class="btn-edit"
+              [routerLink]="['/admin/actualizarpaquete', tipo, id]">
+        <i class="fas fa-edit"></i> Refrescar
+      </button>
+
+      <button type="submit" class="btn-save" [disabled]="cargando">
+        {{ cargando ? 'Actualizando...' : 'Actualizar Paquete' }}
+      </button>
+
+      <button type="button" class="btn-cancel" (click)="listo()">
+        Volver
+      </button>
+    </div>
   </form>
 </div>
-
-
-
-
-

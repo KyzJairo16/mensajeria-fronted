@@ -22,12 +22,12 @@ export class Actualizarcliente implements OnInit {
   private sConcurrente = inject(ClienteconcurrenteService);
   private sPremium = inject(ClientepremiumService);
 
-  ngOnInit() {
-    this.tipo = this.route.snapshot.paramMap.get('tipo') || '';
-    this.id = this.route.snapshot.paramMap.get('id') || '';
+  ngOnInit(): void {
+    // El '??' significa: "Si lo de la izquierda es nulo, usa lo de la derecha ('')"
+    this.tipo = this.route.snapshot.paramMap.get('tipo') ?? '';
+    this.id = this.route.snapshot.paramMap.get('id') ?? '';
     this.cargarDatos();
   }
-
   cargarDatos() {
     const idNum = Number(this.id);
     this.cargando = true;

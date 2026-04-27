@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Inicio } from './inicio';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('Inicio', () => {
   let component: Inicio;
@@ -9,14 +10,26 @@ describe('Inicio', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [Inicio],
+      imports: [
+        RouterTestingModule // Para que el routerLink="/registro" no falle
+      ],
+      schemas: [NO_ERRORS_SCHEMA] // Para que ignore <app-footer> y los iconos de FontAwesome
     }).compileComponents();
 
     fixture = TestBed.createComponent(Inicio);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('debería alternar el modo oscuro', () => {
+    expect(component.modoOscuro).toBe(false);
+    component.alternarModo();
+    expect(component.modoOscuro).toBe(true);
+    component.alternarModo();
+    expect(component.modoOscuro).toBe(false);
   });
 });

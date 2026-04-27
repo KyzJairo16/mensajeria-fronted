@@ -7,24 +7,26 @@ import { ManipuladordepaqueteService } from '../services/manipuladordepaquete.se
 @Component({
   selector: 'app-actualizartrabajador',
   standalone: false,
-  templateUrl: './actualizartrabajador.html',
+  templateUrl:'./actualizartrabajador.html',
   styleUrl: './actualizartrabajador.css',
 })
 export class Actualizartrabajador implements OnInit {
+  // Cambiamos 'string | null' por solo 'string' e inicializamos con ''
   tipo: string = '';
   id: string = '';
   modelo: any = {};
   cargando: boolean = false;
 
-private route = inject(ActivatedRoute);
-private router = inject(Router);
-private sAdmin = inject(AdministradorService);
-private sCond = inject(ConductorService);
-private sManip = inject(ManipuladordepaqueteService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private sAdmin = inject(AdministradorService);
+  private sCond = inject(ConductorService);
+  private sManip = inject(ManipuladordepaqueteService);
 
   ngOnInit() {
-    this.tipo = this.route.snapshot.paramMap.get('tipo') ;
-    this.id = this.route.snapshot.paramMap.get('id');
+    // El '??' asegura que si el valor es nulo, se use un texto vacío ''
+    this.tipo = this.route.snapshot.paramMap.get('tipo') ?? '';
+    this.id = this.route.snapshot.paramMap.get('id') ?? '';
     this.cargarDatos();
   }
 

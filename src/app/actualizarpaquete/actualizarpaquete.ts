@@ -23,13 +23,16 @@ export class Actualizarpaquete implements OnInit {
   private sNoAlim = inject(PaquetenoalimenticioService);
 
   ngOnInit() {
-    this.tipo = this.route.snapshot.paramMap.get('tipo') ;
-    this.id = this.route.snapshot.paramMap.get('id')  ;
+    // CORRECCIÓN: Se añade ?? '' para evitar el error de "null"
+    this.tipo = this.route.snapshot.paramMap.get('tipo') ?? '';
+    this.id = this.route.snapshot.paramMap.get('id') ?? '';
     this.cargar();
   }
 
   cargar() {
     const idNum = Number(this.id);
+    if (!idNum) return; // Seguridad si el ID no es válido
+
     let obs$: any;
     if (this.tipo === 'Carta') obs$ = this.sCarta.buscarPorId(idNum);
     else if (this.tipo === 'Alimenticio') obs$ = this.sAlim.buscarPorId(idNum);
