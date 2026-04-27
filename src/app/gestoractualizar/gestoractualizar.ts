@@ -13,11 +13,19 @@ import { ManipuladordepaqueteService } from '../services/manipuladordepaquete.se
 import { PaquetecartaService } from '../services/paquetecarta.service';
 import { PaquetealimenticioService } from '../services/paquetealimenticio.service';
 import { PaquetenoalimenticioService } from '../services/paquetenoalimenticio.service';
+import {FormsModule} from '@angular/forms';
+import {CommonModule, NgClass, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-gestoractualizar',
+  standalone: true,
   templateUrl: './gestoractualizar.html',
   styleUrls: ['./gestoractualizar.css'],
+  imports: [
+    FormsModule,
+    NgClass,
+    CommonModule
+  ]
 })
 export class Gestoractualizar implements OnInit {
   categoria: string = '';
