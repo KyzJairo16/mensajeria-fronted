@@ -319,14 +319,13 @@
   margin-top: 0.5rem;
 }
 
-/* Contenedor de trabajadores */
 .trabajadores-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-/* Tarjeta de trabajador */
+
 .trabajador-card {
   background: white;
   border-radius: 12px;
@@ -342,7 +341,7 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-/* Colores por tipo de trabajador */
+
 .trabajador-card.administrador {
   border-left-color: #3498db;
   background: linear-gradient(to right, white, #f0f8ff);
@@ -365,7 +364,7 @@
   flex-wrap: wrap;
 }
 
-/* Avatar */
+
 .avatar {
   width: 60px;
   height: 60px;
@@ -391,7 +390,7 @@
   background: linear-gradient(135deg, #9b59b6, #8e44ad);
 }
 
-/* Información */
+
 .info {
   flex: 1;
   min-width: 200px;
@@ -420,7 +419,7 @@
   font-size: 0.9rem;
 }
 
-/* Badge de tipo */
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -460,7 +459,7 @@
   color: #7f8c8d;
 }
 
-/* Botón recargar dentro del estado de carga */
+
 .btn-recargar-carga {
   background: #3498db;
   color: white;
@@ -486,7 +485,7 @@
   transform: translateY(0);
 }
 
-/* Mensaje de éxito */
+
 .mensaje-exito {
   position: fixed;
   top: 20px;
@@ -519,7 +518,7 @@
   }
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .admin-wrapper {
     padding: 1rem;
@@ -602,7 +601,7 @@
   }
 }
 
-/* Animaciones */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -614,7 +613,7 @@
   }
 }
 
-/* Scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

@@ -34,7 +34,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
   private administradorService = inject(AdministradorService);
   private conductorService = inject(ConductorService);
   private manipuladorService = inject(ManipuladordepaqueteService);
-  private router = inject(Router); // Inyectado para el botón volver
+  private router = inject(Router);
 
   trabajadores: TrabajadorUnificado[] = [];
   trabajadoresFiltrados: TrabajadorUnificado[] = [];
@@ -59,7 +59,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
     if (this.esperaInterval) clearInterval(this.esperaInterval);
   }
 
-  // MÉTODO PARA NAVEGACIÓN
+
   volverAlMenu(): void {
     this.router.navigate(['/administrador']);
   }
@@ -135,7 +135,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
       verificarFinalizacion();
     };
 
-    // Cargar Administradores
+
     const adminSub = this.administradorService.getAdministradores()
       .pipe(
         timeout(8000),
@@ -169,7 +169,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
       });
     this.subscriptions.push(adminSub);
 
-    // Cargar Conductores
+
     const conductorSub = this.conductorService.getConductores()
       .pipe(
         timeout(8000),
@@ -202,7 +202,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
       });
     this.subscriptions.push(conductorSub);
 
-    // Cargar Manipuladores
+
     const manipuladorSub = this.manipuladorService.getManipuladores()
       .pipe(
         timeout(8000),
