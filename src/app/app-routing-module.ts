@@ -8,9 +8,10 @@ import { Administrador } from './administrador/administrador';
 import { Inicioadministrador } from './inicioadministrador/inicioadministrador';
 import { Cliente } from './cliente/cliente';
 import { Gestorcliente } from './gestorcliente/gestorcliente';
-import { Nuevoenvio } from './nuevoenvio/nuevoenvio'; // ✅ CORREGIDO
+import { Nuevoenvio } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
 import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
+import {Gestoractualizar} from './gestoractualizar/gestoractualizar';
 
 const routes: Routes = [
   { path: 'login', component: Login },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'nuevoenvio', component: Nuevoenvio },
   { path: 'gestortrabajador', component: Gestortrabajador },
   { path: 'gestorpaquete', component: Gestorpaquete },
+  { path: 'gestoractualizar' , component: Gestoractualizar },
 ];
 
 @NgModule({
