@@ -90,22 +90,17 @@
             <p><i class="fas fa-city"></i> <strong>Ciudad:</strong> {{ paquete.ciudadDestino }}</p>
             <p><i class="fas fa-dollar-sign"></i> <strong>Precio Final:</strong> ${{ paquete.precioFinal }}</p>
             <p><i class="fas fa-chart-line"></i> <strong>Estado:</strong>
-              <span class="estado-pedido"
-                    [ngClass]="getEstadoClase(paquete.estadoPedido)">{{ paquete.estadoPedido }}</span>
+              <span class="estado-pedido" [ngClass]="getEstadoClase(paquete.estadoPedido)">{{ paquete.estadoPedido }}</span>
             </p>
 
             <p *ngIf="paquete.tipo === 'Alimenticio'"><i class="fas fa-apple-alt"></i> {{ paquete.tipoDeAlimento }}</p>
-            <p *ngIf="paquete.tipo === 'NoAlimenticio'"><i
-              class="fas fa-wine-glass"></i> {{ paquete.esFragil ? 'Frágil' : 'Resistente' }}</p>
+            <p *ngIf="paquete.tipo === 'NoAlimenticio'"><i class="fas fa-wine-glass"></i> {{ paquete.esFragil ? 'Frágil' : 'Resistente' }}</p>
             <p *ngIf="paquete.tipo === 'Carta'"><i class="fas fa-mail-bulk"></i> {{ paquete.tipoCarta }}</p>
           </div>
         </div>
 
         <div class="actions">
-          <button class="btn-edit"
-                  [routerLink]="['/admin/actualizarpaquete', paquete.tipo, paquete.id]">
-            <i class="fas fa-edit"></i> Actualizar
-          </button>
+          <button class="btn btn-primary" (click)="actualizarPaquete(paquete)" routerLink='/gestoractualizar'>Actualizar<i class="fas fa-edit"></i></button>
           <button class="btn btn-danger" (click)="eliminarPaquete(paquete)"><i class="fas fa-trash"></i></button>
         </div>
       </div>

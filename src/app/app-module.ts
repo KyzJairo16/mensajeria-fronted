@@ -18,9 +18,7 @@ import { Cliente } from './cliente/cliente';
 import { Nuevoenvio } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
 import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
-import { Actualizarpaquete } from './actualizarpaquete/actualizarpaquete';
-import { Actualizarcliente } from './actualizarcliente/actualizarcliente';
-import { Actualizartrabajador } from './actualizartrabajador/actualizartrabajador';
+import { Gestoractualizar } from './gestoractualizar/gestoractualizar';
 
 @NgModule({
   declarations: [
@@ -37,9 +35,6 @@ import { Actualizartrabajador } from './actualizartrabajador/actualizartrabajado
     Gestortrabajador,
     Cliente,
     Gestorpaquete,
-    Actualizarpaquete,
-    Actualizarcliente,
-    Actualizartrabajador,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners()],

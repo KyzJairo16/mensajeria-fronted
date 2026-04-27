@@ -136,9 +136,8 @@
         </div>
 
         <div class="actions">
-          <button class="btn-edit"
-                  [routerLink]="['/admin/actualizartrabajador', trabajador.tipo, trabajador.id]">
-            <i class="fas fa-edit"></i> Actualizar
+          <button type="button" class="btn btn-primary" routerLink = '/gestoractualizar' (click)="actualizarTrabajador(trabajador)" >
+            <i class="fas fa-sync-alt"></i> Actualizar
           </button>
           <button type="button" class="btn btn-danger" (click)="eliminarTrabajador(trabajador)">
             <i class="fas fa-trash"></i> Eliminar
