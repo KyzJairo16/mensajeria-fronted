@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Gestoractualizar } from './gestoractualizar';
+import { Actualizarcliente } from './actualizarcliente';
 
-describe('Gestoractualizar', () => {
-  let component: Gestoractualizar;
-  let fixture: ComponentFixture<Gestoractualizar>;
+describe('Actualizarcliente', () => {
+  let component: Actualizarcliente;
+  let fixture: ComponentFixture<Actualizarcliente>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [Gestoractualizar],
+      declarations: [Actualizarcliente],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Gestoractualizar);
+    fixture = TestBed.createComponent(Actualizarcliente);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
