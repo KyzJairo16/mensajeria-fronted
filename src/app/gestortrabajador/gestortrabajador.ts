@@ -288,9 +288,8 @@ export class Gestortrabajador implements OnInit, OnDestroy {
     }
   }
 
-  actualizarTrabajador(trabajador: TrabajadorUnificado): void {
-    console.log('Actualizar trabajador:', trabajador);
-    alert(`Función de actualización para ${trabajador.nombre} - Próximamente implementada`);
+  actualizarTrabajador(trabajador: TrabajadorUnificado) {
+    this.router.navigate(['/admin/actualizar', 'trabajador', trabajador.tipo, trabajador.id]);
   }
 
   eliminarTrabajador(trabajador: TrabajadorUnificado): void {

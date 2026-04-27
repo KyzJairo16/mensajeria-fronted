@@ -134,9 +134,25 @@
 
       <div class="historial" *ngIf="historialVisible[getClienteKey(cliente)]">
         <div class="historial-title">
-          <i class="fas fa-truck"></i> Historial de envíos
+          <i class="fas fa-truck"></i> Historial de envíos ({{ listaHistorial[getClienteKey(cliente)]?.length || 0 }})
         </div>
-        <div class="historial-vacio">
+
+        <div class="historial-lista"
+             *ngIf="listaHistorial[getClienteKey(cliente)] && listaHistorial[getClienteKey(cliente)]!.length > 0">
+          <div *ngFor="let envio of listaHistorial[getClienteKey(cliente)]" class="historial-item">
+            <div class="envio-header">
+              <strong>#{{ envio.id }}</strong>
+              <span class="envio-estado">{{ envio.estadoPedido }}</span>
+            </div>
+            <div class="envio-detalles">
+              <span><i class="fas fa-map-marker-alt"></i> {{ envio.ciudadDestino }}</span>
+              <span><i class="fas fa-calendar-alt"></i> {{ envio.fechaCreacionPedido | date:'shortDate' }}</span>
+              <span class="envio-precio">${{ envio.precioFinal }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="historial-vacio" *ngIf="listaHistorial[getClienteKey(cliente)]?.length === 0">
           <i class="fas fa-info-circle"></i> No hay envíos registrados para este cliente.
         </div>
       </div>
