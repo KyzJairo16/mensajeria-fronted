@@ -88,7 +88,7 @@ export class Gestortrabajador implements OnInit, OnDestroy {
       }
     }, 15000);
 
-    console.log('🔄 Recargando trabajadores...');
+    console.log(' Recargando trabajadores...');
     this.cargarTodosLosTrabajadores();
   }
 

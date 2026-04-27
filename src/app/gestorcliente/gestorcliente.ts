@@ -1,4 +1,4 @@
-// gestorcliente.ts - VERSIÓN CORREGIDA (ELIMINACIÓN FUNCIONAL)
+
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ClientenormalService } from '../services/clientenormal.service';
@@ -50,14 +50,12 @@ export class Gestorcliente implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Limpiar todas las suscripciones
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.timeoutId) clearTimeout(this.timeoutId);
     if (this.esperaInterval) clearInterval(this.esperaInterval);
   }
 
   recargarClientes(): void {
-    // Limpiar tiempo de espera anterior
     if (this.timeoutId) clearTimeout(this.timeoutId);
     if (this.esperaInterval) clearInterval(this.esperaInterval);
 
@@ -74,7 +72,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
     this.clientes = [];
     this.clientesFiltrados = [];
 
-    // Iniciar contador de espera
+
     this.esperaInterval = setInterval(() => {
       this.tiempoEspera++;
       if (this.tiempoEspera >= 5 && !this.timeoutWarning && this.cargando) {
@@ -82,7 +80,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
       }
     }, 1000);
 
-    // Timeout global de 15 segundos
+
     this.timeoutId = setTimeout(() => {
       if (this.cargando) {
         this.cargando = false;
@@ -91,13 +89,13 @@ export class Gestorcliente implements OnInit, OnDestroy {
       }
     }, 15000);
 
-    console.log('🔄 Recargando clientes...');
+    console.log(' Recargando clientes...');
     this.cargarTodosLosClientes();
   }
 
   cancelarCarga(): void {
     if (this.cargando) {
-      // Cancelar todas las suscripciones
+
       this.subscriptions.forEach(sub => sub.unsubscribe());
       this.subscriptions = [];
       this.cargando = false;
@@ -108,19 +106,19 @@ export class Gestorcliente implements OnInit, OnDestroy {
   }
 
   cargarTodosLosClientes(): void {
-    // Contador de peticiones completadas
+
     let peticionesCompletadas = 0;
     const totalPeticiones = 3;
 
     const verificarFinalizacion = () => {
       peticionesCompletadas++;
-      console.log(`📊 Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
+      console.log(` Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
 
       if (peticionesCompletadas === totalPeticiones) {
         clearTimeout(this.timeoutId);
         clearInterval(this.esperaInterval);
         this.cargando = false;
-        console.log('🟢 Total clientes cargados:', this.clientes.length);
+        console.log(' Total clientes cargados:', this.clientes.length);
         console.table(this.clientes);
         this.aplicarFiltro();
 
@@ -130,9 +128,9 @@ export class Gestorcliente implements OnInit, OnDestroy {
       }
     };
 
-    // Función para manejar errores individuales
+
     const manejarError = (tipo: string, err: any) => {
-      console.error(`❌ Error cargando clientes ${tipo}:`, err.message || err);
+      console.error(` Error cargando clientes ${tipo}:`, err.message || err);
       verificarFinalizacion();
     };
 
@@ -157,10 +155,10 @@ export class Gestorcliente implements OnInit, OnDestroy {
               tipo: 'Normal' as const,
               metodoPago: c.metodoPago || 'No especificado'
             }));
-            console.log('✅ Clientes Normales mapeados:', normales.length);
+            console.log(' Clientes Normales mapeados:', normales.length);
             this.clientes.push(...normales);
           } else {
-            console.log('ℹ️ No hay clientes normales registrados');
+            console.log('ℹ No hay clientes normales registrados');
           }
           verificarFinalizacion();
         },
@@ -189,10 +187,10 @@ export class Gestorcliente implements OnInit, OnDestroy {
               tipo: 'Concurrente' as const,
               metodoPago: c.metodoPago || 'No especificado'
             }));
-            console.log('✅ Clientes Concurrentes mapeados:', concurrentes.length);
+            console.log(' Clientes Concurrentes mapeados:', concurrentes.length);
             this.clientes.push(...concurrentes);
           } else {
-            console.log('ℹ️ No hay clientes concurrentes registrados');
+            console.log(' No hay clientes concurrentes registrados');
           }
           verificarFinalizacion();
         },
@@ -221,10 +219,10 @@ export class Gestorcliente implements OnInit, OnDestroy {
               tipo: 'Premium' as const,
               metodoPago: c.metodoPago || 'No especificado'
             }));
-            console.log('✅ Clientes Premium mapeados:', premium.length);
+            console.log(' Clientes Premium mapeados:', premium.length);
             this.clientes.push(...premium);
           } else {
-            console.log('ℹ️ No hay clientes premium registrados');
+            console.log(' No hay clientes premium registrados');
           }
           verificarFinalizacion();
         },
@@ -234,7 +232,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
   }
 
   actualizarCliente(cliente: ClienteUnificado): void {
-    console.log('📝 Actualizar cliente:', cliente);
+    console.log(' Actualizar cliente:', cliente);
     alert(`Función de actualización para ${cliente.nombre} - Próximamente implementada`);
   }
 
@@ -244,7 +242,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
     } else {
       this.clientesFiltrados = this.clientes.filter((c: ClienteUnificado) => c.tipo === this.filtroActual);
     }
-    console.log(`🔍 Filtro: ${this.filtroActual} -> ${this.clientesFiltrados.length} clientes`);
+    console.log(` Filtro: ${this.filtroActual} -> ${this.clientesFiltrados.length} clientes`);
   }
 
   onFiltroChange(event: Event): void {
@@ -271,7 +269,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
     return `${cliente.tipo}-${cliente.id}`;
   }
 
-  // ==================== FUNCIÓN ELIMINAR CORREGIDA ====================
+
   eliminarCliente(cliente: ClienteUnificado): void {
     if (!confirm(`¿Estás seguro de eliminar a ${cliente.nombre}?`)) return;
 
@@ -292,7 +290,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
 
     const sub = eliminar$.subscribe({
       next: (respuesta: any) => {
-        console.log(`✅ Cliente ${clienteEliminado.tipo} eliminado:`, respuesta);
+        console.log(` Cliente ${clienteEliminado.tipo} eliminado:`, respuesta);
 
         // ELIMINAR LOCALMENTE - Actualización inmediata
         const index = this.clientes.findIndex(c =>
@@ -302,11 +300,11 @@ export class Gestorcliente implements OnInit, OnDestroy {
         if (index !== -1) {
           this.clientes.splice(index, 1);
           this.aplicarFiltro(); // Actualizar vista filtrada
-          console.log(`🗑️ Cliente eliminado de la lista local. Total restante: ${this.clientes.length}`);
+          console.log(` Cliente eliminado de la lista local. Total restante: ${this.clientes.length}`);
         }
 
         // Mostrar mensaje de éxito
-        this.mensajeExito = `✅ ${clienteEliminado.nombre} eliminado correctamente`;
+        this.mensajeExito = ` ${clienteEliminado.nombre} eliminado correctamente`;
         this.cargando = false;
         this.error = '';
 
@@ -318,7 +316,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
         }, 3000);
       },
       error: (err) => {
-        console.error('❌ Error al eliminar:', err);
+        console.error(' Error al eliminar:', err);
         this.cargando = false;
         this.error = `Error al eliminar ${clienteEliminado.nombre}: ${err.error || err.message}`;
         alert(this.error);
@@ -327,5 +325,5 @@ export class Gestorcliente implements OnInit, OnDestroy {
 
     this.subscriptions.push(sub);
   }
-  // ==================== FIN FUNCIÓN ELIMINAR ====================
+
 }

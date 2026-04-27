@@ -92,7 +92,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       }
     }, 15000);
 
-    console.log('🔄 Recargando paquetes...');
+    console.log(' Recargando paquetes...');
     this.cargarTodosLosPaquetes();
   }
 
@@ -113,13 +113,13 @@ export class Gestorpaquete implements OnInit, OnDestroy {
 
     const verificarFinalizacion = () => {
       peticionesCompletadas++;
-      console.log(`📊 Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
+      console.log(` Peticiones completadas: ${peticionesCompletadas}/${totalPeticiones}`);
 
       if (peticionesCompletadas === totalPeticiones) {
         clearTimeout(this.timeoutId);
         clearInterval(this.esperaInterval);
         this.cargando = false;
-        console.log('🟢 Total paquetes cargados:', this.paquetes.length);
+        console.log(' Total paquetes cargados:', this.paquetes.length);
         this.aplicarFiltro();
 
         if (this.paquetes.length === 0 && !this.error) {
@@ -129,7 +129,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
     };
 
     const manejarError = (tipo: string, err: any) => {
-      console.error(`❌ Error cargando paquetes ${tipo}:`, err.message || err);
+      console.error(` Error cargando paquetes ${tipo}:`, err.message || err);
       verificarFinalizacion();
     };
 
@@ -161,10 +161,10 @@ export class Gestorpaquete implements OnInit, OnDestroy {
               tipoDeAlimento: p.tipoDeAlimento,
               seEnviaHoy: p.seEnviaHoy
             }));
-            console.log('✅ Paquetes Alimenticios mapeados:', alimenticios.length);
+            console.log(' Paquetes Alimenticios mapeados:', alimenticios.length);
             this.paquetes.push(...alimenticios);
           } else {
-            console.log('ℹ️ No hay paquetes alimenticios registrados');
+            console.log(' No hay paquetes alimenticios registrados');
           }
           verificarFinalizacion();
         },
@@ -199,10 +199,10 @@ export class Gestorpaquete implements OnInit, OnDestroy {
               tipo: 'NoAlimenticio',
               esFragil: p.esFragil
             }));
-            console.log('✅ Paquetes No Alimenticios mapeados:', noAlimenticios.length);
+            console.log(' Paquetes No Alimenticios mapeados:', noAlimenticios.length);
             this.paquetes.push(...noAlimenticios);
           } else {
-            console.log('ℹ️ No hay paquetes no alimenticios registrados');
+            console.log(' No hay paquetes no alimenticios registrados');
           }
           verificarFinalizacion();
         },
@@ -237,10 +237,10 @@ export class Gestorpaquete implements OnInit, OnDestroy {
               tipo: 'Carta',
               tipoCarta: p.tipoCarta
             }));
-            console.log('✅ Paquetes Carta mapeados:', cartas.length);
+            console.log(' Paquetes Carta mapeados:', cartas.length);
             this.paquetes.push(...cartas);
           } else {
-            console.log('ℹ️ No hay paquetes carta registrados');
+            console.log(' No hay paquetes carta registrados');
           }
           verificarFinalizacion();
         },
@@ -293,7 +293,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
     } else {
       this.paquetesFiltrados = this.paquetes.filter((p: PaqueteUnificado) => p.tipo === this.filtroActual);
     }
-    console.log(`🔍 Filtro: ${this.filtroActual} -> ${this.paquetesFiltrados.length} paquetes`);
+    console.log(` Filtro: ${this.filtroActual} -> ${this.paquetesFiltrados.length} paquetes`);
   }
 
   onFiltroChange(event: Event): void {
@@ -303,11 +303,11 @@ export class Gestorpaquete implements OnInit, OnDestroy {
   }
 
   actualizarPaquete(paquete: PaqueteUnificado): void {
-    console.log('📝 Actualizar paquete:', paquete);
+    console.log(' Actualizar paquete:', paquete);
     alert(`Función de actualización para paquete #${paquete.id} - Próximamente implementada`);
   }
 
-  // ==================== FUNCIÓN ELIMINAR CORREGIDA ====================
+
   eliminarPaquete(paquete: PaqueteUnificado): void {
     if (!confirm(`¿Estás seguro de eliminar el paquete #${paquete.id} (${this.getTipoTexto(paquete.tipo)})?`)) return;
 
@@ -326,7 +326,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
 
     const sub = eliminar$.subscribe({
       next: (respuesta: any) => {
-        console.log(`✅ Paquete ${paqueteEliminado.tipo} eliminado:`, respuesta);
+        console.log(` Paquete ${paqueteEliminado.tipo} eliminado:`, respuesta);
 
         // ELIMINAR LOCALMENTE - Actualización inmediata
         const index = this.paquetes.findIndex(p =>
@@ -336,7 +336,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
         if (index !== -1) {
           this.paquetes.splice(index, 1);
           this.aplicarFiltro(); // Actualizar vista filtrada
-          console.log(`🗑️ Paquete eliminado de la lista local. Total restante: ${this.paquetes.length}`);
+          console.log(` Paquete eliminado de la lista local. Total restante: ${this.paquetes.length}`);
         }
 
         // Mostrar mensaje de éxito
@@ -352,7 +352,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
         }, 3000);
       },
       error: (err) => {
-        console.error('❌ Error al eliminar paquete:', err);
+        console.error(' Error al eliminar paquete:', err);
         this.cargando = false;
         this.error = `Error al eliminar paquete #${paqueteEliminado.id}: ${err.error || err.message}`;
         alert(this.error);
@@ -361,5 +361,5 @@ export class Gestorpaquete implements OnInit, OnDestroy {
 
     this.subscriptions.push(sub);
   }
-  // ==================== FIN FUNCIÓN ELIMINAR ====================
+
 }
