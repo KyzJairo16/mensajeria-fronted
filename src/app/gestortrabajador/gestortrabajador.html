@@ -2,10 +2,16 @@
 
   <!-- HEADER -->
   <div class="header">
-    <h2>
-      <i class="fas fa-users"></i>
-      Gestión de Trabajadores
-    </h2>
+    <div class="header-left">
+      <button type="button" class="btn-volver" (click)="volverAlMenu()">
+        <i class="fas fa-arrow-left"></i>
+        Volver
+      </button>
+      <h2>
+        <i class="fas fa-users"></i>
+        Gestión de Trabajadores
+      </h2>
+    </div>
 
     <div class="header-actions">
       <select class="filtro" (change)="onFiltroChange($event)">
@@ -134,7 +140,8 @@
         </div>
 
         <div class="actions">
-          <button type="button" class="btn btn-primary" routerLink = '/gestoractualizar' (click)="actualizarTrabajador(trabajador)" >
+          <button type="button" class="btn btn-primary" routerLink='/gestoractualizar'
+                  (click)="actualizarTrabajador(trabajador)">
             <i class="fas fa-sync-alt"></i> Actualizar
           </button>
           <button type="button" class="btn btn-danger" (click)="eliminarTrabajador(trabajador)">
