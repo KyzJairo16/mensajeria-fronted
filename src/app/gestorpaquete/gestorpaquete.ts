@@ -309,9 +309,8 @@ export class Gestorpaquete implements OnInit, OnDestroy {
     this.aplicarFiltro();
   }
 
-  actualizarPaquete(paquete: PaqueteUnificado): void {
-    console.log(' Actualizar paquete:', paquete);
-    alert(`Función de actualización para paquete #${paquete.id} - Próximamente implementada`);
+  actualizarPaquete(paquete: PaqueteUnificado) {
+    this.router.navigate(['/admin/actualizar', 'paquete', paquete.tipo, paquete.id]);
   }
 
 
