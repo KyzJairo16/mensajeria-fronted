@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router'; // Importado para el botón volver
 import { PaquetealimenticioService } from '../services/paquetealimenticio.service';
 import { PaquetenoalimenticioService } from '../services/paquetenoalimenticio.service';
 import { PaquetecartaService } from '../services/paquetecarta.service';
@@ -38,6 +39,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
   private paqueteAlimenticioService = inject(PaquetealimenticioService);
   private paqueteNoAlimenticioService = inject(PaquetenoalimenticioService);
   private paqueteCartaService = inject(PaquetecartaService);
+  private router = inject(Router); // Inyectado para navegación
 
   paquetes: PaqueteUnificado[] = [];
   paquetesFiltrados: PaqueteUnificado[] = [];
@@ -60,6 +62,11 @@ export class Gestorpaquete implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.timeoutId) clearTimeout(this.timeoutId);
     if (this.esperaInterval) clearInterval(this.esperaInterval);
+  }
+
+  // MÉTODO AGREGADO PARA EL BOTÓN VOLVER
+  volverAlMenu(): void {
+    this.router.navigate(['/administrador']);
   }
 
   recargarPaquetes(): void {
