@@ -9,7 +9,7 @@ describe('PaquetealimenticioService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule // <--- Simula el backend de Spring Boot
+        HttpClientTestingModule
       ],
       providers: [PaquetealimenticioService]
     });
@@ -19,7 +19,6 @@ describe('PaquetealimenticioService', () => {
   });
 
   afterEach(() => {
-    // Verifica que no haya peticiones sin responder
     httpMock.verify();
   });
 
@@ -30,13 +29,11 @@ describe('PaquetealimenticioService', () => {
   it('debería enviar los parámetros correctos al crear un paquete alimenticio', () => {
     service.crearPaqueteAlimenticio('Calle 123', 'Grande', 'Bogotá', 1, 'Fruta', true).subscribe();
 
-    // Verificamos la petición POST
     const req = httpMock.expectOne(request =>
       request.url.includes('/paquetealimenticio/crear')
     );
 
     expect(req.request.method).toBe('POST');
-    // Verificamos que los params se hayan enviado correctamente
     expect(req.request.params.get('tipoDeAlimento')).toBe('Fruta');
     expect(req.request.params.get('ciudadDestino')).toBe('Bogotá');
 

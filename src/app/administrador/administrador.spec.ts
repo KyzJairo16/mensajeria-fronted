@@ -9,7 +9,7 @@ describe('Administrador', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [Administrador],
-      imports: [RouterTestingModule] // Esto arregla el error de los routerLink
+      imports: [RouterTestingModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(Administrador);

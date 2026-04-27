@@ -9,7 +9,7 @@ describe('PaquetecartaService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule // <--- Bloquea las peticiones reales al puerto 8080
+        HttpClientTestingModule
       ],
       providers: [PaquetecartaService]
     });
@@ -19,7 +19,7 @@ describe('PaquetecartaService', () => {
   });
 
   afterEach(() => {
-    // Verifica que no haya peticiones pendientes
+
     httpMock.verify();
   });
 

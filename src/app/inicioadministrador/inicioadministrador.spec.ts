@@ -15,9 +15,9 @@ describe('Inicioadministrador', () => {
     await TestBed.configureTestingModule({
       declarations: [Inicioadministrador],
       imports: [
-        FormsModule, // Necesario para el [(ngModel)]
-        HttpClientTestingModule, // Para que el servicio no falle
-        RouterTestingModule // Para el inject(Router)
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule
       ],
       providers: [AdministradorService]
     }).compileComponents();

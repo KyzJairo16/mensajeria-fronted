@@ -19,7 +19,6 @@ describe('ManipuladordepaqueteService', () => {
   });
 
   afterEach(() => {
-    // Verifica que todas las peticiones se hayan resuelto
     httpMock.verify();
   });
 
@@ -35,7 +34,7 @@ describe('ManipuladordepaqueteService', () => {
     );
 
     expect(req.request.method).toBe('GET');
-    req.flush([]); // Simula respuesta de API
+    req.flush([]);
   });
 
   it('debería enviar los parámetros correctos al crear un manipulador', () => {

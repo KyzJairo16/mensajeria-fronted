@@ -9,7 +9,7 @@ describe('ClientepremiumService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule // <--- Evita que el test busque un servidor real
+        HttpClientTestingModule
       ],
       providers: [ClientepremiumService]
     });
@@ -19,7 +19,7 @@ describe('ClientepremiumService', () => {
   });
 
   afterEach(() => {
-    // Verifica que no haya peticiones olvidadas
+
     httpMock.verify();
   });
 
@@ -35,6 +35,6 @@ describe('ClientepremiumService', () => {
     );
 
     expect(req.request.method).toBe('GET');
-    req.flush([]); // Simula una respuesta exitosa con un array vacío
+    req.flush([]);
   });
 });

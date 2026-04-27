@@ -25,7 +25,6 @@ describe('Gestorpaquete', () => {
     fixture = TestBed.createComponent(Gestorpaquete);
     component = fixture.componentInstance;
 
-    // Espiamos los 3 servicios de paquetes para que ngOnInit -> recargarPaquetes() no falle
     vi.spyOn(component['paqueteAlimenticioService'], 'getPaquetesAlimenticios').mockReturnValue(of({ body: [] } as any));
     vi.spyOn(component['paqueteNoAlimenticioService'], 'getPaquetesNoAlimenticios').mockReturnValue(of({ body: [] } as any));
     vi.spyOn(component['paqueteCartaService'], 'getPaquetesCartas').mockReturnValue(of({ body: [] } as any));

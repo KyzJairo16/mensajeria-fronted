@@ -12,7 +12,7 @@ describe('App', () => {
       declarations: [
         App
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Esto ignora navbar, footer e iconos
+      schemas: [NO_ERRORS_SCHEMA] 
     }).compileComponents();
   });
 
@@ -26,8 +26,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    // En lugar de buscar un texto exacto en un h1 que puede cambiar,
-    // verificamos que el contenedor principal de la app exista.
+
     expect(compiled).toBeTruthy();
   });
 });

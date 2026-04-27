@@ -25,7 +25,6 @@ describe('Actualizartrabajador', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                // Simulamos que estamos editando un Administrador con ID 1
                 get: (key: string) => (key === 'tipo' ? 'Administrador' : '1')
               }
             }
@@ -37,8 +36,6 @@ describe('Actualizartrabajador', () => {
     fixture = TestBed.createComponent(Actualizartrabajador);
     component = fixture.componentInstance;
 
-    // Mockeamos la respuesta del servicio para que cargarDatos() no de error
-    // Usamos 'as any' para evitar el lío de tipos con HttpResponse
     vi.spyOn(component['sAdmin'], 'getAdministradores').mockReturnValue(of({ body: [] } as any));
 
     fixture.detectChanges();

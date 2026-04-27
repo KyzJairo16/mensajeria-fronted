@@ -36,10 +36,10 @@ describe('AdministradorService', () => {
 
     const req = httpMock.expectOne(req =>
       req.url.includes('/administrador/login') &&
-      req.params.get('usuario') === mockUser || true // Como lo pasas por string template, verificamos la URL
+      req.params.get('usuario') === mockUser || true
     );
 
     expect(req.request.method).toBe('POST');
-    req.flush('Login exitoso'); // Simula respuesta del servidor
+    req.flush('Login exitoso');
   });
 });

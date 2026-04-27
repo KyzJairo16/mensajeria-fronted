@@ -11,7 +11,6 @@ describe('Nuevoenvio', () => {
   let fixture: ComponentFixture<Nuevoenvio>;
 
   beforeEach(async () => {
-    // Simulamos un usuario en localStorage para que idCliente no de error
     const mockUser = JSON.stringify({ id: 123 });
     vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(mockUser);
 

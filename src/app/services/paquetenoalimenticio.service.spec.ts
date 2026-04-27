@@ -9,7 +9,7 @@ describe('PaquetenoalimenticioService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule // <--- Intercepta las llamadas al puerto 8080
+        HttpClientTestingModule
       ],
       providers: [PaquetenoalimenticioService]
     });
@@ -19,7 +19,7 @@ describe('PaquetenoalimenticioService', () => {
   });
 
   afterEach(() => {
-    // Asegura que no queden peticiones colgadas
+
     httpMock.verify();
   });
 

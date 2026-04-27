@@ -9,7 +9,7 @@ describe('ConductorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule // <--- Esto simula el backend de Spring Boot
+        HttpClientTestingModule
       ],
       providers: [ConductorService]
     });
@@ -19,7 +19,7 @@ describe('ConductorService', () => {
   });
 
   afterEach(() => {
-    // Verifica que no haya peticiones "vivas" al terminar cada test
+
     httpMock.verify();
   });
 
@@ -35,7 +35,7 @@ describe('ConductorService', () => {
     );
 
     expect(req.request.method).toBe('GET');
-    req.flush([]); // Simula respuesta exitosa
+    req.flush([]);
   });
 
   it('debería llamar a la URL de eliminar con el ID correcto', () => {

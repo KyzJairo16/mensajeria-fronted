@@ -19,13 +19,12 @@ describe('Gestortrabajador', () => {
         RouterTestingModule,
         FormsModule
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Para ignorar los iconos de FontAwesome y errores de template
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(Gestortrabajador);
     component = fixture.componentInstance;
 
-    // MOCK DE LOS 3 SERVICIOS: Esto evita que ngOnInit falle al intentar cargar las listas
     vi.spyOn(component['administradorService'], 'getAdministradores').mockReturnValue(of({ body: [] } as any));
     vi.spyOn(component['conductorService'], 'getConductores').mockReturnValue(of({ body: [] } as any));
     vi.spyOn(component['manipuladorService'], 'getManipuladores').mockReturnValue(of({ body: [] } as any));

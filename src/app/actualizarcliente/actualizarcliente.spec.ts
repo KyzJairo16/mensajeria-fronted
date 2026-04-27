@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { vi } from 'vitest';
-import { Actualizarpaquete } from '../actualizarpaquete/actualizarpaquete'; // Importante para Vitest
+import { Actualizarpaquete } from '../actualizarpaquete/actualizarpaquete';
 
 describe('Actualizarpaquete', () => {
   let component: Actualizarpaquete;
@@ -26,7 +26,7 @@ describe('Actualizarpaquete', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                // Simulamos que editamos una Carta con ID 1
+
                 get: (key: string) => (key === 'tipo' ? 'Carta' : '1')
               }
             }
@@ -38,7 +38,6 @@ describe('Actualizarpaquete', () => {
     fixture = TestBed.createComponent(Actualizarpaquete);
     component = fixture.componentInstance;
 
-    // Usamos el casting 'as any' para evitar el error de tipos del HttpResponse
     vi.spyOn(component['sCarta'], 'buscarPorId').mockReturnValue(of({ body: {} } as any));
 
     fixture.detectChanges();

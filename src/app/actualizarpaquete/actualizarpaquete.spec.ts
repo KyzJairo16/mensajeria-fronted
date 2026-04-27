@@ -44,7 +44,6 @@ describe('Actualizarpaquete', () => {
     fixture = TestBed.createComponent(Actualizarpaquete);
     component = fixture.componentInstance;
 
-    // MOCK DEL SERVICIO: Como en el ActivatedRoute pusimos 'Carta', espiamos ese servicio
     vi.spyOn(component['sCarta'], 'buscarPorId').mockReturnValue(of({ body: { id: 1, direccionDestino: 'Calle 1' } } as any));
 
     fixture.detectChanges();

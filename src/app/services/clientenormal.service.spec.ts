@@ -36,13 +36,12 @@ describe('ClientenormalService', () => {
 
     service.crearClienteNormal(nombre, cedula, correo, tel, pass).subscribe();
 
-    // Verificamos que la URL contenga los parámetros codificados
     const req = httpMock.expectOne(request =>
       request.url.includes('/clientenormal/crear') &&
       request.url.includes('nombre=Juan')
     );
 
     expect(req.request.method).toBe('POST');
-    req.flush('Creado correctamente'); // Simulamos respuesta del servidor
+    req.flush('Creado correctamente');
   });
 });

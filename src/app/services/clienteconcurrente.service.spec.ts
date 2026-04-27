@@ -17,7 +17,7 @@ describe('ClienteconcurrenteService', () => {
   });
 
   afterEach(() => {
-    // Verifica que no haya peticiones colgadas entre tests
+
     httpMock.verify();
   });
 
@@ -33,6 +33,6 @@ describe('ClienteconcurrenteService', () => {
     );
 
     expect(req.request.method).toBe('GET');
-    req.flush([]); // Responde con un array vacío para completar el observable
+    req.flush([]);
   });
 });

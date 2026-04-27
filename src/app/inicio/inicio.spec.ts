@@ -11,9 +11,9 @@ describe('Inicio', () => {
     await TestBed.configureTestingModule({
       declarations: [Inicio],
       imports: [
-        RouterTestingModule // Para que el routerLink="/registro" no falle
+        RouterTestingModule
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Para que ignore <app-footer> y los iconos de FontAwesome
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(Inicio);
