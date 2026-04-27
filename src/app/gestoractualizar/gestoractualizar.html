@@ -1,77 +1,81 @@
-<div class="container">
+<div class="page">
 
   <div class="card">
 
     <!-- HEADER -->
-    <div class="card-header">
-      <h2>Actualizar {{ categoria | titlecase }}</h2>
+    <div class="header">
+      <h2>Actualizar Información</h2>
       <p class="subtitle">
-        Tipo: <strong>{{ tipo }}</strong> | ID: <strong>{{ id }}</strong>
+        Categoría: {{ categoria }} |
+        Tipo: {{ tipo }} |
+        ID: {{ id }}
       </p>
     </div>
 
-    <!-- FORMULARIO -->
+    <!-- FORM -->
     <form class="form">
 
-      <!-- NOMBRE -->
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" placeholder="Ingrese el nombre" />
-      </div>
+      <div class="grid">
 
-      <!-- CEDULA -->
-      <div class="form-group">
-        <label>Cédula</label>
-        <input type="text" placeholder="Ingrese la cédula" />
-      </div>
+        <!-- ===== CAMPOS GENERALES ===== -->
+        <div class="group">
+          <label>Nombre completo</label>
+          <input type="text" placeholder="Ej: Juan Pérez">
+        </div>
 
-      <!-- CORREO -->
-      <div class="form-group">
-        <label>Correo</label>
-        <input type="email" placeholder="Ingrese el correo" />
-      </div>
+        <div class="group">
+          <label>Cédula</label>
+          <input type="text" placeholder="Ej: 123456789">
+        </div>
 
-      <!-- TELEFONO -->
-      <div class="form-group">
-        <label>Teléfono</label>
-        <input type="text" placeholder="Ingrese el teléfono" />
-      </div>
+        <div class="group full">
+          <label>Correo electrónico</label>
+          <input type="email" placeholder="correo@ejemplo.com">
+        </div>
 
-      <!-- TURNO -->
-      <div class="form-group">
-        <label>Turno</label>
-        <select>
-          <option value="">Seleccione</option>
-          <option value="M">Mañana</option>
-          <option value="T">Tarde</option>
-          <option value="N">Noche</option>
-        </select>
-      </div>
+        <div class="group">
+          <label>Teléfono</label>
+          <input type="text" placeholder="Ej: 3001234567">
+        </div>
 
-      <!-- CAMPOS DINÁMICOS -->
-      <div *ngIf="tipo === 'Conductor'" class="form-group">
-        <label>Placa Vehículo</label>
-        <input type="text" placeholder="Ingrese la placa" />
-      </div>
+        <div class="group">
+          <label>Turno</label>
+          <select>
+            <option value="">Seleccionar</option>
+            <option value="M">🌅 Mañana</option>
+            <option value="T">🌇 Tarde</option>
+            <option value="N">🌙 Noche</option>
+          </select>
+        </div>
 
-      <div *ngIf="tipo === 'Manipulador'" class="form-group">
-        <label>Tipo de Manipulador</label>
-        <input type="text" placeholder="Ej: Carga, Logística" />
-      </div>
+        <!-- ===== CONDUCTOR ===== -->
+        <div class="group full" *ngIf="tipo === 'Conductor'">
+          <label>Placa del vehículo</label>
+          <input type="text" placeholder="Ej: ABC123">
+        </div>
 
-      <div *ngIf="categoria === 'administrador'" class="form-group">
-        <label>Usuario</label>
-        <input type="text" placeholder="Ingrese usuario" />
-      </div>
+        <!-- ===== MANIPULADOR ===== -->
+        <div class="group full" *ngIf="tipo === 'Manipulador'">
+          <label>Tipo de manipulador</label>
+          <input type="text" placeholder="Ej: Carga, Logística">
+        </div>
 
-      <div *ngIf="categoria === 'administrador'" class="form-group">
-        <label>Contraseña</label>
-        <input type="password" placeholder="Ingrese contraseña" />
+        <!-- ===== ADMINISTRADOR ===== -->
+        <div *ngIf="categoria === 'administrador'" class="group">
+          <label>Usuario</label>
+          <input type="text" placeholder="Ingrese usuario">
+        </div>
+
+        <div *ngIf="categoria === 'administrador'" class="group">
+          <label>Contraseña</label>
+          <input type="password" placeholder="Ingrese contraseña">
+        </div>
+
       </div>
 
       <!-- BOTONES -->
-      <div class="actions">
-        <button type="button" class="btn cancel">
+      <div class="buttons">
+        <button type="button" class="btn secondary" (click)="cancelar()">
           Cancelar
         </button>
 

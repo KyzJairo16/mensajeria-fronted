@@ -35,7 +35,6 @@ import { Gestoractualizar } from './gestoractualizar/gestoractualizar';
     Gestortrabajador,
     Cliente,
     Gestorpaquete,
-    Gestoractualizar
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, RouterModule, HttpClientModule],
   providers: [provideBrowserGlobalErrorListeners()],

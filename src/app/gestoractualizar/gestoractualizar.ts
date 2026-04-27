@@ -1,16 +1,26 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute,Route, Router} from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-gestoractualizar',
-  templateUrl: './gestoractualizar.html'
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './gestoractualizar.html',
+  styleUrls: ['./gestoractualizar.css']
 })
 export class Gestoractualizar implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   categoria: string = ''; // 'cliente', 'trabajador' o 'paquete'
   tipo: string = '';      // 'Premium', 'Conductor', 'Carta', etc.
   id: string = '';
+
+  cancelar(){
+    this.router.navigate([`/${this.categoria}`]);
+
+  }
 
   ngOnInit() {
     // Leemos los parámetros de la URL
