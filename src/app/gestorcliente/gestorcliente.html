@@ -133,27 +133,42 @@
       </div>
 
       <div class="historial" *ngIf="historialVisible[getClienteKey(cliente)]">
-        <div class="historial-title">
-          <i class="fas fa-truck"></i> Historial de envíos ({{ listaHistorial[getClienteKey(cliente)]?.length || 0 }})
+        <div class="historial-header">
+          <i class="fas fa-box-open"></i>
+          <span>Historial de Envíos</span>
+          <span class="badge-count">{{ listaHistorial[getClienteKey(cliente)]?.length || 0 }}</span>
         </div>
 
-        <div class="historial-lista"
-             *ngIf="listaHistorial[getClienteKey(cliente)] && listaHistorial[getClienteKey(cliente)]!.length > 0">
-          <div *ngFor="let envio of listaHistorial[getClienteKey(cliente)]" class="historial-item">
-            <div class="envio-header">
-              <strong>#{{ envio.id }}</strong>
-              <span class="envio-estado">{{ envio.estadoPedido }}</span>
-            </div>
-            <div class="envio-detalles">
-              <span><i class="fas fa-map-marker-alt"></i> {{ envio.ciudadDestino }}</span>
-              <span><i class="fas fa-calendar-alt"></i> {{ envio.fechaCreacionPedido | date:'shortDate' }}</span>
-              <span class="envio-precio">${{ envio.precioFinal }}</span>
+        <div class="historial-grid" *ngIf="listaHistorial[getClienteKey(cliente)] && listaHistorial[getClienteKey(cliente)].length > 0">
+
+          <div *ngFor="let envio of listaHistorial[getClienteKey(cliente)]" class="envio-card-mini">
+            <div class="envio-status-bar" [ngClass]="envio.estadoPedido?.toLowerCase()"></div>
+
+            <div class="envio-body">
+              <div class="envio-info-main">
+                <span class="envio-id">#{{ envio.id }}</span>
+                <span class="envio-fecha">{{ envio.fechaCreacionPedido | date:'dd MMM, yyyy' }}</span>
+              </div>
+
+              <div class="envio-destino">
+                <i class="fas fa-map-marker-alt"></i>
+                {{ envio.ciudadDestino }} - {{ envio.direccionDestino }}
+              </div>
+
+              <div class="envio-footer">
+                <span class="envio-precio">${{ envio.precioFinal | number:'1.0-0' }}</span>
+                <span class="envio-badge-estado" [ngClass]="envio.estadoPedido?.toLowerCase()">
+            {{ envio.estadoPedido }}
+          </span>
+              </div>
             </div>
           </div>
+
         </div>
 
         <div class="historial-vacio" *ngIf="listaHistorial[getClienteKey(cliente)]?.length === 0">
-          <i class="fas fa-info-circle"></i> No hay envíos registrados para este cliente.
+          <i class="fas fa-comment-slash"></i>
+          <p>Este cliente aún no tiene registros de envíos.</p>
         </div>
       </div>
 
