@@ -4,76 +4,96 @@
 
     <!-- HEADER -->
     <div class="header">
-      <h2>Actualizar Información</h2>
+      <h2>Actualizar {{ tipo }}</h2>
       <p class="subtitle">
-        Categoría: {{ categoria }} |
-        Tipo: {{ tipo }} |
-        ID: {{ id }}
+        Categoría: {{ categoria }} | ID: {{ id }}
       </p>
     </div>
 
     <!-- FORM -->
     <form class="form">
 
-      <div class="grid">
+      <!-- ================= BASE ================= -->
+      <div class="section">
+        <h3 class="section-title">Datos Generales</h3>
 
-        <!-- ===== CAMPOS GENERALES ===== -->
-        <div class="group">
-          <label>Nombre completo</label>
-          <input type="text" placeholder="Ej: Juan Pérez">
+        <div class="grid">
+
+          <div class="group">
+            <label>Nombre completo</label>
+            <input type="text" placeholder="Ej: Juan Pérez">
+          </div>
+
+          <div class="group">
+            <label>Cédula</label>
+            <input type="text" placeholder="Ej: 123456789">
+          </div>
+
+          <div class="group full">
+            <label>Correo electrónico</label>
+            <input type="email" placeholder="correo@ejemplo.com">
+          </div>
+
+          <div class="group">
+            <label>Teléfono</label>
+            <input type="text" placeholder="Ej: 3001234567">
+          </div>
+
+          <div class="group">
+            <label>Turno</label>
+            <select>
+              <option value="">Seleccionar</option>
+              <option value="M">🌅 Mañana</option>
+              <option value="T">🌇 Tarde</option>
+              <option value="N">🌙 Noche</option>
+            </select>
+          </div>
+
         </div>
-
-        <div class="group">
-          <label>Cédula</label>
-          <input type="text" placeholder="Ej: 123456789">
-        </div>
-
-        <div class="group full">
-          <label>Correo electrónico</label>
-          <input type="email" placeholder="correo@ejemplo.com">
-        </div>
-
-        <div class="group">
-          <label>Teléfono</label>
-          <input type="text" placeholder="Ej: 3001234567">
-        </div>
-
-        <div class="group">
-          <label>Turno</label>
-          <select>
-            <option value="">Seleccionar</option>
-            <option value="M">🌅 Mañana</option>
-            <option value="T">🌇 Tarde</option>
-            <option value="N">🌙 Noche</option>
-          </select>
-        </div>
-
-        <!-- ===== CONDUCTOR ===== -->
-        <div class="group full" *ngIf="tipo === 'Conductor'">
-          <label>Placa del vehículo</label>
-          <input type="text" placeholder="Ej: ABC123">
-        </div>
-
-        <!-- ===== MANIPULADOR ===== -->
-        <div class="group full" *ngIf="tipo === 'Manipulador'">
-          <label>Tipo de manipulador</label>
-          <input type="text" placeholder="Ej: Carga, Logística">
-        </div>
-
-        <!-- ===== ADMINISTRADOR ===== -->
-        <div *ngIf="categoria === 'administrador'" class="group">
-          <label>Usuario</label>
-          <input type="text" placeholder="Ingrese usuario">
-        </div>
-
-        <div *ngIf="categoria === 'administrador'" class="group">
-          <label>Contraseña</label>
-          <input type="password" placeholder="Ingrese contraseña">
-        </div>
-
       </div>
 
-      <!-- BOTONES -->
+      <!-- ================= CONDUCTOR ================= -->
+      <div class="section" *ngIf="tipo === 'Conductor'">
+        <h3 class="section-title">Datos del Conductor</h3>
+
+        <div class="grid">
+          <div class="group full">
+            <label>Placa del vehículo</label>
+            <input type="text" placeholder="Ej: ABC123">
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MANIPULADOR ================= -->
+      <div class="section" *ngIf="tipo === 'Manipulador'">
+        <h3 class="section-title">Datos del Manipulador</h3>
+
+        <div class="grid">
+          <div class="group full">
+            <label>Tipo de manipulador</label>
+            <input type="text" placeholder="Ej: Carga, Logística">
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= ADMIN ================= -->
+      <div class="section" *ngIf="categoria === 'administrador'">
+        <h3 class="section-title">Credenciales</h3>
+
+        <div class="grid">
+          <div class="group">
+            <label>Usuario</label>
+            <input type="text" placeholder="Ingrese usuario">
+          </div>
+
+          <div class="group">
+            <label>Contraseña</label>
+            <input type="password" placeholder="Ingrese contraseña">
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= BOTONES ================= -->
       <div class="buttons">
         <button type="button" class="btn secondary" (click)="cancelar()">
           Cancelar
