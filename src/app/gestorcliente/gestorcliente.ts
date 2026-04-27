@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router'; // 1. Importación necesaria
+import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 import { ClientenormalService } from '../services/clientenormal.service';
 import { ClienteconcurrenteService } from '../services/clienteconcurrente.service';
 import { ClientepremiumService } from '../services/clientepremium.service';
@@ -8,6 +9,9 @@ import { ClientenormalModel } from '../models/clientenormal.model';
 import { ClienteconcurrenteModel } from '../models/clienteconcurrente.model';
 import { ClientepremiumModel } from '../models/clientepremium.model';
 import { Subscription, timeout, catchError, of } from 'rxjs';
+import { PaquetecartaService } from '../services/paquetecarta.service';
+import { PaquetealimenticioService } from '../services/paquetealimenticio.service';
+import { PaquetenoalimenticioService } from '../services/paquetenoalimenticio.service';
 
 interface ClienteUnificado {
   id: number;
@@ -26,22 +30,26 @@ interface ClienteUnificado {
   styleUrl: './gestorcliente.css',
 })
 export class Gestorcliente implements OnInit, OnDestroy {
-
-  // Inyección de servicios
   private clienteNormalService = inject(ClientenormalService);
   private clienteConcurrenteService = inject(ClienteconcurrenteService);
   private clientePremiumService = inject(ClientepremiumService);
-  private router = inject(Router); // 2. Inyección del Router
+  private router = inject(Router);
+  private cartaService = inject(PaquetecartaService);
+  private alimentoService = inject(PaquetealimenticioService);
+  private noAlimentoService = inject(PaquetenoalimenticioService);
 
-  // Estados de la vista
+  clienteSeleccionado: string = '';
   clientes: ClienteUnificado[] = [];
   clientesFiltrados: ClienteUnificado[] = [];
+
+  historialVisible: { [key: string]: boolean } = {};
+  listaHistorial: { [key: string]: any[] } = {};
+
   filtroActual: string = 'Todos';
   cargando: boolean = false;
   error: string = '';
   timeoutWarning: boolean = false;
   tiempoEspera: number = 0;
-  historialVisible: { [key: string]: boolean } = {};
   mensajeExito: string = '';
 
   private subscriptions: Subscription[] = [];
@@ -53,21 +61,19 @@ export class Gestorcliente implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
     if (this.timeoutId) clearTimeout(this.timeoutId);
     if (this.esperaInterval) clearInterval(this.esperaInterval);
   }
 
-  // --- NAVEGACIÓN ---
   volverAlMenu(): void {
     this.router.navigate(['/administrador']);
   }
 
-  // --- CARGA DE DATOS ---
   recargarClientes(): void {
     if (this.timeoutId) clearTimeout(this.timeoutId);
     if (this.esperaInterval) clearInterval(this.esperaInterval);
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
     this.subscriptions = [];
 
     this.cargando = true;
@@ -98,7 +104,7 @@ export class Gestorcliente implements OnInit, OnDestroy {
 
   cancelarCarga(): void {
     if (this.cargando) {
-      this.subscriptions.forEach(sub => sub.unsubscribe());
+      this.subscriptions.forEach((sub) => sub.unsubscribe());
       this.subscriptions = [];
       this.cargando = false;
       this.error = 'Carga cancelada por el usuario.';
@@ -125,90 +131,123 @@ export class Gestorcliente implements OnInit, OnDestroy {
     };
 
     const manejarError = (tipo: string, err: any) => {
-      console.error(`❌ Error cargando ${tipo}:`, err);
+      console.error(`Error cargando ${tipo}:`, err);
       verificarFinalizacion();
     };
 
-    // Petición Clientes Normales
-    const normalSub = this.clienteNormalService.getClientesNormales()
-      .pipe(timeout(8000), catchError(err => { manejarError('normales', err); return of(null); }))
+    const normalSub = this.clienteNormalService
+      .getClientesNormales()
+      .pipe(
+        timeout(8000),
+        catchError((err) => {
+          manejarError('normales', err);
+          return of(null);
+        }),
+      )
       .subscribe({
         next: (resp) => {
           if (resp?.body) {
-            const data = resp.body.map(c => ({ ...c, tipo: 'Normal' as const, metodoPago: c.metodoPago || 'N/A' }));
+            const data = resp.body.map((c) => ({
+              ...c,
+              tipo: 'Normal' as const,
+              metodoPago: c.metodoPago || 'N/A',
+            }));
             this.clientes.push(...data);
           }
           verificarFinalizacion();
-        }
+        },
       });
     this.subscriptions.push(normalSub);
 
-    // Petición Clientes Concurrentes
-    const concurrenteSub = this.clienteConcurrenteService.getClientesConcurrentes()
-      .pipe(timeout(8000), catchError(err => { manejarError('concurrentes', err); return of(null); }))
+    const concurrenteSub = this.clienteConcurrenteService
+      .getClientesConcurrentes()
+      .pipe(
+        timeout(8000),
+        catchError((err) => {
+          manejarError('concurrentes', err);
+          return of(null);
+        }),
+      )
       .subscribe({
         next: (resp) => {
           if (resp?.body) {
-            const data = resp.body.map(c => ({ ...c, tipo: 'Concurrente' as const, metodoPago: c.metodoPago || 'N/A' }));
+            const data = resp.body.map((c) => ({
+              ...c,
+              tipo: 'Concurrente' as const,
+              metodoPago: c.metodoPago || 'N/A',
+            }));
             this.clientes.push(...data);
           }
           verificarFinalizacion();
-        }
+        },
       });
     this.subscriptions.push(concurrenteSub);
 
-    // Petición Clientes Premium
-    const premiumSub = this.clientePremiumService.getClientesPremium()
-      .pipe(timeout(8000), catchError(err => { manejarError('premium', err); return of(null); }))
+    const premiumSub = this.clientePremiumService
+      .getClientesPremium()
+      .pipe(
+        timeout(8000),
+        catchError((err) => {
+          manejarError('premium', err);
+          return of(null);
+        }),
+      )
       .subscribe({
         next: (resp) => {
           if (resp?.body) {
-            const data = resp.body.map(c => ({ ...c, tipo: 'Premium' as const, metodoPago: c.metodoPago || 'N/A' }));
+            const data = resp.body.map((c) => ({
+              ...c,
+              tipo: 'Premium' as const,
+              metodoPago: c.metodoPago || 'N/A',
+            }));
             this.clientes.push(...data);
           }
           verificarFinalizacion();
-        }
+        },
       });
     this.subscriptions.push(premiumSub);
   }
 
-  // --- ACCIONES ---
   eliminarCliente(cliente: ClienteUnificado): void {
     if (!confirm(`¿Estás seguro de eliminar a ${cliente.nombre}?`)) return;
 
     const clienteEliminado = { ...cliente };
     let eliminar$;
 
-    if (cliente.tipo === 'Normal') eliminar$ = this.clienteNormalService.eliminarClienteNormal(cliente.id);
-    else if (cliente.tipo === 'Concurrente') eliminar$ = this.clienteConcurrenteService.eliminarClienteConcurrente(cliente.id);
+    if (cliente.tipo === 'Normal')
+      eliminar$ = this.clienteNormalService.eliminarClienteNormal(cliente.id);
+    else if (cliente.tipo === 'Concurrente')
+      eliminar$ = this.clienteConcurrenteService.eliminarClienteConcurrente(cliente.id);
     else eliminar$ = this.clientePremiumService.eliminarClientePremium(cliente.id);
 
     this.cargando = true;
     const sub = eliminar$.subscribe({
       next: () => {
-        const index = this.clientes.findIndex(c => c.tipo === clienteEliminado.tipo && c.id === clienteEliminado.id);
+        const index = this.clientes.findIndex(
+          (c) => c.tipo === clienteEliminado.tipo && c.id === clienteEliminado.id,
+        );
         if (index !== -1) {
           this.clientes.splice(index, 1);
           this.aplicarFiltro();
         }
-        this.mensajeExito = `✅ ${clienteEliminado.nombre} eliminado correctamente`;
+        this.mensajeExito = `${clienteEliminado.nombre} eliminado correctamente`;
         this.cargando = false;
-        setTimeout(() => this.mensajeExito = '', 3000);
+        setTimeout(() => (this.mensajeExito = ''), 3000);
       },
       error: (err) => {
         this.cargando = false;
         this.error = `Error al eliminar: ${err.message}`;
         alert(this.error);
-      }
+      },
     });
     this.subscriptions.push(sub);
   }
 
-  // --- UTILIDADES ---
   aplicarFiltro(): void {
-    this.clientesFiltrados = this.filtroActual === 'Todos'
-      ? [...this.clientes]
-      : this.clientes.filter(c => c.tipo === this.filtroActual);
+    this.clientesFiltrados =
+      this.filtroActual === 'Todos'
+        ? [...this.clientes]
+        : this.clientes.filter((c) => c.tipo === this.filtroActual);
   }
 
   onFiltroChange(event: Event): void {
@@ -216,19 +255,61 @@ export class Gestorcliente implements OnInit, OnDestroy {
     this.aplicarFiltro();
   }
 
-  toggleHistorial(clienteKey: string): void {
-    this.historialVisible[clienteKey] = !this.historialVisible[clienteKey];
-  }
-
   getIniciales(nombre: string): string {
-    return nombre ? nombre.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase() : '??';
+    return nombre
+      ? nombre
+          .split(' ')
+          .slice(0, 2)
+          .map((n) => n[0])
+          .join('')
+          .toUpperCase()
+      : '??';
   }
 
   getClienteKey(cliente: ClienteUnificado): string {
     return `${cliente.tipo}-${cliente.id}`;
   }
 
-  actualizarCliente(cliente: ClienteUnificado): void {
-    alert(`Actualización para ${cliente.nombre} - Próximamente`);
+  actualizarCliente(cliente: ClienteUnificado) {
+    this.router.navigate(['/admin/actualizar', 'cliente', cliente.tipo, cliente.id]);
+  }
+
+  toggleHistorial(clienteKey: string): void {
+    if (this.historialVisible[clienteKey]) {
+      this.historialVisible[clienteKey] = false;
+      return;
+    }
+
+    const [tipo, idStr] = clienteKey.split('-');
+    const idCliente = parseInt(idStr);
+
+    this.cargando = true;
+
+    forkJoin({
+      cartas: this.cartaService.verHistorial(idCliente),
+      alimentos: this.alimentoService.verHistorial(idCliente),
+      noAlimentos: this.noAlimentoService.verHistorial(idCliente),
+    }).subscribe({
+      next: (respuestas) => {
+        const todasLasCartas = respuestas.cartas.body || [];
+        const todosLosAlimentos = respuestas.alimentos.body || [];
+        const todosLosNoAlimentos = respuestas.noAlimentos.body || [];
+
+        this.listaHistorial[clienteKey] = [
+          ...todasLasCartas,
+          ...todosLosAlimentos,
+          ...todosLosNoAlimentos,
+        ];
+
+        this.listaHistorial[clienteKey].sort((a: any, b: any) => b.id - a.id);
+
+        this.historialVisible[clienteKey] = true;
+        this.cargando = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar historial', err);
+        this.cargando = false;
+      },
+    });
   }
 }
