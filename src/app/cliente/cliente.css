@@ -15,7 +15,7 @@
   margin: 0 auto;
 }
 
-/* Tarjeta Lateral de Perfil */
+
 .profile-card {
   background: white;
   padding: 30px;
@@ -27,7 +27,7 @@
 .avatar-circle {
   width: 80px;
   height: 80px;
-  background: #003893; /* Azul corporativo 4-72 */
+  background: #003893;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -93,7 +93,7 @@ h2 span {
   background: #fecaca;
 }
 
-/* Panel Principal y Botones */
+
 .status-card {
   display: flex;
   justify-content: space-around;
@@ -155,7 +155,7 @@ h2 span {
   background: #e6b800;
 }
 
-/* Tabla de Historial */
+
 .history-card {
   background: white;
   padding: 25px;

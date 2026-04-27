@@ -314,14 +314,14 @@
   font-size: 0.8rem;
 }
 
-/* Grid de tarjetas */
+
 .historial-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 12px;
 }
 
-/* La tarjeta individual */
+
 .envio-card-mini {
   background: white;
   border-radius: 8px;
@@ -337,7 +337,7 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Barra de estado lateral */
+
 .envio-status-bar {
   width: 5px;
   background: #ccc;
@@ -395,6 +395,6 @@
   font-weight: bold;
 }
 
-/* Colores de los badges */
+
 .envio-badge-estado.entregado { background: #e8f5e9; color: #2e7d32; }
 .envio-badge-estado.pendiente { background: #fff8e1; color: #f57f17; }

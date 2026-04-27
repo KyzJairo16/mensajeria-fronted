@@ -18,7 +18,6 @@ import { Cliente } from './cliente/cliente';
 import { Nuevoenvio } from './nuevoenvio/nuevoenvio';
 import { Gestortrabajador } from './gestortrabajador/gestortrabajador';
 import { Gestorpaquete } from './gestorpaquete/gestorpaquete';
-import { Gestoractualizar } from './gestoractualizar/gestoractualizar';
 import { Actualizarcliente } from './actualizarcliente/actualizarcliente';
 import { Actualizartrabajador } from './actualizartrabajador/actualizartrabajador';
 import { Actualizarpaquete } from './actualizarpaquete/actualizarpaquete';
