@@ -1,11 +1,17 @@
 <div class="admin-wrapper">
 
-  <!-- HEADER -->
   <div class="header">
-    <h2>
-      <i class="fas fa-boxes"></i>
-      Gestión de Paquetes
-    </h2>
+    <div class="header-left">
+      <button type="button" class="btn-volver-xl" (click)="volverAlMenu()">
+        <i class="fas fa-arrow-left"></i>
+        Volver
+      </button>
+
+      <h2>
+        <i class="fas fa-boxes"></i>
+        Gestión de Paquetes
+      </h2>
+    </div>
 
     <div class="header-actions">
       <select class="filtro" (change)="onFiltroChange($event)">
@@ -15,7 +21,6 @@
         <option value="Carta">Carta</option>
       </select>
 
-      <!-- BOTÓN DE RECARGA MANUAL -->
       <button type="button" class="btn-recargar" (click)="recargarPaquetes()" [disabled]="cargando">
         <i class="fas" [ngClass]="cargando ? 'fa-spinner fa-spin' : 'fa-sync-alt'"></i>
         {{ cargando ? 'Cargando...' : 'Recargar' }}
@@ -23,33 +28,29 @@
     </div>
   </div>
 
-  <!-- MENSAJE DE ÉXITO -->
   <div *ngIf="mensajeExito" class="mensaje-exito">
     <i class="fas fa-check-circle"></i>
     {{ mensajeExito }}
   </div>
 
-  <!-- LEYENDA -->
   <div class="legend">
     <span class="legend-item alimenticio">
-      <i class="fas fa-utensils"></i> Paquete Alimenticio
+      <i class="fas fa-utensils"></i> Alimenticio
     </span>
     <span class="legend-item noalimenticio">
-      <i class="fas fa-box"></i> Paquete No Alimenticio
+      <i class="fas fa-box"></i> No Alimenticio
     </span>
     <span class="legend-item carta">
-      <i class="fas fa-envelope"></i> Paquete Carta
+      <i class="fas fa-envelope"></i> Carta
     </span>
   </div>
 
-  <!-- CONTADOR -->
   <div class="contador">
     <i class="fas fa-boxes"></i>
     <span>Total paquetes:</span>
     <strong>{{ paquetesFiltrados.length }}</strong>
   </div>
 
-  <!-- ESTADO DE CARGA CON TIEMPO DE ESPERA Y BOTÓN RECARGAR -->
   <div *ngIf="cargando" class="estado-carga">
     <div class="carga-info">
       <i class="fas fa-spinner fa-spin"></i>
@@ -60,13 +61,6 @@
     </button>
   </div>
 
-  <!-- ADVERTENCIA DE TIMEOUT -->
-  <div *ngIf="timeoutWarning && !cargando" class="estado-warning">
-    <i class="fas fa-clock"></i>
-    <span>La carga está tomando más tiempo de lo esperado. Puedes usar el botón "Recargar" para intentar de nuevo.</span>
-  </div>
-
-  <!-- ERROR CON OPCIÓN DE REINTENTO -->
   <div *ngIf="error" class="estado-error">
     <i class="fas fa-exclamation-triangle"></i>
     <span>{{ error }}</span>
@@ -75,40 +69,18 @@
     </button>
   </div>
 
-  <!-- SIN RESULTADOS -->
-  <div *ngIf="!cargando && paquetesFiltrados.length === 0 && !error" class="estado-vacio">
-    <i class="fas fa-inbox"></i>
-    <p>No hay paquetes registrados.</p>
-    <button class="btn-recargar" (click)="recargarPaquetes()" type="button">
-      <i class="fas fa-sync-alt"></i> Recargar
-    </button>
-  </div>
-
-  <!-- LISTA DE PAQUETES -->
   <div class="paquetes-container" *ngIf="!cargando && !error && paquetesFiltrados.length > 0">
-
-    <div
-      *ngFor="let paquete of paquetesFiltrados"
-      class="paquete-card"
-      [ngClass]="getTipoClase(paquete.tipo)">
-
+    <div *ngFor="let paquete of paquetesFiltrados" class="paquete-card" [ngClass]="getTipoClase(paquete.tipo)">
       <div class="paquete-main">
 
-        <!-- Icono según tipo -->
         <div class="paquete-icono" [ngClass]="getTipoClase(paquete.tipo)">
           <i class="fas" [ngClass]="getIcono(paquete.tipo)"></i>
         </div>
 
         <div class="info">
-
           <div class="header-row">
-            <h3>
-              <i class="fas fa-tag"></i>
-              Paquete #{{ paquete.id }}
-            </h3>
-
+            <h3>Paquete #{{ paquete.id }}</h3>
             <span class="badge" [ngClass]="getTipoClase(paquete.tipo)">
-              <i class="fas" [ngClass]="getIcono(paquete.tipo)"></i>
               {{ getTipoTexto(paquete.tipo) }}
             </span>
           </div>
@@ -116,56 +88,22 @@
           <div class="detalles-grid">
             <p><i class="fas fa-map-marker-alt"></i> <strong>Destino:</strong> {{ paquete.direccionDestino }}</p>
             <p><i class="fas fa-city"></i> <strong>Ciudad:</strong> {{ paquete.ciudadDestino }}</p>
-            <p><i class="fas fa-arrows-alt"></i> <strong>Tamaño:</strong> {{ paquete.tamanio }}</p>
-            <p><i class="fas fa-dollar-sign"></i> <strong>Precio envío:</strong> ${{ paquete.precioEnvio }}</p>
-            <p><i class="fas fa-tag"></i> <strong>Precio final:</strong> ${{ paquete.precioFinal }}</p>
-            <p><i class="fas fa-calendar"></i> <strong>Fecha creación:</strong> {{ paquete.fechaCreacionPedido | date:'dd/MM/yyyy' }}</p>
-            <p><i class="fas fa-calendar-check"></i> <strong>Fecha estimada:</strong> {{ paquete.fechaEstimadaEntrega | date:'dd/MM/yyyy' }}</p>
+            <p><i class="fas fa-dollar-sign"></i> <strong>Precio Final:</strong> ${{ paquete.precioFinal }}</p>
             <p><i class="fas fa-chart-line"></i> <strong>Estado:</strong>
-              <span class="estado-pedido" [ngClass]="getEstadoClase(paquete.estadoPedido)">
-                {{ paquete.estadoPedido }}
-              </span>
-            </p>
-            <p *ngIf="paquete.esPrioritario">
-              <i class="fas fa-star" style="color: #f39c12;"></i> <strong>Prioritario</strong>
+              <span class="estado-pedido" [ngClass]="getEstadoClase(paquete.estadoPedido)">{{ paquete.estadoPedido }}</span>
             </p>
 
-            <!-- Campos específicos por tipo -->
-            <p *ngIf="paquete.tipo === 'Alimenticio' && paquete.tipoDeAlimento">
-              <i class="fas fa-apple-alt"></i> <strong>Tipo de alimento:</strong> {{ paquete.tipoDeAlimento }}
-            </p>
-            <p *ngIf="paquete.tipo === 'Alimenticio' && paquete.seEnviaHoy !== undefined">
-              <i class="fas fa-shipping-fast"></i> <strong>Envío hoy:</strong> {{ paquete.seEnviaHoy ? 'Sí' : 'No' }}
-            </p>
-
-            <p *ngIf="paquete.tipo === 'NoAlimenticio' && paquete.esFragil !== undefined">
-              <i class="fas fa-box-open"></i> <strong>Frágil:</strong> {{ paquete.esFragil ? 'Sí' : 'No' }}
-            </p>
-
-            <p *ngIf="paquete.tipo === 'Carta' && paquete.tipoCarta">
-              <i class="fas fa-envelope-open-text"></i> <strong>Tipo de carta:</strong> {{ paquete.tipoCarta }}
-            </p>
+            <p *ngIf="paquete.tipo === 'Alimenticio'"><i class="fas fa-apple-alt"></i> {{ paquete.tipoDeAlimento }}</p>
+            <p *ngIf="paquete.tipo === 'NoAlimenticio'"><i class="fas fa-wine-glass"></i> {{ paquete.esFragil ? 'Frágil' : 'Resistente' }}</p>
+            <p *ngIf="paquete.tipo === 'Carta'"><i class="fas fa-mail-bulk"></i> {{ paquete.tipoCarta }}</p>
           </div>
-
-          <p class="cliente-info">
-            <i class="fas fa-user"></i> <strong>ID Cliente:</strong> {{ paquete.idCliente }}
-          </p>
-
         </div>
 
         <div class="actions">
-          <button type="button" class="btn btn-primary" (click)="actualizarPaquete(paquete)">
-            <i class="fas fa-edit"></i> Actualizar
-          </button>
-          <button type="button" class="btn btn-danger" (click)="eliminarPaquete(paquete)">
-            <i class="fas fa-trash"></i> Eliminar
-          </button>
+          <button class="btn btn-primary" (click)="actualizarPaquete(paquete)"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-danger" (click)="eliminarPaquete(paquete)"><i class="fas fa-trash"></i></button>
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

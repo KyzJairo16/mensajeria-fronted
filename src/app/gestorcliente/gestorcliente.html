@@ -1,11 +1,17 @@
 <div class="admin-wrapper">
 
-
   <div class="header">
-    <h2>
-      <i class="fas fa-users-cog"></i>
-      Gestión de Clientes
-    </h2>
+    <div class="header-left">
+      <button type="button" class="btn-volver-main" (click)="volverAlMenu()">
+        <i class="fas fa-arrow-left"></i>
+        Volver
+      </button>
+
+      <h2>
+        <i class="fas fa-users-cog"></i>
+        Gestión de Clientes
+      </h2>
+    </div>
 
     <div class="header-actions">
       <select class="filtro" (change)="onFiltroChange($event)">
@@ -15,7 +21,6 @@
         <option value="Premium">Premium</option>
       </select>
 
-      <!-- BOTÓN DE RECARGA MANUAL -->
       <button type="button" class="btn-recargar" (click)="recargarClientes()" [disabled]="cargando">
         <i class="fas" [ngClass]="cargando ? 'fa-spinner fa-spin' : 'fa-sync-alt'"></i>
         {{ cargando ? 'Cargando...' : 'Recargar' }}
@@ -23,13 +28,11 @@
     </div>
   </div>
 
-  <!-- MENSAJE DE ÉXITO -->
   <div *ngIf="mensajeExito" class="mensaje-exito">
     <i class="fas fa-check-circle"></i>
     {{ mensajeExito }}
   </div>
 
-  <!-- LEYENDA -->
   <div class="legend">
     <span class="legend-item premium">
       <i class="fas fa-crown"></i> Premium
@@ -42,32 +45,27 @@
     </span>
   </div>
 
-  <!-- CONTADOR -->
   <div class="contador">
     <i class="fas fa-users"></i>
     <span>Total clientes:</span>
     <strong>{{ clientesFiltrados.length }}</strong>
   </div>
 
-  <!-- ESTADO DE CARGA CON TIEMPO DE ESPERA Y BOTÓN RECARGAR (que cancela la carga) -->
   <div *ngIf="cargando" class="estado-carga">
     <div class="carga-info">
       <i class="fas fa-spinner fa-spin"></i>
       <span>Cargando clientes...</span>
-
     </div>
     <button class="btn-recargar-carga" (click)="cancelarCarga()" type="button">
       <i class="fas fa-sync-alt"></i> Recargar
     </button>
   </div>
 
-  <!-- ADVERTENCIA DE TIMEOUT -->
   <div *ngIf="timeoutWarning && !cargando" class="estado-warning">
     <i class="fas fa-clock"></i>
     <span>La carga está tomando más tiempo de lo esperado. Puedes usar el botón "Recargar" para intentar de nuevo.</span>
   </div>
 
-  <!-- ERROR CON OPCIÓN DE REINTENTO -->
   <div *ngIf="error" class="estado-error">
     <i class="fas fa-exclamation-triangle"></i>
     <span>{{ error }}</span>
@@ -76,7 +74,6 @@
     </button>
   </div>
 
-  <!-- SIN RESULTADOS -->
   <div *ngIf="!cargando && clientesFiltrados.length === 0 && !error" class="estado-vacio">
     <i class="fas fa-inbox"></i>
     <p>No hay clientes registrados.</p>
@@ -85,7 +82,6 @@
     </button>
   </div>
 
-  <!-- LISTA DE CLIENTES -->
   <div class="clientes-container" *ngIf="!cargando && !error && clientesFiltrados.length > 0">
 
     <div
@@ -95,13 +91,11 @@
 
       <div class="cliente-main">
 
-        <!-- Avatar con iniciales -->
         <div class="avatar" [ngClass]="cliente.tipo.toLowerCase()">
           {{ getIniciales(cliente.nombre) }}
         </div>
 
         <div class="info">
-
           <div class="name-row">
             <h3>
               <i class="fas fa-user"></i>
@@ -122,7 +116,6 @@
           <p *ngIf="cliente.metodoPago">
             <i class="fas fa-credit-card"></i> {{ cliente.metodoPago }}
           </p>
-
         </div>
 
         <div class="actions">
@@ -139,7 +132,6 @@
 
       </div>
 
-      <!-- HISTORIAL (se muestra) -->
       <div class="historial" *ngIf="historialVisible[getClienteKey(cliente)]">
         <div class="historial-title">
           <i class="fas fa-truck"></i> Historial de envíos
