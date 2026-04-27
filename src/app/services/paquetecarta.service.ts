@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient,HttpParams } from '@angular/common/http';
-import { PaquetecartaModel } from '../models/paquetecarta.model';
+import {inject, Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {PaquetecartaModel} from '../models/paquetecarta.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class PaquetecartaService {
     tamanio: string,
     ciudadDestino: string,
     tipoCarta: string,
-    esPrioritario:boolean,
+    esPrioritario: boolean,
   ) {
     const params = new HttpParams()
       .set('idCliente', idCliente.toString())
@@ -32,7 +32,6 @@ export class PaquetecartaService {
       .set('ciudadDestino', ciudadDestino)
       .set('tipoCarta', tipoCarta)
       .set('esPrioritario', esPrioritario.toString());
-
 
 
     console.log({
@@ -54,7 +53,15 @@ export class PaquetecartaService {
 
 
   actualizarPaqueteCarta(id: number, direccionDestino: string, ciudadDestino: string, tamanio: string, tipoCarta: string) {
-    return this.http.put(this.urlbase + '/paquetecarta/actualizar?id=' + id + '&direccionDestino=' + direccionDestino + '&ciudadDestino=' + ciudadDestino + '&tamanio=' + tamanio + '&tipoCarta=' + tipoCarta, null, {
+    const params = new HttpParams()
+      .set('id', id.toString())
+      .set('direccionDestino', direccionDestino)
+      .set('ciudadDestino', ciudadDestino)
+      .set('tamanio', tamanio)
+      .set('tipoCarta', tipoCarta);
+
+    return this.http.put(this.urlbase + '/paquetecarta/actualizar', null, {
+      params: params,
       responseType: 'text',
     });
   }
@@ -99,8 +106,8 @@ export class PaquetecartaService {
 
   verHistorial(idCliente: number) {
     return this.http.get<PaquetecartaModel[]>(
-      this.urlbase + '/paquetecarta/historialporid?idCliente=' +idCliente,
-      { observe: 'response' }
+      this.urlbase + '/paquetecarta/historialporid?idCliente=' + idCliente,
+      {observe: 'response'}
     );
   }
 }

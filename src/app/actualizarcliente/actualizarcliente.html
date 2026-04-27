@@ -1,22 +1,51 @@
-<div class="card">
-  <h2>Actualizar Cliente {{tipo}}</h2>
-  <form (ngSubmit)="guardar()">
-    <label>Nombre</label>
-    <input type="text" [(ngModel)]="modelo.nombre" name="nombre">
-    <label>Cédula</label>
-    <input type="text" [(ngModel)]="modelo.cedula" name="cedula">
-    <label>Correo</label>
-    <input type="email" [(ngModel)]="modelo.correo" name="correo">
-    <label>Método de Pago</label>
-    <select [(ngModel)]="modelo.metodoPago" name="metodo">
-      <option value="Efectivo">Efectivo</option>
-      <option value="Tarjeta">Tarjeta</option>
-    </select>
-    <button class="btn-edit"
-            [routerLink]="['/admin/actualizarcliente', cliente.tipo, cliente.id]">
-      <i class="fas fa-edit"></i> Actualizar
-    </button>
-    <button type="button" (click)="finalizar()">Cancelar</button>
-    <button type="submit" [disabled]="cargando">Guardar</button>
-  </form>
+<div class="registro-wrapper animate__animated animate__fadeIn">
+  <div class="registro-card">
+
+    <div class="form-header">
+      <h2>Actualizar Cliente</h2>
+      <p>Categoría: {{ tipo }}</p>
+    </div>
+
+    <form (ngSubmit)="guardar()">
+      <input type="hidden" [(ngModel)]="modelo.contrasenia" name="contrasenia">
+
+      <div class="input-group">
+        <label>Nombre Completo</label>
+        <input type="text" [(ngModel)]="modelo.nombre" name="nombre" required>
+      </div>
+
+      <div class="input-group">
+        <label>Cédula</label>
+        <input type="text" [(ngModel)]="modelo.cedula" name="cedula" required>
+      </div>
+
+      <div class="input-group">
+        <label>Correo Electrónico</label>
+        <input type="email" [(ngModel)]="modelo.correo" name="correo" required>
+      </div>
+
+      <div class="input-group">
+        <label>Teléfono</label>
+        <input type="text" [(ngModel)]="modelo.telefono" name="telefono">
+      </div>
+
+      <div class="input-group">
+        <label>Método de Pago</label>
+        <select class="combo-box" [(ngModel)]="modelo.metodoPago" name="pago">
+          <option value="" disabled>Seleccione un método</option>
+          <option value="Tarjeta De Crédito">Tarjeta De Crédito</option>
+          <option value="Tarjeta Debito">Tarjeta Debito</option>
+          <option value="PSE">PSE</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-regresar" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn-finalizar" [disabled]="cargando">
+          {{ cargando ? 'Guardando...' : 'Guardar Cambios' }}
+        </button>
+      </div>
+    </form>
+
+  </div>
 </div>

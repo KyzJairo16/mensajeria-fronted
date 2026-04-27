@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient,HttpParams } from '@angular/common/http';
-import { PaquetenoalimenticioModel } from '../models/paquetenoalimenticio.model';
-import { PaquetecartaModel } from '../models/paquetecarta.model';
+import {inject, Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {PaquetenoalimenticioModel} from '../models/paquetenoalimenticio.model';
+import {PaquetecartaModel} from '../models/paquetecarta.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,8 +24,7 @@ export class PaquetenoalimenticioService {
     tamanio: string,
     ciudadDestino: string,
     esFragil: boolean,
-    esPrioritario:boolean,
-
+    esPrioritario: boolean,
   ) {
     const params = new HttpParams()
       .set('idCliente', idCliente.toString())
@@ -53,7 +52,14 @@ export class PaquetenoalimenticioService {
 
 
   actualizarPaqueteNoAlimenticio(id: number, direccionDestino: string, ciudadDestino: string, tamanio: string) {
-    return this.http.put(this.urlbase + '/paquetenoalimenticio/actualizar?id=' + id + '&direccionDestino=' + direccionDestino + '&ciudadDestino=' + ciudadDestino + '&tamanio=' + tamanio, null, {
+    const params = new HttpParams()
+      .set('id', id.toString())
+      .set('direccionDestino', direccionDestino)
+      .set('ciudadDestino', ciudadDestino)
+      .set('tamanio', tamanio);
+
+    return this.http.put(this.urlbase + '/paquetenoalimenticio/actualizar', null, {
+      params: params,
       responseType: 'text',
     });
   }
@@ -98,8 +104,8 @@ export class PaquetenoalimenticioService {
 
   verHistorial(idCliente: number) {
     return this.http.get<PaquetenoalimenticioModel[]>(
-      this.urlbase + '/paquetenoalimenticio/historialporid?idCliente=' +idCliente,
-      { observe: 'response' }
+      this.urlbase + '/paquetenoalimenticio/historialporid?idCliente=' + idCliente,
+      {observe: 'response'}
     );
   }
 }

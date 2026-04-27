@@ -25,7 +25,10 @@ export class Actualizarcliente implements OnInit {
   ngOnInit() {
     this.tipo = this.route.snapshot.paramMap.get('tipo') || '';
     this.id = this.route.snapshot.paramMap.get('id') || '';
-    this.cargarDatos();
+
+    if (this.id) {
+      this.cargarDatos();
+    }
   }
 
   cargarDatos() {
@@ -35,36 +38,52 @@ export class Actualizarcliente implements OnInit {
 
     if (this.tipo === 'Normal') consulta$ = this.sNormal.getClientesNormales();
     else if (this.tipo === 'Concurrente') consulta$ = this.sConcurrente.getClientesConcurrentes();
-    else consulta$ = this.sPremium.getClientesPremium();
+    else if (this.tipo === 'Premium') consulta$ = this.sPremium.getClientesPremium();
 
-    consulta$.subscribe({
-      next: (res: any) => {
-        const data = res.body ?? res;
-        this.modelo = Array.isArray(data) ? data.find((item: any) => item.id === idNum) : data;
-        this.cargando = false;
-      },
-      error: () => this.cargando = false
-    });
+    if (consulta$) {
+      consulta$.subscribe({
+        next: (res: any) => {
+          const data = res.body ?? res;
+          this.modelo = Array.isArray(data) ? data.find((item: any) => item.id === idNum) : data;
+          this.cargando = false;
+        },
+        error: () => this.cargando = false
+      });
+    }
   }
 
   guardar() {
     this.cargando = true;
     const m = this.modelo;
+
+    // DEBUG: Revisa esto en la consola del navegador F12
+    console.log('Enviando al servidor:', m);
+
     let op$: any;
 
-    if (this.tipo === 'Normal') op$ = this.sNormal.actualizarClienteNormal(m.id, m.nombre, m.cedula, m.correo, m.telefono, m.metodoPago, m.contrasenia);
-    else if (this.tipo === 'Concurrente') op$ = this.sConcurrente.actualizarClienteConcurrente(m.id, m.nombre, m.cedula, m.correo, m.telefono, m.metodoPago, m.contrasenia);
-    else op$ = this.sPremium.actualizarClientePremium(m.id, m.nombre, m.cedula, m.correo, m.telefono, m.metodoPago, m.contrasenia);
+    if (this.tipo === 'Normal')
+      op$ = this.sNormal.actualizarClienteNormal(m.id, m.nombre, m.cedula, m.correo, m.telefono, m.metodoPago, m.contrasenia);
+    else if (this.tipo === 'Concurrente')
+      op$ = this.sConcurrente.actualizarClienteConcurrente(m.id, m.nombre, m.cedula, m.correo, m.telefono, m.metodoPago, m.contrasenia);
+    else
+      op$ = this.sPremium.actualizarClientePremium(m.id, m.nombre, m.cedula, m.correo, m.telefono, m.metodoPago, m.contrasenia);
 
-    // (op$ as any) corrige el error TS2349 de la imagen
     (op$ as any).subscribe({
       next: () => this.finalizar(),
-      error: (err: any) => (err.status === 200) ? this.finalizar() : (alert('Error'), this.cargando = false)
+      error: (err: any) => {
+        this.cargando = false;
+        if (err.status === 200) this.finalizar();
+        else alert('Error al guardar. Revisa la consola.');
+      }
     });
   }
 
   finalizar() {
-    alert('Cliente actualizado con Ã©xito');
-    this.router.navigate(['/admin/gestorcliente']);
+    this.router.navigate(['/gestorcliente']);
   }
+
+  cancelar() {
+    this.router.navigate(['/gestorcliente']);
+  }
+
 }

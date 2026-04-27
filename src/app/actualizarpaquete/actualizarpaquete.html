@@ -1,55 +1,66 @@
-<div class="card">
-  <h2>Actualizar Paquete: {{ tipo }}</h2>
+<div class="registro-wrapper animate__animated animate__fadeIn">
+  <div class="registro-card">
 
-  <form (ngSubmit)="guardar()">
-    <div class="group">
-      <label>Dirección de Destino</label>
-      <input type="text" [(ngModel)]="modelo.direccionDestino" name="dir" required>
+    <div class="form-header">
+      <h2>Actualizar Paquete</h2>
+      <p>Categoría: {{ tipo }}</p>
     </div>
 
-    <div class="group">
-      <label>Ciudad de Destino</label>
-      <input type="text" [(ngModel)]="modelo.ciudadDestino" name="ciudad" required>
-    </div>
+    <form (ngSubmit)="guardar()">
+      <div class="input-group">
+        <label>Dirección de Destino</label>
+        <input type="text" [(ngModel)]="modelo.direccionDestino" name="dir" required>
+      </div>
 
-    <div class="group">
-      <label>Tamaño / Peso</label>
-      <input type="text" [(ngModel)]="modelo.tamanio" name="tam" required>
-    </div>
+      <div class="input-group">
+        <label>Ciudad de Destino</label>
+        <select class="combo-box" [(ngModel)]="modelo.ciudadDestino" name="ciudad" required>
+          <option value="" disabled selected>Seleccione una ciudad</option>
+          <option *ngFor="let ciudad of ciudades" [value]="ciudad">{{ ciudad }}</option>
+        </select>
+      </div>
 
-    <div ngIf="tipo === 'Carta'" class="group">
-      <label>Tipo de Carta (Ej: Urgente, Normal)</label>
-      <input type="text" [(ngModel)]="modelo.tipoCarta" name="tcarta">
-    </div>
-<div>
-    <divngIf="tipo === 'Alimenticio'" class="group">
-    <label>Tipo de Alimento</label>
-    <input type="text" [(ngModel)]="modelo.tipoDeAlimento" name="talim">
+      <div class="input-group">
+        <label>Tamaño / Peso</label>
+        <select class="combo-box" [(ngModel)]="modelo.tamanio" name="tam" required>
+          <option value="" disabled>Seleccione un tamaño</option>
+          <option value="Pequeño">Pequeño</option>
+          <option value="Mediano">Mediano</option>
+          <option value="Grande">Grande</option>
+        </select>
+      </div>
+
+      <div *ngIf="tipo === 'Carta'" class="input-group">
+        <label>Tipo de Carta</label>
+        <select class="combo-box" [(ngModel)]="modelo.tipoCarta" name="tipoC">
+          <option value="" disabled>Seleccione un tipo</option>
+          <option value="Estandar">Estandar</option>
+          <option value="Certificada">Certificada</option>
+          <option value="Juridica">Juridica</option>
+          <option value="Publicitaria">Publicitaria</option>
+        </select>
+      </div>
+
+      <div *ngIf="tipo === 'Alimenticio'" class="input-group">
+        <label>Tipo de Alimento</label>
+        <select class="combo-box" [(ngModel)]="modelo.tipoDeAlimento" name="tipoA">
+          <option value="" disabled>Seleccione un tipo</option>
+          <option value="Carne">Carne</option>
+          <option value="Fruta">Fruta</option>
+          <option value="Verdura">Verdura</option>
+          <option value="Cereal">Cereal</option>
+          <option value="Lacteo">Lácteo</option>
+          <option value="Bebida">Bebida</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-regresar" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn-finalizar" [disabled]="cargando">
+          {{ cargando ? 'Guardando...' : 'Guardar Cambios' }}
+        </button>
+      </div>
+    </form>
+
+  </div>
 </div>
-
-<div *ngIf="tipo === 'NoAlimenticio'" class="group">
-  <label>¿Es material frágil?</label>
-  <select [(ngModel)]="modelo.esFragil" name="fragil">
-    <option [ngValue]="true">Sí, es frágil</option>
-    <option [ngValue]="false">No es frágil</option>
-  </select>
-</div>
-
-<div class="buttons" style="margin-top: 20px;">
-  <button class="btn-edit"
-          [routerLink]="['/admin/actualizarpaquete', paquete.tipo, paquete.id]">
-    <i class="fas fa-edit"></i> Actualizar
-  </button>
-  <button type="submit" class="btn-save" [disabled]="cargando">
-    {{ cargando ? 'Actualizar Paquete' : 'Actualizar Paquete' }}
-  </button>
-  <button type="button" class="btn-cancel" (click)="listo()">
-    Volver
-  </button>
-  </form>
-</div>
-
-
-
-
-

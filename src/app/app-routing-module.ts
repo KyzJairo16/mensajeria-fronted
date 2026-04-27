@@ -15,6 +15,7 @@ import { Actualizarcliente } from './actualizarcliente/actualizarcliente';
 import { Actualizartrabajador } from './actualizartrabajador/actualizartrabajador';
 import { Actualizarpaquete } from './actualizarpaquete/actualizarpaquete';
 
+
 const routes: Routes = [
   { path: 'login', component: Login },
   { path: '', component: Inicio },
@@ -26,9 +27,9 @@ const routes: Routes = [
   { path: 'nuevoenvio', component: Nuevoenvio },
   { path: 'gestortrabajador', component: Gestortrabajador },
   { path: 'gestorpaquete', component: Gestorpaquete },
-  { path: 'admin/actualizarcliente/:tipo/:id', component: Actualizarcliente },
-  { path: 'admin/actualizartrabajador/:tipo/:id', component: Actualizartrabajador },
-  { path: 'admin/actualizarpaquete/:tipo/:id', component: Actualizarpaquete },
+  { path: 'admin/actualizar/cliente/:tipo/:id', component: Actualizarcliente },
+  { path: 'admin/actualizar/trabajador/:tipo/:id', component: Actualizartrabajador },
+  { path: 'admin/actualizar/paquete/:tipo/:id', component: Actualizarpaquete },
 ];
 
 @NgModule({
