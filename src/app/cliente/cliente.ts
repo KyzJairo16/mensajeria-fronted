@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
-import { forkJoin } from 'rxjs'; // Importante para unir las peticiones
+import { forkJoin } from 'rxjs';
 import { PaquetecartaService } from '../services/paquetecarta.service';
 import { PaquetealimenticioService } from '../services/paquetealimenticio.service';
 import { PaquetenoalimenticioService } from '../services/paquetenoalimenticio.service';
@@ -19,7 +19,7 @@ export class Cliente implements OnInit {
   private cartaService = inject(PaquetecartaService);
   private alimentoService = inject(PaquetealimenticioService);
   private noAlimentoService = inject(PaquetenoalimenticioService);
-  private cdr = inject(ChangeDetectorRef); // Inyectamos el detector de cambios
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.cargarDatosUsuario();
@@ -41,26 +41,18 @@ export class Cliente implements OnInit {
   cargarTodosLosPaquetes(idCliente: number) {
     console.log('Buscando historial para:', idCliente);
 
-    // forkJoin lanza las 3 peticiones y espera a que TODAS terminen
     forkJoin({
       cartas: this.cartaService.verHistorial(idCliente),
       alimentos: this.alimentoService.verHistorial(idCliente),
       noAlimentos: this.noAlimentoService.verHistorial(idCliente)
     }).subscribe({
       next: (respuestas) => {
-        // Unimos todos los resultados en un solo array
         const todasLasCartas = respuestas.cartas.body || [];
         const todosLosAlimentos = respuestas.alimentos.body || [];
         const todosLosNoAlimentos = respuestas.noAlimentos.body || [];
-
         this.listaEnvios = [...todasLasCartas, ...todosLosAlimentos, ...todosLosNoAlimentos];
-
-        // Ordenamos por ID (del más reciente al más antiguo)
         this.listaEnvios.sort((a, b) => b.id - a.id);
-
         console.log('Total unificado:', this.listaEnvios.length, this.listaEnvios);
-
-        // FORZAMOS A ANGULAR A ACTUALIZAR LA VISTA
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error al traer paquetes:', err)

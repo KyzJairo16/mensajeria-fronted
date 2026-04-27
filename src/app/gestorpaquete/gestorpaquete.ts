@@ -64,7 +64,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
     if (this.esperaInterval) clearInterval(this.esperaInterval);
   }
 
-  // MÉTODO AGREGADO PARA EL BOTÓN VOLVER
+
   volverAlMenu(): void {
     this.router.navigate(['/administrador']);
   }
@@ -179,7 +179,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       });
     this.subscriptions.push(alimenticioSub);
 
-    // Cargar paquetes no alimenticios
+
     const noAlimenticioSub = this.paqueteNoAlimenticioService.getPaquetesNoAlimenticios()
       .pipe(
         timeout(8000),
@@ -217,7 +217,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       });
     this.subscriptions.push(noAlimenticioSub);
 
-    // Cargar paquetes carta
+
     const cartaSub = this.paqueteCartaService.getPaquetesCartas()
       .pipe(
         timeout(8000),
@@ -256,7 +256,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
     this.subscriptions.push(cartaSub);
   }
 
-  // Métodos auxiliares para el template
+
   getTipoClase(tipo: string): string {
     switch(tipo) {
       case 'Alimenticio': return 'alimenticio';
@@ -334,7 +334,7 @@ export class Gestorpaquete implements OnInit, OnDestroy {
       next: (respuesta: any) => {
         console.log(` Paquete ${paqueteEliminado.tipo} eliminado:`, respuesta);
 
-        // ELIMINAR LOCALMENTE - Actualización inmediata
+
         const index = this.paquetes.findIndex(p =>
           p.tipo === paqueteEliminado.tipo && p.id === paqueteEliminado.id
         );
@@ -345,12 +345,12 @@ export class Gestorpaquete implements OnInit, OnDestroy {
           console.log(` Paquete eliminado de la lista local. Total restante: ${this.paquetes.length}`);
         }
 
-        // Mostrar mensaje de éxito
+
         this.mensajeExito = ` Paquete #${paqueteEliminado.id} eliminado correctamente`;
         this.cargando = false;
         this.error = '';
 
-        // Ocultar mensaje después de 3 segundos
+
         setTimeout(() => {
           if (this.mensajeExito === ` Paquete #${paqueteEliminado.id} eliminado correctamente`) {
             this.mensajeExito = '';
