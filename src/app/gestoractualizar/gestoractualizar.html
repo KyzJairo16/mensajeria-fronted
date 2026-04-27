@@ -1,1 +1,147 @@
-<p>gestoractualizar works!</p>
+<div class="page">
+  <div class="card">
+
+    <div class="header">
+      <h2>Actualizar {{ tipo }}</h2>
+      <p class="subtitle">
+        Categoría: <span class="badge-cat">{{ categoria | uppercase }}</span> | ID: {{ id }}
+      </p>
+    </div>
+
+    <form class="form" (ngSubmit)="guardarCambios()">
+
+      <div class="section" *ngIf="categoria === 'trabajador' || categoria === 'cliente'">
+        <h3 class="section-title">Datos Generales</h3>
+        <div class="grid">
+          <div class="group">
+            <label>Nombre completo</label>
+            <input type="text" [(ngModel)]="modelo.nombre" name="nombre" placeholder="Ej: Juan Pérez">
+          </div>
+
+          <div class="group">
+            <label>Cédula</label>
+            <input type="text" [(ngModel)]="modelo.cedula" name="cedula" placeholder="Ej: 123456789">
+          </div>
+
+          <div class="group full">
+            <label>Correo electrónico</label>
+            <input type="email" [(ngModel)]="modelo.correo" name="correo" placeholder="correo@ejemplo.com">
+          </div>
+
+          <div class="group">
+            <label>Teléfono</label>
+            <input type="text" [(ngModel)]="modelo.telefono" name="telefono" placeholder="Ej: 3001234567">
+          </div>
+
+          <div class="group" *ngIf="categoria === 'trabajador'">
+            <label>Turno</label>
+            <select [(ngModel)]="modelo.turno" name="turno">
+              <option value="M">🌅 Mañana</option>
+              <option value="T">🌇 Tarde</option>
+              <option value="N">🌙 Noche</option>
+            </select>
+          </div>
+
+          <div class="group" *ngIf="categoria === 'cliente' && (tipo === 'Concurrente' || tipo === 'Premium')">
+            <label>Método de Pago</label>
+            <input type="text" [(ngModel)]="modelo.metodoPago" name="metodoPago" placeholder="Ej: Tarjeta, Efectivo">
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="categoria === 'paquete'">
+        <h3 class="section-title">Información del Envío</h3>
+        <div class="grid">
+          <div class="group">
+            <label>Ciudad Destino</label>
+            <input type="text" [(ngModel)]="modelo.ciudadDestino" name="ciudadDestino">
+          </div>
+          <div class="group">
+            <label>Dirección</label>
+            <input type="text" [(ngModel)]="modelo.direccionDestino" name="direccionDestino">
+          </div>
+          <div class="group">
+            <label>Estado del Pedido</label>
+            <select [(ngModel)]="modelo.estadoPedido" name="estadoPedido">
+              <option value="Pendiente">Pendiente</option>
+              <option value="En camino">En camino</option>
+              <option value="Entregado">Entregado</option>
+            </select>
+          </div>
+          <div class="group">
+            <label>Tamaño</label>
+            <input type="text" [(ngModel)]="modelo.tamanio" name="tamanio">
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="tipo === 'Conductor'">
+        <h3 class="section-title">Vehículo</h3>
+        <div class="grid">
+          <div class="group full">
+            <label>Placa del vehículo</label>
+            <input type="text" [(ngModel)]="modelo.placaVehiculo" name="placaVehiculo" placeholder="Ej: ABC123">
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="tipo === 'Manipulador'">
+        <h3 class="section-title">Especialidad</h3>
+        <div class="grid">
+          <div class="group full">
+            <label>Tipo de manipulador</label>
+            <input type="text" [(ngModel)]="modelo.tipoManipulador" name="tipoManipulador"
+                   placeholder="Ej: Carga, Logística">
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="tipo === 'Administrador'">
+        <h3 class="section-title">Acceso al Sistema</h3>
+        <div class="grid">
+          <div class="group">
+            <label>Usuario</label>
+            <input type="text" [(ngModel)]="modelo.usuario" name="usuario">
+          </div>
+          <div class="group">
+            <label>Contraseña</label>
+            <input type="password" [(ngModel)]="modelo.contrasenia" name="contrasenia">
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="categoria === 'paquete'">
+        <h3 class="section-title">Detalles de {{ tipo }}</h3>
+        <div class="grid">
+          <div class="group full" *ngIf="tipo === 'Carta'">
+            <label>Tipo de Carta</label>
+            <input type="text" [(ngModel)]="modelo.tipoCarta" name="tipoCarta">
+          </div>
+          <div class="group full" *ngIf="tipo === 'Alimenticio'">
+            <label>Tipo de Alimento</label>
+            <input type="text" [(ngModel)]="modelo.tipoDeAlimento" name="tipoDeAlimento">
+          </div>
+          <div class="group" *ngIf="tipo === 'NoAlimenticio'">
+            <label>¿Es Frágil?</label>
+            <select [(ngModel)]="modelo.esFragil" name="esFragil">
+              <option [ngValue]="true">Sí</option>
+              <option [ngValue]="false">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="btn secondary" (click)="cancelar()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+
+        <button type="submit" class="btn primary" [disabled]="cargando">
+          <i class="fas" [ngClass]="cargando ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+          {{ cargando ? 'Guardando...' : 'Actualizar Datos' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
