@@ -1,8 +1,8 @@
-/* Usamos las mismas clases de registro para que se vean iguales */
+
 .registro-container {
   display: flex;
   justify-content: center;
-  align-items: center; /* Centrado vertical para el login */
+  align-items: center;
   padding: 50px 20px;
   background-color: #f9f9f9;
   min-height: 80vh;
@@ -15,11 +15,11 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 450px;
-  text-align: center; /* Para centrar títulos */
+  text-align: center;
 }
 
 h2 {
-  color: #003399; /* Azul corporativo */
+  color: #003399;
   margin-bottom: 10px;
   font-weight: 800;
   font-size: 28px;
@@ -33,7 +33,7 @@ h2 {
 
 .form-group {
   margin-bottom: 20px;
-  text-align: left; /* Alineamos labels a la izquierda */
+  text-align: left;
 }
 
 .form-group label {
@@ -57,7 +57,7 @@ h2 {
   border-color: #003399;
 }
 
-/* Link de olvidar contraseña */
+
 .forgot-link {
   text-align: right;
   margin-top: 5px;
@@ -69,11 +69,11 @@ h2 {
   text-decoration: none;
 }
 
-/* Botones con el estilo de 4-72 */
+
 .btn-registrar-full {
   width: 100%;
-  background-color: #ffcc00; /* Amarillo corporativo */
-  color: #003399; /* Texto azul para mejor contraste */
+  background-color: #ffcc00;
+  color: #003399;
   border: none;
   padding: 15px;
   border-radius: 8px;
@@ -88,7 +88,7 @@ h2 {
   background-color: #e6b800;
 }
 
-/* Estilo para el botón secundario (Crear Cuenta) */
+
 .btn-register-link {
   width: 100%;
   background-color: transparent;

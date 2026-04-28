@@ -16,7 +16,7 @@ export class Login {
     pass: ''
   };
 
-  // Inyectamos los servicios
+
   private normalService = inject(ClientenormalService);
   private premiumService = inject(ClientepremiumService);
   private concurrenteService = inject(ClienteconcurrenteService);
@@ -35,13 +35,13 @@ export class Login {
   private intentarLoginNormal() {
     this.normalService.login(this.credencial.cedula, this.credencial.pass).subscribe({
       next: (respuesta: any) => {
-        // 1. Si la respuesta llega como texto, la convertimos a un Objeto real
+
         let clienteCompleto = typeof respuesta === 'string' ? JSON.parse(respuesta) : respuesta;
 
-        // 2. Le agregamos el tipo
+
         clienteCompleto.tipoCliente = 'Normal';
 
-        // 3. Lo guardamos en el localStorage
+
         localStorage.setItem('usuarioLogueado', JSON.stringify(clienteCompleto));
         this.router.navigate(['/cliente']);
       },

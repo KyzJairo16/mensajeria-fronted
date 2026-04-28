@@ -68,7 +68,7 @@ export class Nuevoenvio {
         direccionDestino, tamanio, ciudadDestino,
         this.idCliente, this.paquete.tipoDeAlimento, this.paquete.esPrioritario
       ).subscribe({
-        next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
+        next: (res) => this.handleExito(res.body ?? ''),
         error: (err) => this.handleError(err)
       });
 
@@ -77,7 +77,7 @@ export class Nuevoenvio {
         this.idCliente, direccionDestino, tamanio,
         ciudadDestino, this.paquete.esFragil, this.paquete.esPrioritario
       ).subscribe({
-        next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
+        next: (res) => this.handleExito(res.body ?? ''),
         error: (err) => this.handleError(err)
       });
 
@@ -91,7 +91,7 @@ export class Nuevoenvio {
         this.idCliente, direccionDestino, tamanio,
         ciudadDestino, this.paquete.tipoCarta, this.paquete.esPrioritario
       ).subscribe({
-        next: (res) => this.handleExito(res.body ?? ''),  // ✅ CORREGIDO
+        next: (res) => this.handleExito(res.body ?? ''),
         error: (err) => this.handleError(err)
       });
     }
@@ -103,7 +103,7 @@ export class Nuevoenvio {
   }
 
   private handleError(err: any) {
-    // ✅ CORREGIDO: err.error llega como string con el mensaje exacto del backend
+
     if (typeof err.error === 'string' && err.error.trim().length > 0) {
       this.mensajeError = err.error;
     } else {

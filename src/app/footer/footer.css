@@ -5,7 +5,7 @@
   font-family: Arial, sans-serif;
 }
 
-/* CONTENEDOR PRINCIPAL */
+
 .footer-container {
   display: flex;
   justify-content: space-between;
@@ -48,7 +48,7 @@
   color: #ffd700;
 }
 
-/* LOGO (CENTRO/DERECHA) */
+
 .footer-brand {
   flex: 1;
   display: flex;
@@ -68,7 +68,7 @@
   transform: scale(1.05);
 }
 
-/* PARTE INFERIOR */
+
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.3);
   margin-top: 20px;

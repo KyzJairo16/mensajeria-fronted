@@ -1,24 +1,60 @@
-.pedido-container { max-width: 1100px; margin: 40px auto; padding: 20px; font-family: 'Segoe UI', sans-serif; }
-.form-header { text-align: center; margin-bottom: 30px; }
-.form-header h1 { color: #003893; font-size: 2.5rem; margin: 0; }
-.form-header p { color: #666; margin-top: 5px; }
+.pedido-container {
+  max-width: 1100px; margin: 40px auto; padding: 20px; font-family: 'Segoe UI', sans-serif;
+}
+.form-header {
+  text-align: center; margin-bottom: 30px;
+}
+.form-header h1 {
+  color: #003893; font-size: 2.5rem; margin: 0;
+}
+.form-header p {
+  color: #666; margin-top: 5px;
+}
 
-.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-.form-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-top: 4px solid #ffcc00; }
+.form-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;
+}
+.form-card {
+  background: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-top: 4px solid #ffcc00;
+}
 
-.step-num { background: #003893; color: white; padding: 3px 10px; border-radius: 50%; font-size: 14px; margin-right: 8px; }
-h3 { color: #003893; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+.step-num {
+  background: #003893; color: white; padding: 3px 10px; border-radius: 50%; font-size: 14px; margin-right: 8px;
+}
+h3 {
+  color: #003893; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;
+}
 
-.field { margin-bottom: 15px; }
-label { display: block; font-weight: 700; font-size: 13px; color: #444; margin-bottom: 5px; }
-input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; transition: 0.3s; }
-input:focus { border-color: #003893; outline: none; }
+.field {
+  margin-bottom: 15px;
+}
+label {
+  display: block; font-weight: 700; font-size: 13px; color: #444; margin-bottom: 5px;
+}
+input, select {
+  width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; transition: 0.3s;
+}
+input:focus {
+  border-color: #003893; outline: none;
+}
 
-.specific-field { background: #f0f7ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #003893; }
+.specific-field {
+  background: #f0f7ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #003893;
+}
 
-.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.priority-box { background: #fff8e1; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.priority-box {
+  background: #fff8e1; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+}
 
-.btn-submit { width: 100%; background: #ffcc00; color: #003893; border: none; padding: 15px; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 1.1rem; }
-.btn-submit:hover { background: #e6b800; transform: translateY(-2px); }
-.btn-cancel { width: 100%; background: none; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 10px; cursor: pointer; color: #666; }
+.btn-submit {
+  width: 100%; background: #ffcc00; color: #003893; border: none; padding: 15px; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 1.1rem;
+}
+.btn-submit:hover {
+  background: #e6b800; transform: translateY(-2px);
+}
+.btn-cancel {
+  width: 100%; background: none; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 10px; cursor: pointer; color: #666;
+}

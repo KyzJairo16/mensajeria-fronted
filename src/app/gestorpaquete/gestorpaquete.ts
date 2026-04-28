@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router'; // Importado para el botón volver
+import { Router } from '@angular/router';
 import { PaquetealimenticioService } from '../services/paquetealimenticio.service';
 import { PaquetenoalimenticioService } from '../services/paquetenoalimenticio.service';
 import { PaquetecartaService } from '../services/paquetecarta.service';
